@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>세로 모니터 추천 가이드</title>
+  <meta name="description" content="메인 모니터 인치 / 세로 모니터 사용 목적 / 예산을 선택하면 조건에 맞는 추천 링크로 이동합니다." />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap { min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; }
+
+    header { padding: 32px 20px 16px; text-align: center; color: #fff; }
+    header h1 {
+      margin: 0; font-size: clamp(22px, 4vw, 36px); line-height: 1.15; font-weight: 800; letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw); margin: 0 auto 36px; background: var(--card); border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15); padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
+    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; }
+
+    .options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+
+    /* pill radios */
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio label {
+      display: block; width: 100%; padding: 12px 14px; border: 1.5px solid #e5e5e8; border-radius: 12px; background: #fff;
+      color: var(--text); text-align: center; font-weight: 600; transition: box-shadow .2s ease, transform .06s ease, border-color .2s ease;
+    }
+    .radio label:hover { border-color: #d7d7db; }
+    .radio input:focus-visible + label { outline: 3px solid var(--ring); outline-offset: 2px; }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+
+    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    button.primary {
+      appearance: none; border: 0; border-radius: 999px; padding: 14px 18px; font-weight: 800; letter-spacing: 0.02em;
+      background: var(--primary); color: var(--primary-contrast); cursor: pointer; box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: #a40000; }
+
+    footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 640px) { .options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>세로 모니터 추천 가이드</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <!-- Q1: Main Monitor Size -->
+        <fieldset>
+          <legend>1. 메인 모니터는 몇인치를 사용하고 계신가요?</legend>
+          <div class="options" role="radiogroup" aria-label="메인 모니터 인치 선택">
+            <div class="radio">
+              <input type="radio" id="size-24" name="size" value="24">
+              <label for="size-24">24인치</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-27" name="size" value="27">
+              <label for="size-27">27인치</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-32" name="size" value="32">
+              <label for="size-32">32인치</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q2: Vertical Monitor Purpose -->
+        <fieldset>
+          <legend>2. 세로 모니터를 구매하는 주목적은 무엇인가요?</legend>
+          <div class="options" role="radiogroup" aria-label="세로 모니터 주목적 선택">
+            <div class="radio">
+              <input type="radio" id="pur-webchat" name="purpose" value="웹/카톡">
+              <label for="pur-webchat">웹 페이지 및 카톡 열람</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pur-video" name="purpose" value="영상">
+              <label for="pur-video">영상 시청</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pur-prod" name="purpose" value="생산성">
+              <label for="pur-prod">생산성 향상</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q3: Budget -->
+        <fieldset>
+          <legend>3. 예산은 어느 정도를 생각하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="예산 선택">
+            <div class="radio">
+              <input type="radio" id="bud-under10" name="budget" value="under10">
+              <label for="bud-under10">10만원 이하</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="bud-10to20" name="budget" value="10to20">
+              <label for="bud-10to20">10만원 ~ 20만원</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="bud-nolimit" name="budget" value="no-limit">
+              <label for="bud-nolimit">상관없음</label>
+            </div>
+          </div>        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button">추천 보러가기</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      <span>모든 항목을 선택하면 추천 제품 페이지로 이동합니다.</span>
+    </footer>
+  </div>
+
+  <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    // 우선순위 규칙에 따른 라우팅
+    // 링크들
+    const LINK_UNDER10 = "https://link.coupang.com/a/cP7Sil"; // 10만원 이하
+    const LINK_24_ANY   = "https://link.coupang.com/a/cPVuiS"; // 24" & (10~20 or 상관없음)
+    const LINK_BIG_NOLIM = "https://link.coupang.com/a/cP7Wa1"; // 27/32 & 상관없음
+    const LINK_BIG_10TO20 = "https://link.coupang.com/a/czwi9Y"; // 27/32 & 10~20
+
+    const form = document.getElementById('guide-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+
+    function getValue(name) {
+      const el = form.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    }
+
+    function resolveLink() {
+      const size = getValue('size');      // '24' | '27' | '32'
+      const purpose = getValue('purpose'); // 라우팅에는 사용되지 않지만, 선택은 필요
+      const budget = getValue('budget');  // 'under10' | '10to20' | 'no-limit'
+
+      // 유효성 체크 (모두 선택되어야 버튼 활성화)
+      if (!size)   return { error: '메인 모니터 인치를 선택해 주세요.' };
+      if (!purpose) return { error: '세로 모니터 주목적을 선택해 주세요.' };
+      if (!budget) return { error: '예산을 선택해 주세요.' };
+
+      // 1) 예산이 10만원 이하이면 다른 값에 상관없이 LINK_UNDER10
+      if (budget === 'under10') return LINK_UNDER10;
+
+      // 2) 24인치 & (10~20 또는 상관없음) -> LINK_24_ANY
+      if (size === '24' && (budget === '10to20' || budget === 'no-limit')) {
+        return LINK_24_ANY;
+      }
+
+      // 3) 27/32 & 상관없음 -> LINK_BIG_NOLIM
+      if ((size === '27' || size === '32') && budget === 'no-limit') {
+        return LINK_BIG_NOLIM;
+      }
+
+      // 4) 27/32 & 10~20 -> LINK_BIG_10TO20
+      if ((size === '27' || size === '32') && budget === '10to20') {
+        return LINK_BIG_10TO20;
+      }
+
+      return { error: '선택값을 다시 확인해 주세요.' };
+    }
+
+    function updateButtonState() {
+      const ready = !!(getValue('size') && getValue('purpose') && getValue('budget'));
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? '' : '필수 항목을 선택해 주세요.';
+    }
+
+    form.addEventListener('change', updateButtonState);
+    updateButtonState();
+
+    goBtn.addEventListener('click', function () {
+      const result = resolveLink();
+      if (typeof result === 'string') {
+        const a = document.createElement('a');
+        a.href = result;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer nofollow sponsored';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        msgEl.textContent = '';
+      } else if (result && result.error) {
+        msgEl.textContent = result.error;
+        goBtn.disabled = false; // 에러 메시지 후에도 버튼은 유지
+      }
+    });
+  </script>
+</body>
+</html>
