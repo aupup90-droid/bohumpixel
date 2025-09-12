@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QHD 모니터 추천가이드</title>
+  <meta name="description" content="인치 / 그래픽카드 / 게임 유형 / 사용 기간을 선택하면 조건에 맞는 추천 페이지로 이동합니다." />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap { min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; }
+
+    header { padding: 32px 20px 16px; text-align: center; color: #fff; }
+    header h1 { margin: 0; font-size: clamp(22px, 4vw, 36px); line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);}    
+
+    .container { width: min(900px, 92vw); margin: 0 auto 36px; background: var(--card); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); padding: clamp(18px, 3.2vw, 28px); }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
+    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; }
+
+    .options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    @media (max-width: 640px) { .options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio label { display: block; width: 100%; padding: 12px 14px; border: 1.5px solid #e5e5e8; border-radius: 12px; background: #fff; color: var(--text); text-align: center; font-weight: 600; transition: box-shadow .2s ease, transform .06s ease, border-color .2s ease; }
+    .radio label:hover { border-color: #d7d7db; }
+    .radio input:focus-visible + label { outline: 3px solid var(--ring); outline-offset: 2px; }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+
+    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    .msg { font-size: 13px; color: #a40000; }
+    button.primary { appearance: none; border: 0; border-radius: 999px; padding: 14px 18px; font-weight: 800; letter-spacing: 0.02em; background: var(--primary); color: var(--primary-contrast); cursor: pointer; box-shadow: 0 10px 24px rgba(74,42,116,0.25); transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease; }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: .6; cursor: not-allowed; box-shadow: none; }
+
+    footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.9); }
+
+    .series-group { display: none; }
+    .series-group[aria-hidden="false"] { display: block; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>QHD 모니터 추천가이드</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="qhd-form" novalidate>
+        <!-- Q1: Size -->
+        <fieldset>
+          <legend>1. 몇인치의 모니터를 구매하실 건가요?</legend>
+          <div class="options" role="radiogroup" aria-label="모니터 인치 선택">
+            <div class="radio"><input type="radio" id="size-24" name="size" value="24"><label for="size-24">24인치 모니터</label></div>
+            <div class="radio"><input type="radio" id="size-27" name="size" value="27"><label for="size-27">27인치 모니터</label></div>
+            <div class="radio"><input type="radio" id="size-32" name="size" value="32"><label for="size-32">32인치 모니터</label></div>
+          </div>
+        </fieldset>
+
+        <!-- Q2: GPU Brand -->
+        <fieldset>
+          <legend>2. 그래픽카드 모델은 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="그래픽카드 브랜드 선택">
+            <div class="radio"><input type="radio" id="brand-geforce" name="brand" value="geforce"><label for="brand-geforce">GeForce</label></div>
+            <div class="radio"><input type="radio" id="brand-radeon" name="brand" value="radeon"><label for="brand-radeon">Radeon</label></div>
+            <div class="radio"><input type="radio" id="brand-unknown" name="brand" value="unknown"><label for="brand-unknown">모르겠음</label></div>
+          </div>
+        </fieldset>
+
+        <!-- Q2a: GeForce Series -->
+        <fieldset id="series-geforce" class="series-group" aria-hidden="true">
+          <legend>2-1. GeForce 세부 시리즈를 선택해 주세요</legend>
+          <div class="options" role="radiogroup" aria-label="지포스 시리즈 선택">
+            <div class="radio"><input type="radio" id="g-gtx10" name="series" value="gtx-1000"><label for="g-gtx10">GTX 1000대</label></div>
+            <div class="radio"><input type="radio" id="g-rtx20" name="series" value="rtx-2000"><label for="g-rtx20">RTX 2000대</label></div>
+            <div class="radio"><input type="radio" id="g-rtx30" name="series" value="rtx-3000"><label for="g-rtx30">RTX 3000대</label></div>
+            <div class="radio"><input type="radio" id="g-rtx40" name="series" value="rtx-4000"><label for="g-rtx40">RTX 4000대</label></div>
+            <div class="radio"><input type="radio" id="g-rtx50" name="series" value="rtx-5000"><label for="g-rtx50">RTX 5000대</label></div>
+          </div>
+        </fieldset>
+
+        <!-- Q2b: Radeon Series -->
+        <fieldset id="series-radeon" class="series-group" aria-hidden="true">
+          <legend>2-1. Radeon 세부 시리즈를 선택해 주세요</legend>
+          <div class="options" role="radiogroup" aria-label="라데온 시리즈 선택">
+            <div class="radio"><input type="radio" id="r-rx5" name="series" value="rx-5000"><label for="r-rx5">RX 5000대</label></div>
+            <div class="radio"><input type="radio" id="r-rx6" name="series" value="rx-6000"><label for="r-rx6">RX 6000대</label></div>
+            <div class="radio"><input type="radio" id="r-rx7" name="series" value="rx-7000"><label for="r-rx7">RX 7000대</label></div>
+            <div class="radio"><input type="radio" id="r-rx8" name="series" value="rx-8000"><label for="r-rx8">RX 8000대</label></div>
+            <div class="radio"><input type="radio" id="r-rx9" name="series" value="rx-9000"><label for="r-rx9">RX 9000대</label></div>
+          </div>
+        </fieldset>
+
+        <!-- Q3: Game Type -->
+        <fieldset>
+          <legend>3. 주로 하시는 게임의 종류는 무엇인가요?</legend>
+          <div class="options" role="radiogroup" aria-label="게임 유형 선택">
+            <div class="radio"><input type="radio" id="game-competitive" name="game" value="competitive"><label for="game-competitive">경쟁적인 온라인게임</label></div>
+            <div class="radio"><input type="radio" id="game-console" name="game" value="console"><label for="game-console">고사양 콘솔게임</label></div>
+            <div class="radio"><input type="radio" id="game-all" name="game" value="all"><label for="game-all">전부</label></div>
+            <div class="radio"><input type="radio" id="game-none" name="game" value="none"><label for="game-none">안함</label></div>
+          </div>
+        </fieldset>
+
+        <!-- Q4: Years -->
+        <fieldset>
+          <legend>4. 모니터를 몇 년간 사용하실 예정인가요?</legend>
+          <div class="options" role="radiogroup" aria-label="사용 기간 선택">
+            <div class="radio"><input type="radio" id="years-12" name="years" value="1-2"><label for="years-12">1~2년</label></div>
+            <div class="radio"><input type="radio" id="years-35" name="years" value="3-5"><label for="years-35">3~5년</label></div>
+            <div class="radio"><input type="radio" id="years-5p" name="years" value="5+"><label for="years-5p">5년 이상</label></div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button">추천 보러가기</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      <span>선택값에 따라서 FHD 해상도의 모니터가 추천될수도 있습니다.</span>
+    </footer>
+  </div>
+
+  <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    // ----- 링크 상수 -----
+    const L_24_GTX1000_RX5000 = "https://link.coupang.com/a/cQkrM8";
+    const L_27_GTX1000_RX5000 = "https://link.coupang.com/a/cQkr8C";
+    const L_32_GTX1000_RX5000 = "https://link.coupang.com/a/cQksrv";
+
+    const L_24_Y_1_2          = "https://link.coupang.com/a/cQkvSC"; // (예외 제외)
+    const L_24_Y_3_5_or_5p    = "https://link.coupang.com/a/cQkwU6"; // (예외 제외)
+
+    const L_27_G_COMP_1_2     = "https://link.coupang.com/a/cQkzT9"; // (예외 제외)
+    const L_27_G_CONS_1_2     = "https://link.coupang.com/a/cQkA1o"; // (예외 제외)
+    const L_27_G_COMP_3_5_5p  = "https://link.coupang.com/a/cQkCJn"; // (예외 제외)
+    const L_27_G_CONS_3_5_5p  = "https://link.coupang.com/a/cQkIkp"; // (예외 제외)
+
+    const L_32_G_COMP         = "https://link.coupang.com/a/cQkMWf"; // (예외 제외, 연차 무관)
+    const L_32_G_CONS         = "https://link.coupang.com/a/cQkJB6"; // (예외 제외, 연차 무관)
+
+    // ----- 요소 참조 -----
+    const form  = document.getElementById('qhd-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+    const gfGrp = document.getElementById('series-geforce');
+    const rdGrp = document.getElementById('series-radeon');
+
+    function getChecked(name) {
+      const el = form.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    }
+
+    function clearSeries() {
+      form.querySelectorAll('input[name="series"]:checked').forEach(el => el.checked = false);
+    }
+
+    function updateSeriesVisibility() {
+      const brand = getChecked('brand');
+      if (brand === 'geforce') {
+        gfGrp.setAttribute('aria-hidden', 'false');
+        rdGrp.setAttribute('aria-hidden', 'true');
+        const sel = rdGrp.querySelector('input[name="series"]:checked');
+        if (sel) sel.checked = false;
+      } else if (brand === 'radeon') {
+        rdGrp.setAttribute('aria-hidden', 'false');
+        gfGrp.setAttribute('aria-hidden', 'true');
+        const sel = gfGrp.querySelector('input[name="series"]:checked');
+        if (sel) sel.checked = false;
+      } else { // unknown
+        gfGrp.setAttribute('aria-hidden', 'true');
+        rdGrp.setAttribute('aria-hidden', 'true');
+        clearSeries();
+      }
+    }
+
+    function updateButtonState() {
+      const size = getChecked('size');
+      const brand = getChecked('brand');
+      const series = getChecked('series');
+      const game = getChecked('game');
+      const years = getChecked('years');
+
+      const brandOk = brand === 'unknown' ? true : !!series; // 지포스/라데온이면 시리즈 필수, 모르겠음은 면제
+      const ready = !!(size && brand && brandOk && game && years);
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? '' : '모든 항목을 선택해 주세요.';
+    }
+
+    function isException(size, brand, series) {
+      // 예외: 사이즈 + (GTX1000 | RX5000)
+      if (!size) return false;
+      const isGTX1000 = brand === 'geforce' && series === 'gtx-1000';
+      const isRX5000  = brand === 'radeon'  && series === 'rx-5000';
+      return (isGTX1000 || isRX5000);
+    }
+
+    function resolveLink() {
+      const size   = getChecked('size');      // '24' | '27' | '32'
+      const brand  = getChecked('brand');     // 'geforce' | 'radeon' | 'unknown'
+      const series = getChecked('series');    // 위 브랜드 선택에 따라 값 또는 null
+      const game   = getChecked('game');      // 'competitive' | 'console' | 'all' | 'none'
+      const years  = getChecked('years');     // '1-2' | '3-5' | '5+'
+
+      // 유효성 검사
+      if (!size)  return { error: '모니터 인치를 선택해 주세요.' };
+      if (!brand) return { error: '그래픽카드 브랜드를 선택해 주세요.' };
+      if ((brand === 'geforce' || brand === 'radeon') && !series) {
+        return { error: '그래픽카드 세부 시리즈를 선택해 주세요.' };
+      }
+      if (!game)  return { error: '게임 종류를 선택해 주세요.' };
+      if (!years) return { error: '사용 기간을 선택해 주세요.' };
+
+      // 1) 예외 규칙: (사이즈) & (GTX1000 또는 RX5000) → 고정 링크
+      if (isException(size, brand, series)) {
+        if (size === '24') return L_24_GTX1000_RX5000;
+        if (size === '27') return L_27_GTX1000_RX5000;
+        if (size === '32') return L_32_GTX1000_RX5000;
+      }
+
+      // 2) 일반 규칙
+      if (size === '24') {
+        if (years === '1-2') return L_24_Y_1_2;
+        if (years === '3-5' || years === '5+') return L_24_Y_3_5_or_5p;
+      }
+
+      if (size === '27') {
+        const isCompGroup = (game === 'competitive' || game === 'all');
+        const isConsGroup = (game === 'console' || game === 'none');
+        const isShort     = (years === '1-2');
+        const isLong      = (years === '3-5' || years === '5+');
+
+        if (isCompGroup && isShort) return L_27_G_COMP_1_2;
+        if (isConsGroup && isShort) return L_27_G_CONS_1_2;
+        if (isCompGroup && isLong)  return L_27_G_COMP_3_5_5p;
+        if (isConsGroup && isLong)  return L_27_G_CONS_3_5_5p;
+      }
+
+      if (size === '32') {
+        const isCompGroup = (game === 'competitive' || game === 'all');
+        const isConsGroup = (game === 'console' || game === 'none');
+        if (isCompGroup) return L_32_G_COMP;
+        if (isConsGroup) return L_32_G_CONS;
+      }
+
+      return { error: '선택값 조합을 처리할 수 없습니다. 선택을 다시 확인해 주세요.' };
+    }
+
+    form.addEventListener('change', () => {
+      updateSeriesVisibility();
+      updateButtonState();
+    });
+
+    // 초기 상태 세팅
+    updateSeriesVisibility();
+    updateButtonState();
+
+    goBtn.addEventListener('click', () => {
+      const result = resolveLink();
+      if (typeof result === 'string') {
+        const a = document.createElement('a');
+        a.href = result;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer nofollow sponsored';
+        document.body.appendChild(a); a.click(); a.remove();
+        msgEl.textContent = '';
+      } else if (result && result.error) {
+        msgEl.textContent = result.error;
+      }
+    });
+  </script>
+</body>
+</html>
