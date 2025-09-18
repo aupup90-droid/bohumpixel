@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>24인치 모니터 추천가이드</title>
+  <meta name="description" content="구매 목적/용도/해상도/사용기간 선택에 따라 단일 링크로 안내하는 24인치 모니터 추천 가이드" />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    fieldset {
+      border: 0;
+      margin: 0 0 22px;
+      padding: 0;
+    }
+
+    legend {
+      display: block;
+      font-weight: 800;
+      font-size: clamp(16px, 2.8vw, 20px);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .radio { position: relative; }
+    .radio input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .radio label {
+      display: block;
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label {
+      outline: 0;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+    .radio input:checked + label {
+      border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(74,42,116,0.18);
+      transform: translateY(-1px);
+    }
+
+    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .cta {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-top: 1px dashed #e7e7ea;
+      padding-top: 14px;
+    }
+
+    .cta button {
+      flex: 0 0 auto;
+      appearance: none;
+      border: 0;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      font-weight: 800;
+      font-size: 16px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(74,42,116,0.28);
+      cursor: pointer;
+      transition: transform .02s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    .cta button:hover { box-shadow: 0 8px 26px rgba(74,42,116,0.34); }
+    .cta button:active { transform: translateY(1px); }
+    .cta button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: #a40000; }
+
+    footer {
+      text-align: center;
+      padding: 12px 16px 28px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    @media (max-width: 640px) {
+      .options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>24인치 모니터 추천가이드</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <!-- Q1: 목적 -->
+        <fieldset>
+          <legend>1. 모니터를 구매하는 목적은 무엇인가요?</legend>
+          <div class="options" role="radiogroup" aria-label="구매 목적 선택">
+            <div class="radio">
+              <input type="radio" id="goal-main" name="goal" value="메인 모니터">
+              <label for="goal-main">메인 모니터</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="goal-dual" name="goal" value="듀얼 모니터">
+              <label for="goal-dual">듀얼 모니터</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="goal-mac" name="goal" value="맥북 모니터">
+              <label for="goal-mac">맥북 모니터</label>
+            </div>
+          </div>
+          </fieldset>
+
+        <!-- Q2: 용도 -->
+        <fieldset>
+          <legend>2. 모니터의 주 용도는 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="주 용도 선택">
+            <div class="radio">
+              <input type="radio" id="use-office" name="usage" value="사무 및 웹서핑">
+              <label for="use-office">사무 및 웹서핑</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="use-game" name="usage" value="게이밍">
+              <label for="use-game">게이밍</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="use-video" name="usage" value="영상시청">
+              <label for="use-video">영상시청</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="use-multi" name="usage" value="다목적">
+              <label for="use-multi">다목적</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q3: 해상도 -->
+        <fieldset>
+          <legend>3. 원하시는 해상도가 있나요?</legend>
+          <div class="options" role="radiogroup" aria-label="해상도 선택">
+            <div class="radio">
+              <input type="radio" id="res-fhd" name="res" value="FHD">
+              <label for="res-fhd">FHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-qhd" name="res" value="QHD">
+              <label for="res-qhd">QHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-unknown" name="res" value="모르겠음">
+              <label for="res-unknown">모르겠음</label>
+            </div>
+          </div>
+          </fieldset>
+
+        <!-- Q4: 사용기간 -->
+        <fieldset>
+          <legend>4. 모니터를 몇 년간 사용하실 예정인가요?</legend>
+          <div class="options" role="radiogroup" aria-label="사용 기간 선택">
+            <div class="radio">
+              <input type="radio" id="years-1-5" name="years" value="1~5년">
+              <label for="years-1-5">1~5년</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="years-5plus" name="years" value="5년 이상">
+              <label for="years-5plus">5년 이상</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- CTA -->
+        <div class="cta" aria-live="polite">
+          <p id="msg" class="msg" role="status"></p>
+          <button id="go" type="button" disabled>추천 바로가기</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      모든 항목을 선택하면 추천제품으로 이동합니다.
+    </footer>
+  </div>
+
+  <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    // 링크 정의
+    const LINKS = {
+      A: "https://link.coupang.com/a/cRyXy6", // 듀얼/맥북 (최우선)
+      B: "https://link.coupang.com/a/cRyYcW", // 사무/영상 × FHD/모름 × 1~5년
+      C: "https://link.coupang.com/a/cRyZCd", // 사무/영상 × FHD/모름 × 5년+
+      D: "https://link.coupang.com/a/cRyTTx", // 게이밍/다목적 × FHD/모름 × 1~5년
+      E: "https://link.coupang.com/a/cRyUls", // 게이밍/다목적 × FHD/모름 × 5년+
+      F: "https://link.coupang.com/a/cRy0Yh", // (특례) 게이밍/다목적 × QHD × 1~5년
+      G: "https://link.coupang.com/a/cRy1H1"  // (일반) QHD (단, F가 우선)
+    };
+
+    const form = document.getElementById('guide-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+
+    function val(name) {
+      const el = form.querySelector(`[name="${name}"]:checked`);
+      return el ? el.value : '';
+    }
+
+    function resolveLink() {
+      const goal = val('goal');
+      const usage = val('usage');
+      const res = val('res');
+      const years = val('years');
+
+      // 1) 목적 최우선: 듀얼/맥북
+      if (goal === '듀얼 모니터' || goal === '맥북 모니터') return LINKS.A;
+
+      // 2) QHD 특례: 게이밍/다목적 + QHD + 1~5년
+      if ((usage === '게이밍' || usage === '다목적') && res === 'QHD' && years === '1~5년') return LINKS.F;
+
+      // 3) 일반 QHD: QHD 선택 시 다른 값 무시
+      if (res === 'QHD') return LINKS.G;
+
+      // 4) FHD/모르겠음 분기
+      if (res === 'FHD' || res === '모르겠음') {
+        if (usage === '사무 및 웹서핑' || usage === '영상시청') {
+          if (!years) return { error: '사용 기간을 선택해 주세요.' };
+          return years === '1~5년' ? LINKS.B : LINKS.C;
+        }
+        if (usage === '게이밍' || usage === '다목적') {
+          if (!years) return { error: '사용 기간을 선택해 주세요.' };
+          return years === '1~5년' ? LINKS.D : LINKS.E;
+        }
+      }
+
+      // 아직 결정 불가
+      if (!goal) return { error: '구매 목적을 선택해 주세요.' };
+      if (!usage) return { error: '주 용도를 선택해 주세요.' };
+      if (!res) return { error: '해상도를 선택해 주세요.' };
+      if (!years) return { error: '사용 기간을 선택해 주세요.' };
+      return { error: '선택값을 다시 확인해 주세요.' };
+    }
+
+    function canResolvePartially() {
+      const goal = val('goal');
+      const usage = val('usage');
+      const res = val('res');
+      const years = val('years');
+
+      // 버튼 활성화 조건(불필요한 추가 선택 없이도 결정 가능한 경우)
+      if (goal === '듀얼 모니터' || goal === '맥북 모니터') return true; // A
+      if ((usage === '게이밍' || usage === '다목적') && res === 'QHD' && years === '1~5년') return true; // F
+      if (res === 'QHD') return true; // G
+
+      // FHD/모름인 경우에는 용도+기간이 있어야 결정됨
+      if ((res === 'FHD' || res === '모르겠음')) {
+        if ((usage === '사무 및 웹서핑' || usage === '영상시청' || usage === '게이밍' || usage === '다목적') && years) return true;
+      }
+      return false;
+    }
+
+    function updateButtonState() {
+      const ready = canResolvePartially();
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? '' : '필수 항목을 선택해 주세요.';
+    }
+
+    form.addEventListener('change', updateButtonState);
+    updateButtonState();
+
+    goBtn.addEventListener('click', function () {
+      const result = resolveLink();
+      if (typeof result === 'string') {
+        const a = document.createElement('a');
+        a.href = result;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer nofollow sponsored';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        msgEl.textContent = '';
+      } else if (result && result.error) {
+        msgEl.textContent = result.error;
+        goBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
