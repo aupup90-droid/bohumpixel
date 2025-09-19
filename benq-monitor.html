@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>벤큐 모니터 추천가이드</title>
+  <meta name="description" content="목적/해상도/장르/인치 선택에 따라 벤큐 모니터 추천 링크로 안내하는 가이드" />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Helvetica, Arial, "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap { min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; }
+
+    header { padding: 28px 16px 12px; text-align: center; color: #fff; }
+    header h1 { margin: 0; font-size: clamp(20px, 3.2vw, 30px); line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15); }
+
+    .container {
+      width: min(860px, 92vw);
+      margin: 0 auto 28px;
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(32, 10, 60, 0.2), 0 6px 12px rgba(32, 10, 60, 0.16);
+      padding: 16px 16px 20px;
+    }
+
+    form { display: grid; gap: 14px; }
+
+    fieldset { border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; padding: 14px; background: #fff; }
+    legend { padding: 0 6px; font-weight: 700; font-size: 15px; }
+
+    .options { margin-top: 10px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio label {
+      display: block; width: 100%; padding: 10px 12px; border: 1.5px solid #e5e5e8; border-radius: 10px; background: #fff; color: var(--text); text-align: center; font-weight: 600; cursor: pointer; user-select: none; transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 20px rgba(74, 42, 116, 0.18), inset 0 0 0 1px var(--primary); }
+
+    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    button.primary { appearance: none; border: 0; border-radius: 12px; background: var(--primary); color: var(--primary-contrast); padding: 10px 16px; font-weight: 800; cursor: pointer; box-shadow: 0 8px 20px rgba(74, 42, 116, 0.32); transition: transform .02s ease, box-shadow .2s ease, opacity .2s ease; }
+    button.primary:hover { box-shadow: 0 12px 26px rgba(74, 42, 116, 0.38); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: #a40000; }
+
+    footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 640px) { .options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>벤큐 모니터 추천가이드</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <!-- Q1: 목적 -->
+        <fieldset>
+          <legend>1. 벤큐 모니터를 구매하는 목적은 무엇인가요?</legend>
+          <div class="options" role="radiogroup" aria-label="사용 목적 선택">
+            <div class="radio">
+              <input type="radio" id="purpose-normal" name="purpose" value="일반">
+              <label for="purpose-normal">(1) 일반 모니터</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="purpose-gaming" name="purpose" value="게이밍">
+              <label for="purpose-gaming">(2) 게이밍 모니터</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="purpose-design" name="purpose" value="시각디자인">
+              <label for="purpose-design">(3) 시각디자인</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q2-A: 해상도 (일반/시각디자인에서만 표시) -->
+        <fieldset id="resolution-fieldset" style="display:none">
+          <legend>2-A. 원하시는 해상도는 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="해상도 선택">
+            <div class="radio">
+              <input type="radio" id="res-fhd" name="resolution" value="FHD">
+              <label for="res-fhd">(1) FHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-qhd" name="resolution" value="QHD">
+              <label for="res-qhd">(2) QHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-uhd" name="resolution" value="UHD">
+              <label for="res-uhd">(3) UHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-unk" name="resolution" value="모르겠음">
+              <label for="res-unk">(4) 모르겠음</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q2-B: 장르 (게이밍에서만 표시) -->
+        <fieldset id="genre-fieldset" style="display:none">
+          <legend>2-B. 주로 하는 게임의 장르는 무엇인가요?</legend>
+          <div class="options" role="radiogroup" aria-label="게임 장르 선택">
+            <div class="radio">
+              <input type="radio" id="genre-fps" name="genre" value="FPS">
+              <label for="genre-fps">(1) FPS</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="genre-aos" name="genre" value="AOS">
+              <label for="genre-aos">(2) AOS</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="genre-console" name="genre" value="콘솔게임">
+              <label for="genre-console">(3) 콘솔게임</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="genre-all" name="genre" value="전부">
+              <label for="genre-all">(4) 전부</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q3: 인치 -->
+        <fieldset>
+          <legend>3. 몇인치 모니터를 원하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="모니터 인치 선택">
+            <div class="radio">
+              <input type="radio" id="size-24-25" name="size" value="24-25">
+              <label for="size-24-25">(1) 24~25인치</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-27" name="size" value="27">
+              <label for="size-27">(2) 27인치</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-32" name="size" value="32">
+              <label for="size-32">(3) 32인치</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button">추천 보러가기</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+     <span>필수 항목을 선택하면 추천제품으로 이동합니다.</span>
+    </footer>
+  </div>
+
+  <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    // --- 링크 매핑 ---
+    // 비게이밍(일반/시각디자인): 해상도 × 인치
+    const NON_GAMING = {
+      "24-25": {
+        "FHD": "https://link.coupang.com/a/cRBb4p",
+        "모르겠음": "https://link.coupang.com/a/cRBb4p",
+        "QHD": "https://link.coupang.com/a/cRBa6j",
+        "UHD": "https://link.coupang.com/a/cRBa6j"
+      },
+      "27": {
+        "FHD": "https://link.coupang.com/a/cRMQWm",
+        "모르겠음": "https://link.coupang.com/a/cRMQWm",
+        "QHD": "https://link.coupang.com/a/cRMRHs",
+        "UHD": "https://link.coupang.com/a/cRMTzx"
+      },
+      "32": {
+        "UHD": "https://link.coupang.com/a/cRMWNT",
+        "_else": "https://link.coupang.com/a/cRMVck" // FHD | QHD | 모르겠음
+      }
+    };
+
+    // 게이밍: 장르 × 인치 (단, 32인치는 장르 무관)
+    const GAMING = {
+      "24-25": {
+        "FPS": "https://link.coupang.com/a/cuVNK9",
+        "AOS": "https://link.coupang.com/a/cuVNK9",
+        "콘솔게임": "https://link.coupang.com/a/cRM7xn",
+        "전부": "https://link.coupang.com/a/cRM7xn"
+      },
+      "27": {
+        "FPS": "https://link.coupang.com/a/cRM5Tc",
+        "AOS": "https://link.coupang.com/a/cRM5Tc",
+        "콘솔게임": "https://link.coupang.com/a/cRM7JP",
+        "전부": "https://link.coupang.com/a/cRM7JP"
+      },
+      "32": "https://link.coupang.com/a/cRMVck" // 장르 무관
+    };
+
+    const form = document.getElementById('guide-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+    const resFieldset = document.getElementById('resolution-fieldset');
+    const genreFieldset = document.getElementById('genre-fieldset');
+
+    function getValue(name) {
+      const el = form.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    }
+
+    function toggleFollowUps() {
+      const purpose = getValue('purpose');
+      // 목적에 따라 보이는 질문 변경
+      if (purpose === '게이밍') {
+        resFieldset.style.display = 'none';
+        genreFieldset.style.display = '';
+      } else if (purpose === '일반' || purpose === '시각디자인') {
+        resFieldset.style.display = '';
+        genreFieldset.style.display = 'none';
+      } else {
+        resFieldset.style.display = 'none';
+        genreFieldset.style.display = 'none';
+      }
+    }
+
+    function resolveLink() {
+      const purpose = getValue('purpose');
+      const size = getValue('size');
+
+      if (!purpose) return { error: '주 사용 목적을 선택해 주세요.' };
+      if (!size) return { error: '모니터 인치를 선택해 주세요.' };
+
+      if (purpose === '게이밍') {
+        // 32인치는 장르 무관
+        if (size === '32') return GAMING['32'];
+        const genre = getValue('genre');
+        if (!genre) return { error: '게임 장르를 선택해 주세요.' };
+        const url = (GAMING[size] || {})[genre];
+        return url || { error: '선택값을 다시 확인해 주세요.' };
+      } else {
+        const res = getValue('resolution');
+        if (!res) return { error: '원하시는 해상도를 선택해 주세요.' };
+        const table = NON_GAMING[size] || {};
+        const url = table[res] || table['_else'];
+        return url || { error: '선택값을 다시 확인해 주세요.' };
+      }
+    }
+
+    function updateButtonState() {
+      const purpose = getValue('purpose');
+      const size = getValue('size');
+      toggleFollowUps();
+
+      let ready = false;
+      if (purpose === '게이밍') {
+        // 32인치는 장르 없어도 진행 가능
+        if (size === '32') ready = true;
+        else ready = !!(size && getValue('genre'));
+      } else if (purpose === '일반' || purpose === '시각디자인') {
+        ready = !!(size && getValue('resolution'));
+      } else {
+        ready = false;
+      }
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? '' : '필수 항목을 선택해 주세요.';
+    }
+
+    form.addEventListener('change', updateButtonState);
+    updateButtonState();
+
+    goBtn.addEventListener('click', function () {
+      const result = resolveLink();
+      if (typeof result === 'string') {
+        const a = document.createElement('a');
+        a.href = result;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer nofollow sponsored';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        msgEl.textContent = '';
+      } else if (result && result.error) {
+        msgEl.textContent = result.error;
+        goBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
