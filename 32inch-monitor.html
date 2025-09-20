@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>32인치 모니터 추천가이드</title>
+  <meta name="description" content="이용자 선택(목적/용도/해상도/사용기간)에 따라 32인치 모니터 추천 링크로 이동하는 가이드" />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    fieldset {
+      border: 0;
+      padding: 0;
+      margin: 0 0 22px;
+    }
+    legend {
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    /* pill radios */
+    .radio {
+      position: relative;
+    }
+    .radio input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .radio label {
+      display: block;
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label {
+      outline: 0;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+    .radio input:checked + label {
+      border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(74,42,116,0.18);
+      transform: translateY(-1px);
+    }
+
+    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .actions {
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    button.primary {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: #a40000; }
+
+    footer {
+      text-align: center;
+      padding: 12px 16px 28px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    @media (max-width: 640px) {
+      .options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>32인치 모니터 추천가이드</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <!-- Q1: Purpose -->
+        <fieldset>
+          <legend>1. 모니터를 구매하는 목적은 무엇인가요?</legend>
+          <div class="options" role="radiogroup" aria-label="구매 목적">
+            <div class="radio">
+              <input type="radio" id="purpose-normal" name="purpose" value="normal">
+              <label for="purpose-normal">일반 모니터</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="purpose-mac" name="purpose" value="mac">
+              <label for="purpose-mac">맥북 모니터</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q2: Use -->
+        <fieldset>
+          <legend>2. 모니터의 주 용도는 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="주 용도">
+            <div class="radio">
+              <input type="radio" id="use-office" name="use" value="office">
+              <label for="use-office">사무 및 웹서핑</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="use-gaming" name="use" value="gaming">
+              <label for="use-gaming">게이밍</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="use-video" name="use" value="video">
+              <label for="use-video">영상시청</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="use-multi" name="use" value="multi">
+              <label for="use-multi">다목적</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q3: Resolution -->
+        <fieldset>
+          <legend>3. 원하시는 해상도가 있나요?</legend>
+          <div class="options" role="radiogroup" aria-label="해상도">
+            <div class="radio">
+              <input type="radio" id="res-qhd" name="res" value="qhd">
+              <label for="res-qhd">QHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-uhd" name="res" value="uhd">
+              <label for="res-uhd">UHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-unknown" name="res" value="unknown">
+              <label for="res-unknown">모르겠음</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q4: Years -->
+        <fieldset>
+          <legend>4. 모니터를 몇년간 사용하실 예정인가요?</legend>
+          <div class="options" role="radiogroup" aria-label="사용 기간">
+            <div class="radio">
+              <input type="radio" id="yrs-1-5" name="years" value="1-5">
+              <label for="yrs-1-5">1~5년</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="yrs-5p" name="years" value="5+">
+                  <label for="yrs-5p">5년 이상</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button">추천 보러가기</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+     <span>선택값에 따라 해당 추천 링크로 새 탭이 열립니다.</span>
+    </footer>
+  </div>
+
+  <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    const LINKS = {
+      A: "https://link.coupang.com/a/cROELl", // 일반 / (사무·영상) / (QHD·모름) / 1~5년
+      B: "https://link.coupang.com/a/cQkJB6", // 일반 / (사무·영상) / (QHD·모름) / 5년 이상
+      C: "https://link.coupang.com/a/cROGS7", // 일반 / (게이밍·다목적) / (QHD·모름) / 1~5년
+      D: "https://link.coupang.com/a/cQkMWf", // 일반 / (게이밍·다목적) / (QHD·모름) / 5년 이상
+      E: "https://link.coupang.com/a/cRONIK", // 일반 / (사무·영상·다목적) / UHD / 전체 기간
+      F: "https://link.coupang.com/a/cRORc9", // 일반 / 게이밍 / UHD / 전체 기간
+      G: "https://link.coupang.com/a/cRORZx"  // 맥북 모니터 / 다른 값 무시
+    };
+
+    const form = document.getElementById('guide-form');
+    const goBtn = document.getElementById('go');
+    const msgEl = document.getElementById('msg');
+
+    function getVal(name) {
+      const el = form.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    }
+
+    function validate() {
+      const purpose = getVal('purpose');
+      if (purpose === 'mac') return true; // 다른 값 무시
+      // 일반 모니터일 때는 모든 항목 필요
+      return !!(purpose && getVal('use') && getVal('res') && getVal('years'));
+    }
+
+    function resolveLink() {
+      const purpose = getVal('purpose');
+      const use = getVal('use');
+      const res = getVal('res');
+      const years = getVal('years');
+
+      if (purpose === 'mac') return LINKS.G;
+
+      if (!use || !res || !years) {
+        return { error: '일반 모니터를 선택하신 경우 용도/해상도/사용기간을 모두 선택해 주세요.' };
+      }
+
+      if (res === 'uhd') {
+        if (use === 'gaming') return LINKS.F;
+        // 사무·영상·다목적 → E
+        return LINKS.E;
+      }
+
+      if (res === 'qhd' || res === 'unknown') {
+        if (use === 'office' || use === 'video') {
+          return years === '1-5' ? LINKS.A : LINKS.B;
+        }
+        if (use === 'gaming' || use === 'multi') {
+          return years === '1-5' ? LINKS.C : LINKS.D;
+        }
+      }
+
+      return { error: '선택값 조합을 확인해 주세요.' };
+    }
+
+    // Enable/disable button reactively
+    form.addEventListener('change', () => {
+      goBtn.disabled = !validate();
+      msgEl.textContent = '';
+    });
+    goBtn.disabled = true;
+
+    goBtn.addEventListener('click', () => {
+      goBtn.disabled = true;
+      msgEl.textContent = '이동 중…';
+      const result = resolveLink();
+      if (typeof result === 'string') {
+        const a = document.createElement('a');
+        a.href = result;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer nofollow sponsored';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        msgEl.textContent = '';
+      } else if (result && result.error) {
+        msgEl.textContent = result.error;
+        goBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
