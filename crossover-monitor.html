@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>크로스오버 모니터 추천가이드</title>
+  <meta name="description" content="인치/해상도/용도 선택에 따라 추천 링크로 안내하는 크로스오버 모니터 추천 가이드" />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Apple SD 산돌고딕 Neo", "맑은 고딕", "Malgun Gothic", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap { min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; }
+
+    header { padding: 32px 20px 16px; text-align: center; color: #fff; }
+    header h1 { margin: 0; font-size: clamp(22px, 4vw, 36px); line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15); }
+
+    .container { width: min(900px, 92vw); margin: 0 auto 36px; background: var(--card); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); padding: clamp(18px, 3.2vw, 28px); }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 18px; }
+    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; }
+
+    .options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+
+    /* pill radios */
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio label { display: block; width: 100%; padding: 12px 14px; border: 1.5px solid #e5e5e8; border-radius: 12px; background: #fff; color: var(--text); text-align: center; font-weight: 600; cursor: pointer; user-select: none; transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease; }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary); }
+
+    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    .msg { font-size: 13px; color: #a40000; margin-right: auto; }
+
+    button.primary { appearance: none; border: 0; border-radius: 999px; padding: 14px 18px; font-weight: 800; letter-spacing: 0.02em; background: var(--primary); color: var(--primary-contrast); cursor: pointer; box-shadow: 0 10px 24px rgba(74,42,116,0.25); transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease; }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 640px) {
+      .options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>크로스오버 모니터 추천가이드</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <!-- Q1: Size -->
+        <fieldset>
+          <legend>1. 몇 인치의 모니터를 원하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="모니터 인치 선택">
+            <div class="radio"><input type="radio" id="size-24" name="size" value="24"><label for="size-24">24인치</label></div>
+            <div class="radio"><input type="radio" id="size-27" name="size" value="27"><label for="size-27">27인치</label></div>
+            <div class="radio"><input type="radio" id="size-32" name="size" value="32"><label for="size-32">32인치</label></div>
+          </div>
+        </fieldset>
+
+        <!-- Q2: Resolution -->
+        <fieldset>
+          <legend>2. 원하시는 해상도는 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="해상도 선택">
+            <div class="radio"><input type="radio" id="res-fhd" name="res" value="FHD"><label for="res-fhd">FHD</label></div>
+            <div class="radio"><input type="radio" id="res-qhd" name="res" value="QHD"><label for="res-qhd">QHD</label></div>
+            <div class="radio"><input type="radio" id="res-uhd" name="res" value="UHD"><label for="res-uhd">UHD</label></div>
+            <div class="radio"><input type="radio" id="res-unk" name="res" value="모르겠음"><label for="res-unk">모르겠음</label></div>
+          </div>
+        </fieldset>
+
+        <!-- Q3: Purpose -->
+        <fieldset>
+          <legend>3. 모니터의 주 용도는 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="주 사용 목적 선택">
+            <div class="radio"><input type="radio" id="use-web" name="use" value="사무 및 웹서핑"><label for="use-web">사무 및 웹서핑</label></div>
+            <div class="radio"><input type="radio" id="use-game" name="use" value="게이밍"><label for="use-game">게이밍</label></div>
+            <div class="radio"><input type="radio" id="use-video" name="use" value="영상시청"><label for="use-video">영상시청</label></div>
+            <div class="radio"><input type="radio" id="use-multi" name="use" value="다목적"><label for="use-multi">다목적</label></div>
+          </div>
+        </fieldset>
+
+        <!-- Q3b: Game type (only when use === 게이밍) -->
+        <fieldset id="game-fieldset" hidden>
+          <legend>3-1. 주로 어떤 게임을 하시나요? <span class="subtle">(게이밍 선택 시 표시)</span></legend>
+          <div class="options" role="radiogroup" aria-label="주로 하는 게임 유형">
+            <div class="radio"><input type="radio" id="game-ol" name="game" value="경쟁적인 온라인게임"><label for="game-ol">경쟁적인 온라인게임</label></div>
+            <div class="radio"><input type="radio" id="game-console" name="game" value="고사양 콘솔게임"><label for="game-console">고사양 콘솔게임</label></div>
+            <div class="radio"><input type="radio" id="game-all" name="game" value="전부"><label for="game-all">전부</label></div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button" disabled>추천 보러가기</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      <span>모든 항목을 선택하면 추천제품으로 이동합니다.</span>
+    </footer>
+  </div>
+
+  <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    // ------- 링크 규칙 (요청하신 매핑을 1:1 반영) -------
+    const L24_OFFICE_OR_VIDEO = "https://link.coupang.com/a/cSbqzA";
+    const L24_GAMING_OR_MULTI = "https://link.coupang.com/a/cSbrgc";
+
+    const L27_FHD_OFFICE_OR_VIDEO = "https://link.coupang.com/a/cSbsmh";
+    const L27_FHD_GAMING_OR_MULTI = "https://link.coupang.com/a/cSbtbh";
+
+    const L27_QHDUNK_OFFICE_OR_VIDEO = "https://link.coupang.com/a/cSbulp"; // QHD or 모르겠음
+    const L27_QHDUNK_GAMING_OR_MULTI = "https://link.coupang.com/a/cSbwUP";
+
+    const L27_UHD_ALL = "https://link.coupang.com/a/cSbyCn";
+
+    const L32_FHDQHDUNK_OFFICE_OR_VIDEO = "https://link.coupang.com/a/cSbzuf"; // FHD or QHD or 모르겠음
+    const L32_FHDQHDUNK_GAMING_OR_MULTI = "https://link.coupang.com/a/cSbAbD";
+    const L32_UHD_ALL = "https://link.coupang.com/a/cSbAYc";
+
+    // ------- DOM 핸들 -------
+    const form = document.getElementById('guide-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+    const gameFs = document.getElementById('game-fieldset');
+
+    function getValue(name) {
+      const el = form.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    }
+
+    function officeOrVideo(use) { return use === '사무 및 웹서핑' || use === '영상시청'; }
+    function gamingOrMulti(use) { return use === '게이밍' || use === '다목적'; }
+
+    function resolveLink() {
+      const size = getValue('size');
+      const res = getValue('res');
+      const use = getValue('use');
+
+      if (!size || !res || !use) {
+        return { error: '인치 · 해상도 · 용도를 모두 선택해 주세요.' };
+      }
+
+      if (size === '24') {
+        if (officeOrVideo(use)) return L24_OFFICE_OR_VIDEO;
+        if (gamingOrMulti(use)) return L24_GAMING_OR_MULTI;
+      }
+
+      if (size === '27') {
+        if (res === 'FHD') {
+          if (officeOrVideo(use)) return L27_FHD_OFFICE_OR_VIDEO;
+          if (gamingOrMulti(use)) return L27_FHD_GAMING_OR_MULTI;
+        }
+        if (res === 'QHD' || res === '모르겠음') {
+          if (officeOrVideo(use)) return L27_QHDUNK_OFFICE_OR_VIDEO;
+          if (gamingOrMulti(use)) return L27_QHDUNK_GAMING_OR_MULTI;
+        }
+        if (res === 'UHD') {
+          return L27_UHD_ALL;
+        }
+      }
+
+      if (size === '32') {
+        if (res === 'UHD') return L32_UHD_ALL;
+        if (res === 'FHD' || res === 'QHD' || res === '모르겠음') {
+          if (officeOrVideo(use)) return L32_FHDQHDUNK_OFFICE_OR_VIDEO;
+          if (gamingOrMulti(use)) return L32_FHDQHDUNK_GAMING_OR_MULTI;
+        }
+      }
+
+      return { error: '조건 매핑을 찾지 못했습니다. (설정 충돌/누락)'};
+    }
+
+    function updateGameVisibility() {
+      const use = getValue('use');
+      const show = use === '게이밍';
+      gameFs.hidden = !show;
+      if (!show) {
+        const checked = gameFs.querySelector('input:checked');
+        if (checked) checked.checked = false;
+      }
+    }
+
+    function updateButtons() {
+      const size = getValue('size');
+      const res = getValue('res');
+      const use = getValue('use');
+      const ready = !!(size && res && use);
+      goBtn.disabled = !ready;
+      msgEl.textContent = '';
+    }
+
+    function openLink(url) {
+      const a = document.createElement('a');
+      a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer nofollow sponsored';
+      document.body.appendChild(a); a.click(); a.remove();
+    }
+
+    form.addEventListener('change', () => { updateGameVisibility(); updateButtons(); });
+    updateGameVisibility();
+    updateButtons();
+
+    goBtn.addEventListener('click', () => {
+      const result = resolveLink();
+      if (typeof result === 'string') {
+        openLink(result);
+      }
+    });
+  </script>
+</body>
+</html>
