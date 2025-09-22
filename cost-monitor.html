@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>가성비 모니터 추천가이드</title>
-  <meta name="description" content="인치/용도/사용기간 선택에 따라 추천 링크로 안내하는 가성비 모니터 추천 가이드" />
+  <meta name="description" content="사용 기간/사이즈/해상도/용도 선택에 따라 추천 링크로 안내하는 가성비 모니터 추천 가이드" />
   <style>
     :root {
       --bg: #cfa6e7;
@@ -21,23 +21,17 @@
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    .wrap {
-      min-height: 100vh;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
       display: grid;
       grid-template-rows: auto 1fr auto;
     }
 
     header {
-      padding: 32px 20px 16px;
-      text-align: center;
+      padding: 32px 24px 22px;
       color: #fff;
+      text-align: center;
     }
-    header h1 {
+    h1 {
       margin: 0;
       font-size: clamp(22px, 4vw, 36px);
       line-height: 1.15;
@@ -71,11 +65,7 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
     }
-
-    /* pill radios */
-    .radio {
-      position: relative;
-    }
+    .radio { position: relative; }
     .radio input {
       position: absolute;
       opacity: 0;
@@ -83,38 +73,36 @@
     }
     .radio label {
       display: block;
-      width: 100%;
+      border: 1px solid #eee;
+      border-radius: 10px;
       padding: 12px 14px;
-      border: 1.5px solid #e5e5e8;
-      border-radius: 12px;
-      background: #fff;
-      color: var(--text);
       text-align: center;
       font-weight: 600;
       cursor: pointer;
       user-select: none;
-      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: border-color .2s ease, box-shadow .2s ease, transform .06s ease;
+      background: #fff;
     }
-    .radio label:hover { border-color: #d6d6db; }
+    .radio label:hover {
+      box-shadow: 0 6px 14px rgba(0,0,0,0.10);
+      transform: translateY(-1px);
+    }
     .radio input:focus-visible + label {
-      outline: 0;
-      box-shadow: 0 0 0 4px var(--ring);
+      outline: 3px solid var(--ring);
+      outline-offset: 2px;
     }
     .radio input:checked + label {
       border-color: var(--primary);
-      box-shadow: 0 6px 18px rgba(74,42,116,0.18);
-      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(74,42,116,0.15);
     }
 
-    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
-
     .actions {
-      margin-top: 16px;
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
       align-items: center;
-      justify-content: flex-end;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 18px;
     }
     button.primary {
       appearance: none;
@@ -155,9 +143,28 @@
 
     <main class="container" role="main">
       <form id="guide-form" novalidate>
-        <!-- Q1: Size -->
+        <!-- Q1: Years -->
         <fieldset>
-          <legend>1. 몇 인치의 모니터를 원하시나요?</legend>
+          <legend>모니터를 몇 년간 사용하실 예정인가요?</legend>
+          <div class="options" role="radiogroup" aria-label="사용 기간 선택">
+            <div class="radio">
+              <input type="radio" id="yrs-13" name="years" value="1-3">
+              <label for="yrs-13">1~3년</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="yrs-35" name="years" value="3-5">
+              <label for="yrs-35">3~5년</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="yrs-5p" name="years" value="5+">
+              <label for="yrs-5p">5년 이상</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q2: Size -->
+        <fieldset>
+          <legend>어떤 사이즈의 모니터를 원하시나요?</legend>
           <div class="options" role="radiogroup" aria-label="모니터 인치 선택">
             <div class="radio">
               <input type="radio" id="size-24" name="size" value="24">
@@ -174,44 +181,48 @@
           </div>
         </fieldset>
 
-        <!-- Q2: Purpose -->
+        <!-- Q3: Resolution -->
         <fieldset>
-          <legend>2. 주 사용 목적은 어떻게 되나요?</legend>
+          <legend>원하시는 해상도는 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="해상도 선택">
+            <div class="radio">
+              <input type="radio" id="res-fhd" name="res" value="FHD">
+              <label for="res-fhd">FHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-qhd" name="res" value="QHD">
+              <label for="res-qhd">QHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-uhd" name="res" value="UHD">
+              <label for="res-uhd">UHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-unk" name="res" value="unknown">
+              <label for="res-unk">모르겠음</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q4: Purpose -->
+        <fieldset>
+          <legend>모니터의 주 용도는 어떻게 되나요?</legend>
           <div class="options" role="radiogroup" aria-label="주 사용 목적 선택">
             <div class="radio">
-              <input type="radio" id="pur-web" name="purpose" value="웹서핑">
-              <label for="pur-web">웹서핑</label>
+              <input type="radio" id="pur-office" name="purpose" value="사무 및 웹서핑">
+              <label for="pur-office">사무 및 웹서핑</label>
             </div>
             <div class="radio">
               <input type="radio" id="pur-game" name="purpose" value="게이밍">
               <label for="pur-game">게이밍</label>
             </div>
             <div class="radio">
-              <input type="radio" id="pur-video" name="purpose" value="영상시청">
-              <label for="pur-video">영상시청</label>
+              <input type="radio" id="pur-dual" name="purpose" value="듀얼 모니터">
+              <label for="pur-dual">듀얼 모니터</label>
             </div>
             <div class="radio">
               <input type="radio" id="pur-multi" name="purpose" value="다목적">
               <label for="pur-multi">다목적</label>
-            </div>
-          </div>
-        </fieldset>
-
-        <!-- Q3: Years -->
-        <fieldset>
-          <legend>3. 모니터를 몇 년간 사용하실 예정인가요?</legend>
-          <div class="options" role="radiogroup" aria-label="사용 기간 선택">
-            <div class="radio">
-              <input type="radio" id="yrs-12" name="years" value="1-2">
-              <label for="yrs-12">1~2년</label>
-            </div>
-            <div class="radio">
-              <input type="radio" id="yrs-35" name="years" value="3-5">
-              <label for="yrs-35">3~5년</label>
-            </div>
-            <div class="radio">
-              <input type="radio" id="yrs-5p" name="years" value="5+">
-              <label for="yrs-5p">5년 이상</label>
             </div>
           </div>
         </fieldset>
@@ -224,33 +235,15 @@
     </main>
 
     <footer>
-     <span>모든 항목을 선택하면 추천제품으로 이동합니다.</span>
+     <span>필요한 항목을 선택하면 추천제품으로 이동합니다.</span>
     </footer>
   </div>
 
   <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
 
   <script>
-    // link map (non-gaming)
-    const LINKS = {
-      "24": {
-        "1-2": "https://link.coupang.com/a/cPKurx",
-        "3-5": "https://link.coupang.com/a/cAWqrS",
-        "5+":  "https://link.coupang.com/a/cAWEGq"
-      },
-      "27": {
-        "1-2": "https://link.coupang.com/a/cPKv47",
-        "3-5": "https://link.coupang.com/a/cAXyS5",
-        "5+":  "https://link.coupang.com/a/cAXyS5"
-      },
-      "32": {
-        "1-2": "https://link.coupang.com/a/cPKxkd",
-        "3-5": "https://link.coupang.com/a/cAXf08",
-        "5+":  "https://link.coupang.com/a/cAXf08"
-      }
-    };
-
-    const GAMING_LINK = "https://www.bohumpixel.com/post/%EA%B2%8C%EC%9D%B4%EB%B0%8D-%EB%AA%A8%EB%8B%88%ED%84%B0";
+    const OFFICE_OR_DUAL = new Set(['사무 및 웹서핑', '듀얼 모니터']);
+    const GAME_OR_MULTI = new Set(['게이밍', '다목적']);
 
     const form = document.getElementById('guide-form');
     const msgEl = document.getElementById('msg');
@@ -261,46 +254,118 @@
       return el ? el.value : null;
     }
 
+    function need(fields) {
+      const labels = {
+        years: '사용 기간',
+        size: '사이즈',
+        res: '해상도',
+        purpose: '주 용도',
+      };
+      return `${fields.map(f => labels[f]).join(', ')}를 선택해 주세요.`;
+    }
+
     function resolveLink() {
-      const size = getValue('size');
-      const purpose = getValue('purpose');
       const years = getValue('years');
+      const size = getValue('size');
+      const res = getValue('res');
+      const purpose = getValue('purpose');
 
-      // Gaming overrides all
-      if (purpose === '게이밍') return GAMING_LINK;
+      if (!size) return { error: need(['size']) };
 
-      if (!purpose) return { error: '주 사용 목적을 선택해 주세요.' };
-      if (!size) return { error: '모니터 인치를 선택해 주세요.' };
-      if (!years) return { error: '사용 기간을 선택해 주세요.' };
+      // 24인치에서 QHD/UHD는 다른값에 상관없이
+      if (size === '24' && (res === 'QHD' || res === 'UHD')) {
+        return 'https://link.coupang.com/a/cRy1H1';
+      }
 
-      const bySize = LINKS[size];
-      if (!bySize) return { error: '선택값을 다시 확인해 주세요.' };
-      const url = bySize[years];
-      if (!url) return { error: '선택값을 다시 확인해 주세요.' };
-      return url;
+      // 32인치에서 UHD는 다른값에 상관없이
+      if (size === '32' && res === 'UHD') {
+        return 'https://link.coupang.com/a/cSbAYc';
+      }
+
+      // 32인치에서 FHD/QHD/모름은 용도만 필요
+      if (size === '32' && (!res || res === 'FHD' || res === 'QHD' || res === 'unknown')) {
+        if (!purpose) return { error: need(['purpose']) };
+        if (OFFICE_OR_DUAL.has(purpose)) return 'https://link.coupang.com/a/cQUL28';
+        if (GAME_OR_MULTI.has(purpose))  return 'https://link.coupang.com/a/cQUObi';
+        return { error: '선택값을 다시 확인해 주세요.' };
+      }
+
+      // 24인치에서 FHD/모름은 용도 + 기간 필요
+      if (size === '24' && (res === 'FHD' || res === 'unknown' || !res)) {
+        if (!purpose && !years) return { error: need(['purpose','years']) };
+        if (!purpose) return { error: need(['purpose']) };
+        if (!years) return { error: need(['years']) };
+
+        if (OFFICE_OR_DUAL.has(purpose)) {
+          if (years === '1-3') return 'https://link.coupang.com/a/cSbqzA';
+          if (years === '3-5') return 'https://link.coupang.com/a/cRyYcW';
+          if (years === '5+')  return 'https://link.coupang.com/a/cQUsZE';
+        } else if (GAME_OR_MULTI.has(purpose)) {
+          if (years === '1-3') return 'https://link.coupang.com/a/cSbrgc';
+          if (years === '3-5') return 'https://link.coupang.com/a/cQ8bEc';
+          if (years === '5+')  return 'https://link.coupang.com/a/cQUyyC';
+        }
+        return { error: '선택값을 다시 확인해 주세요.' };
+      }
+
+      // 27인치 처리
+      if (size === '27') {
+        if (!res) return { error: need(['res']) };
+
+        // 27인치 FHD
+        if (res === 'FHD') {
+          if (!purpose && !years) return { error: need(['purpose','years']) };
+          if (!purpose) return { error: need(['purpose']) };
+          if (!years) return { error: need(['years']) };
+
+          if (OFFICE_OR_DUAL.has(purpose)) {
+            if (years === '1-3') return 'https://link.coupang.com/a/cSbsmh';
+            if (years === '3-5') return 'https://link.coupang.com/a/cQ8dzw';
+            if (years === '5+')  return 'https://link.coupang.com/a/cQUDxO';
+          } else if (GAME_OR_MULTI.has(purpose)) {
+            if (years === '1-3') return 'https://link.coupang.com/a/cSbtbh';
+            if (years === '3-5') return 'https://link.coupang.com/a/cQ8eC8';
+            if (years === '5+')  return 'https://link.coupang.com/a/cQ8eC8';
+          }
+          return { error: '선택값을 다시 확인해 주세요.' };
+        }
+
+        // 27인치 QHD/UHD/모름
+        if (res === 'QHD' || res === 'UHD' || res === 'unknown') {
+          if (!purpose && !years) return { error: need(['purpose','years']) };
+          if (!purpose) return { error: need(['purpose']) };
+          if (!years) return { error: need(['years']) };
+
+          if (OFFICE_OR_DUAL.has(purpose)) {
+            if (years === '1-3') return 'https://link.coupang.com/a/cSbulp';
+            if (years === '3-5' || years === '5+') return 'https://link.coupang.com/a/cQUJar';
+          } else if (GAME_OR_MULTI.has(purpose)) {
+            if (years === '1-3') return 'https://link.coupang.com/a/cSbwUP';
+            if (years === '3-5' || years === '5+') return 'https://link.coupang.com/a/cQ8eC8';
+          }
+          return { error: '선택값을 다시 확인해 주세요.' };
+        }
+      }
+
+      return { error: '선택값을 다시 확인해 주세요.' };
     }
 
     function updateButtonState() {
-      const purpose = getValue('purpose');
-      if (purpose === '게이밍') {
+      const result = resolveLink();
+      if (typeof result === 'string') {
         goBtn.disabled = false;
         msgEl.textContent = '';
-        return;
+      } else {
+        goBtn.disabled = true;
+        msgEl.textContent = result.error || '필수 항목을 선택해 주세요.';
       }
-      const size = getValue('size');
-      const years = getValue('years');
-      const ready = !!(purpose && size && years);
-      goBtn.disabled = !ready;
-      msgEl.textContent = ready ? '' : '필수 항목을 선택해 주세요.';
     }
 
     form.addEventListener('change', updateButtonState);
-    updateButtonState();
 
-    goBtn.addEventListener('click', function () {
+    goBtn.addEventListener('click', () => {
       const result = resolveLink();
       if (typeof result === 'string') {
-        // Open in a new tab with sponsored/nofollow semantics using a transient anchor
         const a = document.createElement('a');
         a.href = result;
         a.target = '_blank';
@@ -311,9 +376,12 @@
         msgEl.textContent = '';
       } else if (result && result.error) {
         msgEl.textContent = result.error;
-        goBtn.disabled = false;
+        goBtn.disabled = true;
       }
     });
+
+    // 초기 상태 점검
+    updateButtonState();
   </script>
 </body>
 </html>
