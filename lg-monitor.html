@@ -1,0 +1,377 @@
+
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LG 모니터 추천가이드</title>
+  <meta name="description" content="인치/해상도/용도(+게이밍 하위 문항) 선택에 따라 추천 링크로 안내하는 LG 모니터 추천 가이드" />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: clamp(24px, 6vw, 48px) 0 16px;
+      text-align: center;
+      color: #1b0833;
+    }
+    header .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.5);
+      backdrop-filter: blur(4px);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.12);
+    }
+    header h1 { color: #ffffff;
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+    header p.sub {
+      margin: 8px auto 0;
+      max-width: 60ch;
+      font-size: 14px;
+      color: #2a1250;
+      opacity: 0.9;
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    fieldset {
+      border: 0;
+      padding: 0;
+      margin: 0 0 22px;
+    }
+    legend {
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+    }
+    .radio {
+      position: relative;
+    }
+    input[type="radio"] {
+      position: absolute;
+      inset: 0;
+      appearance: none;
+      opacity: 0;
+    }
+    .radio label {
+      display: block;
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 12px;
+      background: #f6f1fb;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      cursor: pointer;
+      user-select: none;
+      font-weight: 600;
+      text-align: center;
+      transition: transform .06s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .radio label:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(0,0,0,0.08); }
+    input[type="radio"]:focus + label {
+      outline: none;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+    input[type="radio"]:checked + label {
+      border-color: var(--primary);
+    }
+
+    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .actions {
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    button.primary {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: #a40000; }
+    .divider { height: 1px; background: #eee; margin: 18px 0; }
+
+    footer {
+      text-align: center;
+      color: rgba(0,0,0,0.65);
+      font-size: 12px;
+      padding: 8px 0 32px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+<h1>LG 모니터 추천가이드</h1>
+</header>
+
+    <main class="container">
+      <form id="guide-form">
+        <!-- Q1: Size -->
+        <fieldset>
+          <legend>1. 어떤 사이즈의 모니터를 원하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="사이즈 선택">
+            <div class="radio">
+              <input type="radio" id="size-24" name="size" value="24">
+              <label for="size-24">24인치</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-27" name="size" value="27">
+              <label for="size-27">27인치</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-32" name="size" value="32">
+              <label for="size-32">32인치</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q2: Resolution -->
+        <fieldset>
+          <legend>2. 원하시는 해상도는 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="해상도 선택">
+            <div class="radio">
+              <input type="radio" id="res-fhd" name="resolution" value="FHD">
+              <label for="res-fhd">FHD (1920×1080)</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-qhd" name="resolution" value="QHD">
+              <label for="res-qhd">QHD (2560×1440)</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-uhd" name="resolution" value="UHD">
+              <label for="res-uhd">UHD (3840×2160)</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-unk" name="resolution" value="모르겠음">
+              <label for="res-unk">모르겠음</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q3: Purpose -->
+        <fieldset>
+          <legend>3. 모니터의 주 용도는 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="주 사용 목적 선택">
+            <div class="radio">
+              <input type="radio" id="pur-office" name="purpose" value="사무 및 웹서핑">
+              <label for="pur-office">사무 및 웹서핑</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pur-gaming" name="purpose" value="게이밍">
+              <label for="pur-gaming">게이밍</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pur-dual" name="purpose" value="듀얼 모니터">
+              <label for="pur-dual">듀얼 모니터</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pur-multi" name="purpose" value="다목적">
+              <label for="pur-multi">다목적</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q4: Gaming Type (only when purpose is '게이밍') -->
+        <fieldset id="game-fieldset" style="display:none;">
+          <legend>4. 주로 어떤 게임을 하시나요? <span class="hint">(게이밍 선택 시만 표시)</span></legend>
+          <div class="options" role="radiogroup" aria-label="게임 유형 선택">
+            <div class="radio">
+              <input type="radio" id="game-online" name="gameType" value="경쟁적인 온라인게임">
+              <label for="game-online">경쟁적인 온라인게임</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="game-console" name="gameType" value="고사양 콘솔게임">
+              <label for="game-console">고사양 콘솔게임</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="game-all" name="gameType" value="전부">
+              <label for="game-all">전부</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="divider"></div>
+        <div class="actions">
+          <span id="msg" class="msg" aria-live="polite"></span>
+          <button id="go" class="primary" type="submit">추천 바로가기</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>모든 항목을 선택하면 추천 링크로 이동합니다.</footer>
+  </div>
+
+  <script>
+    const form = document.getElementById('guide-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+    const gameFs = document.getElementById('game-fieldset');
+
+    function getValue(name) {
+      const el = form.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    }
+
+    // Show/hide game question when purpose changes
+    form.addEventListener('change', (e) => {
+      const p = getValue('purpose');
+      if (p === '게이밍') {
+        gameFs.style.display = '';
+      } else {
+        gameFs.style.display = 'none';
+        // clear any previously selected game type
+        const checked = form.querySelector('input[name="gameType"]:checked');
+        if (checked) checked.checked = false;
+      }
+    });
+
+    function resolveLink() {
+      const size = getValue('size');
+      const res = getValue('resolution');
+      const purpose = getValue('purpose');
+      const game = getValue('gameType'); // may be null if not gaming
+
+      // validations
+      if (!size) return { error: '사이즈를 선택해 주세요.' };
+      if (!res) return { error: '해상도를 선택해 주세요.' };
+      if (!purpose) return { error: '주 용도를 선택해 주세요.' };
+      if (purpose === '게이밍' && !game) return { error: '게이밍 유형을 선택해 주세요.' };
+
+      // Helper groups
+      const isOfficeOrDual = (p) => (p === '사무 및 웹서핑' || p === '듀얼 모니터');
+      const isGamingOrMulti = (p) => (p === '게이밍' || p === '다목적');
+
+      // 24인치
+      if (size === '24') {
+        if (res === 'QHD' || res === 'UHD') {
+          return "https://link.coupang.com/a/cSlBC4";
+        }
+        if (res === 'FHD' || res === '모르겠음') {
+          if (isOfficeOrDual(purpose)) return "https://link.coupang.com/a/cSlBeP";
+          if (isGamingOrMulti(purpose)) return "https://link.coupang.com/a/cSlAFb";
+        }
+      }
+
+      // 27인치
+      if (size === '27') {
+        if (res === 'FHD') {
+          if (isOfficeOrDual(purpose)) return "https://link.coupang.com/a/cSlDpQ";
+          if (isGamingOrMulti(purpose)) return "https://link.coupang.com/a/cSlFed";
+        }
+        if (res === 'QHD' || res === '모르겠음') {
+          if (purpose === '게이밍') {
+            if (game === '고사양 콘솔게임') return "https://link.coupang.com/a/cSlQvu";
+            if (game === '경쟁적인 온라인게임' || game === '전부') return "https://link.coupang.com/a/cSlSU1";
+          } else {
+            // 사무/듀얼/다목적
+            return "https://link.coupang.com/a/cSlQvu";
+          }
+        }
+        if (res === 'UHD') {
+          if (isOfficeOrDual(purpose)) return "https://link.coupang.com/a/cSlUhx";
+          if (isGamingOrMulti(purpose)) return "https://link.coupang.com/a/cSlVv3";
+        }
+      }
+
+      // 32인치
+      if (size === '32') {
+        if (res === 'UHD') {
+          if (isOfficeOrDual(purpose)) return "https://link.coupang.com/a/cSlYPC";
+          if (isGamingOrMulti(purpose)) return "https://link.coupang.com/a/cSl0Us";
+        } else if (res === 'FHD' || res === 'QHD' || res === '모르겠음') {
+          if (isOfficeOrDual(purpose)) return "https://link.coupang.com/a/cSlXkK";
+          if (isGamingOrMulti(purpose)) return "https://link.coupang.com/a/cQkMWf";
+        }
+      }
+
+      return { error: '선택 조합을 처리하지 못했습니다. 옵션을 다시 확인해 주세요.' };
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      goBtn.disabled = true;
+      const result = resolveLink();
+
+      if (typeof result === 'string') {
+        const a = document.createElement('a');
+        a.href = result;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer nofollow sponsored';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        msgEl.textContent = '';
+      } else if (result && result.error) {
+        msgEl.textContent = result.error;
+      }
+      goBtn.disabled = false;
+    });
+  </script>
+</body>
+</html>
