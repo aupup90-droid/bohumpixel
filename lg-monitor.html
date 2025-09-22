@@ -6,8 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>LG 모니터 추천가이드</title>
   <meta name="description" content="인치/해상도/용도(+게이밍 하위 문항) 선택에 따라 추천 링크로 안내하는 LG 모니터 추천 가이드" />
-  <style>
-    :root {
+  <style>:root {
       --bg: #cfa6e7;
       --card: #ffffff;
       --text: #1b1b1b;
@@ -22,7 +21,7 @@
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -34,39 +33,17 @@
     }
 
     header {
-      padding: clamp(24px, 6vw, 48px) 0 16px;
+      padding: 32px 20px 16px;
       text-align: center;
-      color: #1b0833;
+      color: #fff;
     }
-    header .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.5);
-      backdrop-filter: blur(4px);
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 10px;
-      box-shadow: 0 6px 22px rgba(0,0,0,0.12);
-    }
-    header h1 { color: #ffffff;
+    header h1 {
       margin: 0;
       font-size: clamp(22px, 4vw, 36px);
       line-height: 1.15;
       font-weight: 800;
       letter-spacing: -0.02em;
       text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
-    }
-    header p.sub {
-      margin: 8px auto 0;
-      max-width: 60ch;
-      font-size: 14px;
-      color: #2a1250;
-      opacity: 0.9;
     }
 
     .container {
@@ -91,39 +68,42 @@
 
     .options {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
     }
+
+    /* pill radios */
     .radio {
       position: relative;
     }
-    input[type="radio"] {
+    .radio input {
       position: absolute;
-      inset: 0;
-      appearance: none;
       opacity: 0;
+      pointer-events: none;
     }
     .radio label {
       display: block;
       width: 100%;
-      padding: 12px 12px;
+      padding: 12px 14px;
+      border: 1.5px solid #e5e5e8;
       border-radius: 12px;
-      background: #f6f1fb;
-      border: 2px solid transparent;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 600;
       cursor: pointer;
       user-select: none;
-      font-weight: 600;
-      text-align: center;
-      transition: transform .06s ease, box-shadow .2s ease, border-color .2s ease;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
     }
-    .radio label:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(0,0,0,0.08); }
-    input[type="radio"]:focus + label {
-      outline: none;
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label {
+      outline: 0;
       box-shadow: 0 0 0 4px var(--ring);
     }
-    input[type="radio"]:checked + label {
+    .radio input:checked + label {
       border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(74,42,116,0.18);
+      transform: translateY(-1px);
     }
 
     .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
@@ -154,15 +134,58 @@
     button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
 
     .msg { font-size: 13px; color: #a40000; }
-    .divider { height: 1px; background: #eee; margin: 18px 0; }
 
     footer {
       text-align: center;
-      color: rgba(0,0,0,0.65);
+      padding: 12px 16px 28px;
       font-size: 12px;
-      padding: 8px 0 32px;
+      color: rgba(255,255,255,0.85);
     }
-  </style>
+
+    @media (max-width: 640px) {
+      .options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+/* --- Preserved lg-only selectors (non-conflicting) --- */
+header .badge{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.5);
+      backdrop-filter: blur(4px);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.12);
+    }
+header p.sub{
+      margin: 8px auto 0;
+      max-width: 60ch;
+      font-size: 14px;
+      color: #2a1250;
+      opacity: 0.9;
+    }
+.radio{
+      position: relative;
+    }
+input[type="radio"]{
+      position: absolute;
+      inset: 0;
+      appearance: none;
+      opacity: 0;
+    }
+input[type="radio"]:focus + label{
+      outline: none;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+input[type="radio"]:checked + label{
+      border-color: var(--primary);
+    }
+.divider{ height: 1px; background: #eee; margin: 18px 0; }</style>
 </head>
 <body>
   <div class="wrap">
