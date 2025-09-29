@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>울트라와이드 모니터</title>
+  <style>
+    :root {
+      /* 기존 가이드와 동일한 톤 & 컴포넌트 스타일 */
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: --bg;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
+    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    /* pill radios (원본 디자인과 동일한 동작/포커스) */
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio label {
+      display: block; width: 100%; padding: 12px 14px; border: 1.5px solid #e5e5e8; border-radius: 12px;
+      background: #fff; color: var(--text); text-align: center; font-weight: 600; cursor: pointer; user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+
+    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    button.primary {
+      appearance: none; border: 0; border-radius: 999px; padding: 14px 18px; font-weight: 800; letter-spacing: 0.02em;
+      background: var(--primary); color: var(--primary-contrast); cursor: pointer; box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: #a40000; }
+
+    footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 640px) { .options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>울트라와이드 모니터</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <!-- Q1: 비율 -->
+        <fieldset>
+          <legend>어떤 비율의 울트라와이드 모니터를 원하시나요? <small>(참고사항 : 일반모니터는 16:9 비율입니다.)</small></legend>
+          <div class="options" role="radiogroup" aria-label="울트라와이드 비율 선택">
+            <div class="radio">
+              <input type="radio" id="aspect-21" name="aspect" value="21_9">
+              <label for="aspect-21">21:9 비율</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="aspect-34" name="aspect" value="34_9">
+              <label for="aspect-34">34:9 비율</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="aspect-unk" name="aspect" value="unknown">
+              <label for="aspect-unk">모르겠음</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q2: 해상도 -->
+        <fieldset>
+          <legend>원하시는 해상도는 어떻게 되나요.</legend>
+          <div class="options" role="radiogroup" aria-label="해상도 선택">
+            <div class="radio">
+              <input type="radio" id="res-fhd" name="resolution" value="fhd">
+              <label for="res-fhd">FHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-qhd" name="resolution" value="qhd">
+              <label for="res-qhd">QHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-unk" name="resolution" value="unknown">
+              <label for="res-unk">모르겠음</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q3: 용도 -->
+        <fieldset>
+          <legend>모니터의 주 용도는 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="용도 선택">
+            <div class="radio">
+              <input type="radio" id="pur-web" name="purpose" value="web">
+              <label for="pur-web">사무 및 웹서핑</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pur-game" name="purpose" value="game">
+              <label for="pur-game">게이밍</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pur-video" name="purpose" value="video">
+              <label for="pur-video">영상시청</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pur-multi" name="purpose" value="multi">
+              <label for="pur-multi">다목적</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q4: 사용 기간 -->
+        <fieldset>
+          <legend>모니터를 몇 년간 사용하실 예정인가요?</legend>
+          <div class="options" role="radiogroup" aria-label="사용 기간 선택">
+            <div class="radio">
+              <input type="radio" id="yr-short" name="years" value="short">
+              <label for="yr-short">1~5년</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="yr-long" name="years" value="long">
+              <label for="yr-long">5년 이상</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button" aria-label="추천 보기">추천 보러가기</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      <span>모든 항목을 선택하면 추천 링크로 이동합니다.</span>
+    </footer>
+  </div>
+
+  <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    const LINKS = {
+      FHD_WEB_SHORT: "https://link.coupang.com/a/cTlwgk",
+      FHD_WEB_LONG:  "https://link.coupang.com/a/cTluX7",
+      FHD_GAME_MULTI: "https://link.coupang.com/a/cTluX7",
+
+      QHD_WEB_SHORT: "https://link.coupang.com/a/cTJBXZ",
+      QHD_WEB_LONG:  "https://link.coupang.com/a/cTlyja",
+      QHD_GAME_MULTI: "https://link.coupang.com/a/cTJFcS",
+
+      A34_SHORT: "https://link.coupang.com/a/cTJIA4",
+      A34_LONG:  "https://link.coupang.com/a/cTJHk9"
+    };
+
+    function getValue(name){
+      const el = document.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    }
+
+    function updateButtonState(){
+      const aspect = getValue('aspect');
+      const resolution = getValue('resolution');
+      const purpose = getValue('purpose');
+      const years = getValue('years');
+
+      let ready = false;
+      if(aspect === '34_9') {
+        ready = !!years; // 34:9는 기간만 필수
+      } else if(aspect === '21_9' || aspect === 'unknown') {
+        ready = !!(resolution && purpose && years);
+      }
+      document.getElementById('go').disabled = !ready;
+      document.getElementById('msg').textContent = ready ? '' : '필수 항목을 선택해 주세요.';
+    }
+
+    document.getElementById('guide-form').addEventListener('change', updateButtonState);
+    updateButtonState();
+
+    document.getElementById('go').addEventListener('click', () => {
+      const aspect = getValue('aspect');
+      const resolution = getValue('resolution');
+      const purpose = getValue('purpose');
+      const years = getValue('years');
+      const msgEl = document.getElementById('msg');
+      const goBtn = document.getElementById('go');
+
+      function openLink(url) {
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer nofollow sponsored';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
+
+      function error(msg) {
+        msgEl.textContent = msg;
+        goBtn.disabled = false;
+      }
+
+      goBtn.disabled = true; msgEl.textContent = '';
+
+      // 34:9 우선 분기 (해상도/용도 무시)
+      if(aspect === '34_9') {
+        if(years === 'short') return openLink(LINKS.A34_SHORT);
+        if(years === 'long')  return openLink(LINKS.A34_LONG);
+        return error('사용 기간을 선택해 주세요.');
+      }
+
+      // 21:9 또는 모름
+      if(aspect === '21_9' || aspect === 'unknown') {
+        if(resolution === 'fhd') {
+          if(purpose === 'game' || purpose === 'multi') return openLink(LINKS.FHD_GAME_MULTI);
+          if(purpose === 'web' || purpose === 'video') {
+            if(years === 'short') return openLink(LINKS.FHD_WEB_SHORT);
+            if(years === 'long')  return openLink(LINKS.FHD_WEB_LONG);
+          }
+          return error('사용 기간을 선택해 주세요.');
+        }
+
+        if(resolution === 'qhd' || resolution === 'unknown') {
+          if(purpose === 'game' || purpose === 'multi') return openLink(LINKS.QHD_GAME_MULTI);
+          if(purpose === 'web' || purpose === 'video') {
+            if(years === 'short') return openLink(LINKS.QHD_WEB_SHORT);
+            if(years === 'long')  return openLink(LINKS.QHD_WEB_LONG);
+          }
+          return error('사용 기간을 선택해 주세요.');
+        }
+
+        return error('해상도를 선택해 주세요.');
+      }
+
+      return error('비율을 선택해 주세요.');
+    });
+  </script>
+</body>
+</html>
