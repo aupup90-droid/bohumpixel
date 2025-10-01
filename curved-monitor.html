@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>커브드 모니터 추천가이드</title>
+<meta content="질문에 답하면 상황에 맞는 커브드 모니터 추천 링크로 이동합니다." name="description"/>
+<style>
+    :root {
+      /* 기존 가이드와 동일한 톤 & 컴포넌트 스타일 */
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: --bg;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
+    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    /* pill radios (원본 디자인과 동일한 동작/포커스) */
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio label {
+      display: block; width: 100%; padding: 12px 14px; border: 1.5px solid #e5e5e8; border-radius: 12px;
+      background: #fff; color: var(--text); text-align: center; font-weight: 600; cursor: pointer; user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+
+    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    button.primary {
+      appearance: none; border: 0; border-radius: 999px; padding: 14px 18px; font-weight: 800; letter-spacing: 0.02em;
+      background: var(--primary); color: var(--primary-contrast); cursor: pointer; box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: #a40000; }
+
+    footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 640px) { .options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>커브드 모니터 추천가이드</h1>
+</header>
+<main class="container" role="main">
+<form id="guide-form" novalidate="">
+<!-- Q1: 비율 선택 -->
+<fieldset>
+<legend>1. 원하시는 모니터의 비율은 어떻게 되나요?</legend>
+<div aria-label="모니터 비율 선택" class="options" role="radiogroup">
+<div class="radio">
+<input id="ratio-169" name="ratio" type="radio" value="16:9"/>
+<label for="ratio-169">16 : 9 비율 (일반)</label>
+</div>
+<div class="radio">
+<input id="ratio-219" name="ratio" type="radio" value="21:9"/>
+<label for="ratio-219">21 : 9 비율 (울트라와이드)</label>
+</div>
+<div class="radio">
+<input id="ratio-unk" name="ratio" type="radio" value="unknown"/>
+<label for="ratio-unk">모르겠음</label>
+</div>
+</div>
+
+</fieldset>
+<!-- Q2A: 일반 사이즈 (16:9/모름에서만 표시) -->
+<fieldset id="size-std-group">
+<legend>2. 원하시는 일반모니터의 사이즈는 어떻게 되나요?</legend>
+<div aria-label="일반 모니터 사이즈 선택" class="options" role="radiogroup">
+<div class="radio">
+<input id="size-27" name="size_std" type="radio" value="27"/>
+<label for="size-27">27인치</label>
+</div>
+<div class="radio">
+<input id="size-32" name="size_std" type="radio" value="32"/>
+<label for="size-32">32인치</label>
+</div>
+<div class="radio">
+<input id="size-std-unk" name="size_std" type="radio" value="unknown"/>
+<label for="size-std-unk">모르겠음</label>
+</div>
+</div>
+
+</fieldset>
+<!-- Q2B: 울트라와이드 사이즈 (21:9에서만 표시) -->
+<fieldset id="size-uw-group" style="display:none;">
+<legend>2. 원하시는 울트라와이드 모니터의 사이즈는 어떻게 되나요?</legend>
+<div aria-label="울트라와이드 모니터 사이즈 선택" class="options" role="radiogroup">
+<div class="radio">
+<input id="size-34" name="size_uw" type="radio" value="34"/>
+<label for="size-34">34인치</label>
+</div>
+<div class="radio">
+<input id="size-49" name="size_uw" type="radio" value="49"/>
+<label for="size-49">49인치</label>
+</div>
+<div class="radio">
+<input id="size-uw-unk" name="size_uw" type="radio" value="unknown"/>
+<label for="size-uw-unk">모르겠음</label>
+</div>
+</div>
+<p class="hint">※ 비율이 21:9일 때만 보입니다.</p>
+</fieldset>
+<!-- Q3: 사용 용도 (정보 수집용, 결과엔 영향 없음) -->
+<fieldset>
+<legend>3. 모니터의 주 사용용도는 무엇인가요?</legend>
+<div aria-label="주 사용용도 선택" class="options" role="radiogroup">
+<div class="radio">
+<input id="pur-office" name="purpose" type="radio" value="office"/>
+<label for="pur-office">사무 및 웹서핑</label>
+</div>
+<div class="radio">
+<input id="pur-game" name="purpose" type="radio" value="game"/>
+<label for="pur-game">게이밍</label>
+</div>
+<div class="radio">
+<input id="pur-media" name="purpose" type="radio" value="media"/>
+<label for="pur-media">영상시청</label>
+</div>
+<div class="radio">
+<input id="pur-multi" name="purpose" type="radio" value="multi"/>
+<label for="pur-multi">다목적</label>
+</div>
+</div>
+
+</fieldset>
+<!-- Q4: 사용 기간 -->
+<fieldset>
+<legend>4. 모니터를 몇 년간 사용하실 예정인가요?</legend>
+<div aria-label="사용 기간 선택" class="options" role="radiogroup">
+<div class="radio">
+<input id="term-1" name="term" type="radio" value="short"/>
+<label for="term-1">1~3년</label>
+</div>
+<div class="radio">
+<input id="term-2" name="term" type="radio" value="long"/>
+<label for="term-2">3년 이상</label>
+</div>
+</div>
+</fieldset>
+<div class="actions">
+<span aria-live="polite" class="hint" id="msg"></span>
+<button aria-label="추천 보기" class="primary" disabled="" id="go" type="button">추천 보러가기</button>
+</div>
+</form>
+</main>
+<footer>
+<span>모든 항목을 선택하면 추천 링크로 이동합니다.</span>
+</footer>
+</div>
+<script>
+    // 링크 매핑 (요청 명세)
+    const LINKS = {
+      // 일반(16:9 또는 모름)
+      G27_S: "https://link.coupang.com/a/cT7sIK",  // 27인치 / 1~3년
+      G27_L: "https://link.coupang.com/a/cT8lyf",  // 27인치 / 3년 이상
+      G32_S: "https://link.coupang.com/a/cT7t41",  // 32인치 또는 모름 / 1~3년
+      G32_L: "https://link.coupang.com/a/cT7tuV",  // 32인치 또는 모름 / 3년 이상
+      // 울트라와이드(21:9)
+      U34_S: "https://link.coupang.com/a/cT8jJv",  // 34인치 또는 모름 / 1~3년
+      U34_L: "https://link.coupang.com/a/cTJFcS",  // 34인치 또는 모름 / 3년 이상
+      U49_S: "https://link.coupang.com/a/cTJIA4",  // 49인치 / 1~3년
+      U49_L: "https://link.coupang.com/a/cTJHk9"   // 49인치 / 3년 이상
+    };
+
+    const form = document.getElementById('guide-form');
+    const goBtn = document.getElementById('go');
+    const msgEl = document.getElementById('msg');
+
+    const stdGroup = document.getElementById('size-std-group');
+    const uwGroup  = document.getElementById('size-uw-group');
+
+    function getValue(name){
+      const el = form.querySelector('input[name="' + name + '"]:checked');
+      return el ? el.value : null;
+    }
+
+    function clearGroup(name){
+      form.querySelectorAll('input[name="' + name + '"]').forEach(i => i.checked = false);
+    }
+
+    function setRequired(name, required){
+      form.querySelectorAll('input[name="' + name + '"]').forEach(i => i.required = !!required);
+    }
+
+    function toggleSizeGroups(){
+      const ratio = getValue('ratio');
+      if(ratio === '21:9'){
+        // show uw, hide std
+        uwGroup.style.display  = '';
+        stdGroup.style.display = 'none';
+        clearGroup('size_std');
+        setRequired('size_std', false);
+        setRequired('size_uw', true);
+      }else if(ratio === '16:9' || ratio === 'unknown'){
+        // show std, hide uw
+        stdGroup.style.display = '';
+        uwGroup.style.display  = 'none';
+        clearGroup('size_uw');
+        setRequired('size_uw', false);
+        setRequired('size_std', true);
+      }else{
+        // nothing selected
+        stdGroup.style.display = 'none';
+        uwGroup.style.display  = 'none';
+        setRequired('size_std', false);
+        setRequired('size_uw', false);
+      }
+      updateButtonState();
+    }
+
+    function updateButtonState(){
+      const ratio = getValue('ratio');
+      const term  = getValue('term');
+      const sizeStd = getValue('size_std');
+      const sizeUw  = getValue('size_uw');
+
+      let ready = false;
+      if(ratio === '21:9'){
+        ready = !!(ratio && term && sizeUw);
+      }else if(ratio === '16:9' || ratio === 'unknown'){
+        ready = !!(ratio && term && sizeStd);
+      }
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? '' : '비율 · 사이즈 · 사용기간을 모두 선택해 주세요.';
+    }
+
+    // 비율/사이즈/기간 선택 이벤트
+    form.addEventListener('change', (e) => {
+      if(e.target.name === 'ratio') toggleSizeGroups();
+      updateButtonState();
+    });
+
+    function resolveLink(){
+      const ratio = getValue('ratio');
+      const term  = getValue('term'); // short | long
+
+      if(ratio === '21:9'){
+        const sz = getValue('size_uw'); // 34 | 49 | unknown
+        if(!sz || !term) return { error: '선택값을 다시 확인해주세요.' };
+        if(sz === '49'){
+          return term === 'short' ? LINKS.U49_S : LINKS.U49_L;
+        }else{ // 34 or unknown
+          return term === 'short' ? LINKS.U34_S : LINKS.U34_L;
+        }
+      }
+
+      if(ratio === '16:9' || ratio === 'unknown'){
+        const sz = getValue('size_std'); // 27 | 32 | unknown
+        if(!sz || !term) return { error: '선택값을 다시 확인해주세요.' };
+        if(sz === '27'){
+          return term === 'short' ? LINKS.G27_S : LINKS.G27_L;
+        }else{ // 32 or unknown
+          return term === 'short' ? LINKS.G32_S : LINKS.G32_L;
+        }
+      }
+
+      return { error: '선택값을 다시 확인해주세요.' };
+    }
+
+    goBtn.addEventListener('click', function(){
+      const url = resolveLink();
+      if(typeof url === 'string'){
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer nofollow sponsored';
+        document.body.appendChild(a); a.click(); a.remove();
+      }else if(url && url.error){
+        msgEl.textContent = url.error;
+      }
+    });
+
+    // 초기화
+    toggleSizeGroups();
+    updateButtonState();
+  </script>
+</body>
+</html>
