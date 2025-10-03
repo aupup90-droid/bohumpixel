@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>게이밍 모니터 추천가이드</title>
+  <meta name="description" content="질문에 답하면 상황에 맞는 게이밍 모니터 추천 링크로 이동합니다." />
+  <style>
+    :root {
+      
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: --bg;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
+    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio label {
+      display: block; width: 100%; padding: 12px 14px; border: 1.5px solid #e5e5e8; border-radius: 12px;
+      background: #fff; color: var(--text); text-align: center; font-weight: 600; cursor: pointer; user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+
+    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    button.primary {
+      appearance: none; border: 0; border-radius: 999px; padding: 14px 18px; font-weight: 800; letter-spacing: 0.02em;
+      background: var(--primary); color: var(--primary-contrast); cursor: pointer; box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: #a40000; }
+
+    footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 640px) { .options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>게이밍 모니터 추천가이드</h1>
+    </header>
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <fieldset>
+          <legend>원하시는 모니터의 비율은 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="모니터 비율 선택">
+            <div class="radio">
+              <input type="radio" id="ratio-169" name="ratio" value="169">
+              <label for="ratio-169">일반적인 비율 (16:9)</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="ratio-ultra" name="ratio" value="ultra">
+              <label for="ratio-ultra">울트라와이드 비율 (21:9 ~)</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset id="sizeA-fieldset" style="display:none">
+          <legend>(A) 원하시는 모니터의 사이즈는 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="일반 비율 사이즈 선택">
+            <div class="radio">
+              <input type="radio" id="sizeA-24" name="sizeA" value="24">
+              <label for="sizeA-24">24인치</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="sizeA-27" name="sizeA" value="27">
+              <label for="sizeA-27">27인치</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="sizeA-32" name="sizeA" value="32">
+              <label for="sizeA-32">32인치</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset id="sizeB-fieldset" style="display:none">
+          <legend>(B) 원하시는 모니터의 사이즈는 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="울트라와이드 사이즈 선택">
+            <div class="radio">
+              <input type="radio" id="sizeB-34" name="sizeB" value="34">
+              <label for="sizeB-34">34인치</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="sizeB-49" name="sizeB" value="49">
+              <label for="sizeB-49">49인치</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>원하시는 해상도는 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="해상도 선택">
+            <div class="radio">
+              <input type="radio" id="res-fhd" name="res" value="fhd">
+              <label for="res-fhd">FHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-qhd" name="res" value="qhd">
+              <label for="res-qhd">QHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-uhd" name="res" value="uhd">
+              <label for="res-uhd">UHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-unknown" name="res" value="unknown">
+              <label for="res-unknown">모르겠음</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>주로 어떤 게임을 하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="게임 타입 선택">
+            <div class="radio">
+              <input type="radio" id="game-online" name="game" value="online">
+              <label for="game-online">경쟁적인 온라인게임</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="game-console" name="game" value="console">
+              <label for="game-console">고사양 콘솔게임</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="game-all" name="game" value="all">
+              <label for="game-all">전부</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button" aria-label="추천 보기">추천 보러가기</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      <span>모든 항목을 선택하면 추천 링크로 이동합니다.</span>
+    </footer>
+  </div>
+
+  <script>
+    const form = document.getElementById('guide-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+    const ratioRadios = form.querySelectorAll('input[name="ratio"]');
+    const sizeAFieldset = document.getElementById('sizeA-fieldset');
+    const sizeBFieldset = document.getElementById('sizeB-fieldset');
+
+    const LINKS = {
+      ULTRA_34_FHD: "https://link.coupang.com/a/cTluX7",
+      ULTRA_34_HIGH: "https://link.coupang.com/a/cTJFcS",
+      ULTRA_49: "https://link.coupang.com/a/cTJHk9",
+      S24_FHD_CONSOLE: "https://link.coupang.com/a/cRyZCd",
+      S24_FHD_ONLINE_ALL: "https://link.coupang.com/a/cTbSDx",
+      S24_QHD_UHD: "https://link.coupang.com/a/cRy1H1",
+      S27_FHD: "https://link.coupang.com/a/cUlCRQ",
+      S27_QHD_UNKNOWN_ONLINE_ALL: "https://link.coupang.com/a/cSLGRh",
+      S27_QHD_UNKNOWN_CONSOLE: "https://link.coupang.com/a/cTb0bQ",
+      S27_UHD: "https://link.coupang.com/a/cSLLzL",
+      S32_UHD: "https://link.coupang.com/a/cTb44n",
+      S32_FHD_QHD_UNKNOWN_ONLINE_ALL: "https://link.coupang.com/a/cQkMWf",
+      S32_FHD_QHD_UNKNOWN_CONSOLE: "https://link.coupang.com/a/cQ8gUt"
+    };
+
+    function getValue(name){
+      const el = form.querySelector('input[name="'+name+'"]:checked');
+      return el ? el.value : null;
+    }
+
+    function clearGroup(name){
+      form.querySelectorAll('input[name="'+name+'"]').forEach(function(i){ i.checked = false; });
+    }
+
+    function toggleSizeFieldsets(){
+      const r = getValue('ratio');
+      if(r === '169'){
+        sizeAFieldset.style.display = '';
+        sizeBFieldset.style.display = 'none';
+        clearGroup('sizeB');
+      } else if(r === 'ultra'){
+        sizeAFieldset.style.display = 'none';
+        sizeBFieldset.style.display = '';
+        clearGroup('sizeA');
+      } else {
+        sizeAFieldset.style.display = 'none';
+        sizeBFieldset.style.display = 'none';
+        clearGroup('sizeA'); clearGroup('sizeB');
+      }
+    }
+
+    ratioRadios.forEach(function(r){ r.addEventListener('change', toggleSizeFieldsets); });
+
+    function resolveLink(){
+      const ratio = getValue('ratio');
+      if(!ratio) return { error:'모니터 비율을 선택해 주세요.' };
+
+      if(ratio === 'ultra'){
+        const sizeB = getValue('sizeB');
+        if(!sizeB) return { error:'울트라와이드 사이즈를 선택해 주세요.' };
+        if(sizeB === '49') return LINKS.ULTRA_49;
+        const res = getValue('res');
+        if(!res) return { error:'해상도를 선택해 주세요.' };
+        if(sizeB === '34'){
+          if(res === 'fhd') return LINKS.ULTRA_34_FHD;
+          if(res === 'qhd' || res === 'uhd' || res === 'unknown') return LINKS.ULTRA_34_HIGH;
+        }
+        return { error:'선택값을 다시 확인해 주세요.' };
+      }
+
+      if(ratio === '169'){
+        const sizeA = getValue('sizeA');
+        if(!sizeA) return { error:'모니터 사이즈를 선택해 주세요.' };
+        const res = getValue('res');
+        if(!res) return { error:'해상도를 선택해 주세요.' };
+        const game = getValue('game');
+        if(!game) return { error:'게임 타입을 선택해 주세요.' };
+
+        if(sizeA === '24'){
+          if(res === 'qhd' || res === 'uhd') return LINKS.S24_QHD_UHD;
+          if(res === 'fhd' || res === 'unknown'){
+            if(game === 'console') return LINKS.S24_FHD_CONSOLE;
+            if(game === 'online' || game === 'all') return LINKS.S24_FHD_ONLINE_ALL;
+          }
+        }
+
+        if(sizeA === '27'){
+          if(res === 'fhd') return LINKS.S27_FHD;
+          if(res === 'uhd') return LINKS.S27_UHD;
+          if(res === 'qhd' || res === 'unknown'){
+            if(game === 'console') return LINKS.S27_QHD_UNKNOWN_CONSOLE;
+            if(game === 'online' || game === 'all') return LINKS.S27_QHD_UNKNOWN_ONLINE_ALL;
+          }
+        }
+
+        if(sizeA === '32'){
+          if(res === 'uhd') return LINKS.S32_UHD;
+          if(res === 'fhd' || res === 'qhd' || res === 'unknown'){
+            if(game === 'console') return LINKS.S32_FHD_QHD_UNKNOWN_CONSOLE;
+            if(game === 'online' || game === 'all') return LINKS.S32_FHD_QHD_UNKNOWN_ONLINE_ALL;
+          }
+        }
+
+        return { error:'선택값을 다시 확인해 주세요.' };
+      }
+
+      return { error:'선택값을 다시 확인해 주세요.' };
+    }
+
+    goBtn.addEventListener('click', function(){
+      goBtn.disabled = true;
+      const result = resolveLink();
+      if(typeof result === 'string'){
+        const a = document.createElement('a');
+        a.href = result; a.target = '_blank';
+        a.rel = 'noopener noreferrer nofollow sponsored';
+        document.body.appendChild(a); a.click(); a.remove();
+        msgEl.textContent = '';
+      } else if(result && result.error){
+        msgEl.textContent = result.error;
+      }
+      goBtn.disabled = false;
+    });
+  </script>
+</body>
+</html>
