@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BH픽셀 X 겜스고 프로모션 코드</title>
+  <style>
+    :root { --bg: #cfa5e7; --card-bg: #fff; --text: #222; }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap { width: min(560px, 94vw); text-align: center; padding: 24px 16px; }
+    h1 { margin: 0 0 16px; font-size: clamp(20px, 3.5vw, 28px); letter-spacing: .5px;  color: #fff;}
+
+    .scratch-card {
+      position: relative;
+      width: 100%;
+      height: clamp(160px, 36vw, 220px);
+      margin: 0 auto 10px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+      background: var(--card-bg);
+    }
+
+    .reveal {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: clamp(36px, 9vw, 64px);
+      letter-spacing: 0.12em;
+      user-select: none;
+    }
+    .reveal code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono", monospace;
+      font-weight: 900;
+    }
+
+    canvas.overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      touch-action: none; /* allow finger scratching */
+      transition: opacity .35s ease;
+    }
+    canvas.overlay.done { opacity: 0; pointer-events: none; }
+
+    footer { margin-top: 8px; font-size: 14px; opacity: .85; }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" role="application" aria-label="스크래치 프로모션 코드 카드">
+    <h1>BH픽셀 X 겜스고 프로모션 코드</h1>
+
+    <div class="scratch-card" id="card">
+      <!-- 보여질 실제 코드 -->
+      <div class="reveal" aria-hidden="true"><code>DTZQ2</code></div>
+      <!-- 위를 덮는 스크래치 캔버스 -->
+      <canvas class="overlay" id="scratch-canvas" aria-label="스크래치 영역"></canvas>
+    </div>
+
+    <footer>손가락이나 마우스로 긁어보세요.</footer>
+    <p class="sr-only" id="live" aria-live="polite">코드가 준비되었습니다.</p>
+  </div>
+
+  <script>
+  (() => {
+    const canvas = document.getElementById('scratch-canvas');
+    const live = document.getElementById('live');
+    let ctx, drawing = false, last = null, cleared = false;
+
+    function setupContext() {
+      ctx = canvas.getContext('2d', { willReadFrequently: true });
+    }
+
+    function sizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width = Math.floor(rect.width * dpr);
+      canvas.height = Math.floor(rect.height * dpr);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+    }
+
+    function drawOverlay() {
+      const { width, height } = canvas.getBoundingClientRect();
+      ctx.globalCompositeOperation = 'source-over';
+
+      // 은색 스크래치 코팅 느낌
+      const grad = ctx.createLinearGradient(0,0,width,height);
+      grad.addColorStop(0,'#c0c0c0');
+      grad.addColorStop(1,'#9c9c9c');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0,0,width,height);
+
+      // 살짝 텍스처를 추가
+      const dots = Math.floor((width * height) / 900);
+      ctx.fillStyle = 'rgba(255,255,255,0.25)';
+      for (let i=0; i<dots; i++) {
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+        ctx.fillRect(x, y, 1, 1);
+      }
+
+      // 안내 텍스트
+      ctx.fillStyle = 'rgba(0,0,0,.45)';
+      ctx.font = '600 ' + Math.max(14, Math.floor(width/18)) + 'px system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR"';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('긁어서 확인', width/2, height/2);
+
+      // 이후부터는 긁을 때 지워지도록 설정
+      ctx.globalCompositeOperation = 'destination-out';
+    }
+
+    function line(from, to) {
+      ctx.lineWidth = Math.max(18, Math.floor(canvas.getBoundingClientRect().width / 14));
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+      ctx.moveTo(from.x, from.y);
+      ctx.lineTo(to.x, to.y);
+      ctx.stroke();
+    }
+
+    function pos(ev) {
+      const rect = canvas.getBoundingClientRect();
+      if (ev.touches && ev.touches[0]) {
+        return { x: ev.touches[0].clientX - rect.left, y: ev.touches[0].clientY - rect.top };
+      }
+      return { x: (ev.clientX || 0) - rect.left, y: (ev.clientY || 0) - rect.top };
+    }
+
+    function checkReveal(threshold = 0.5) {
+      if (cleared) return;
+      const { width, height } = canvas;
+      const stride = 8; // 성능을 위한 샘플 간격
+      const data = ctx.getImageData(0,0,width,height).data;
+      let total = 0, clear = 0;
+      for (let y = 0; y < height; y += stride) {
+        for (let x = 0; x < width; x += stride) {
+          const idx = ((y * width) + x) * 4 + 3; // alpha
+          total++;
+          if (data[idx] === 0) clear++;
+        }
+      }
+      if (clear / total >= threshold) {
+        canvas.classList.add('done');
+        cleared = true;
+        live.textContent = '프로모션 코드가 모두 공개되었습니다: DTZQ2';
+      }
+    }
+
+    function start(ev) {
+      ev.preventDefault();
+      if (ev.pointerId && canvas.setPointerCapture) {
+        try { canvas.setPointerCapture(ev.pointerId); } catch {}
+      }
+      drawing = true;
+      last = pos(ev);
+      ctx.beginPath();
+      ctx.moveTo(last.x, last.y);
+    }
+
+    function move(ev) {
+      if (!drawing) return;
+      const p = pos(ev);
+      line(last, p);
+      last = p;
+      throttledCheck();
+    }
+
+    function end() { drawing = false; checkReveal(); }
+
+    // 0.25초에 한 번 정도만 계산
+    let t = 0;
+    function throttledCheck() {
+      const now = performance.now();
+      if (now - t > 250) { t = now; checkReveal(0.45); }
+    }
+
+    function init() {
+      setupContext();
+      sizeCanvas();
+      drawOverlay();
+
+      // 포인터 이벤트 (최신 브라우저)
+      canvas.addEventListener('pointerdown', start, { passive:false });
+      canvas.addEventListener('pointermove', move, { passive:false });
+      window.addEventListener('pointerup', end);
+
+      // 구형 iOS 대응을 위한 터치/마우스도 함께 등록
+      canvas.addEventListener('touchstart', start, { passive:false });
+      canvas.addEventListener('touchmove', move, { passive:false });
+      window.addEventListener('touchend', end);
+
+      canvas.addEventListener('mousedown', start);
+      window.addEventListener('mousemove', move);
+      window.addEventListener('mouseup', end);
+
+      window.addEventListener('resize', () => {
+        if (!cleared) {
+          sizeCanvas();
+          drawOverlay();
+        } else {
+          sizeCanvas();
+          canvas.classList.add('done');
+        }
+      }, { passive:true });
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  })();
+  </script>
+</body>
+</html>
