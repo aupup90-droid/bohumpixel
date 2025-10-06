@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>달러 환율 계산기</title>
+<style>
+  :root { font-family: ui-sans-serif, system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; }
+  body { margin: 0; padding: 32px 20px; background: #cfa5e7; }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  h1 { margin: 0 0 18px; font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -0.2px; }
+  .card { background: #fff; border-radius: 20px; box-shadow: 0 10px 28px rgba(0,0,0,.10); padding: 22px; }
+  label { display:block; font-size:14px; color:#444; margin-bottom:8px; }
+  .row { display:flex; gap:14px; align-items:center; flex-wrap: wrap; }
+  input[type="number"] { flex: 1 1 240px; min-width: 200px; font-size:18px; padding:12px 14px; border:1px solid #e2e2e2; border-radius:12px; outline: none; background: #fafafa; }
+  input[type="number"]:focus { border-color:#999; background:#fff; }
+  .result { flex: 1 1 240px; min-width: 200px; font-size:16px; padding: 10px 12px; background:#f6f6f7; border-radius:12px; border:1px dashed #ddd; }
+  .result strong { display:block; font-size:24px; margin-top:4px; }
+  .meta { margin-top:10px; color:#333; font-size:12px; opacity:.9; }
+  .hint { margin-top:12px; color:#333; font-size:12px; opacity:.75; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>달러 환율 계산기</h1>
+    <div class="card">
+      <label for="usd">달러(USD) 입력</label>
+      <div class="row">
+        <input id="usd" type="number" min="0" step="0.01" placeholder="예: 12.34" />
+        <div class="result">
+          <div>원화(KRW)</div>
+          <strong id="krw">—</strong>
+        </div>
+      </div>
+      <div class="meta" id="status">환율 불러오는 중…</div>
+      <div class="hint">* 무료 공개 환율(오차/지연 가능). 약 30분마다 자동 갱신됩니다.</div>
+    </div>
+  </div>
+
+<script>
+  // 공개 환율 API (API 키 불필요)
+  // 문서: https://www.exchangerate-api.com/docs/free
+  const API = 'https://open.er-api.com/v6/latest/USD';
+
+  let rateKRW = null;
+  const usdEl = document.getElementById('usd');
+  const krwEl = document.getElementById('krw');
+  const statusEl = document.getElementById('status');
+
+  function formatKRW(v) {
+    return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW', maximumFractionDigits: 0 }).format(v);
+  }
+
+  function render() {
+    const usd = parseFloat(usdEl.value);
+    if (!rateKRW || isNaN(usd)) { krwEl.textContent = '—'; return; }
+    const krw = usd * rateKRW;
+    krwEl.textContent = formatKRW(krw);
+  }
+
+  async function loadRate() {
+    try {
+      statusEl.textContent = '환율 불러오는 중…';
+      const res = await fetch(API);
+      const data = await res.json();
+      if (data?.result === 'success' && data?.rates?.KRW) {
+        rateKRW = data.rates.KRW;
+        const updated = data.time_last_update_utc;
+        statusEl.textContent = `적용 환율: 1 USD = ${Math.round(rateKRW).toLocaleString('ko-KR')} KRW (업데이트: ${updated})`;
+        localStorage.setItem('usdkrw_rate', rateKRW);
+        localStorage.setItem('usdkrw_updated', updated);
+        render();
+      } else {
+        throw new Error('API 응답 오류');
+      }
+    } catch (err) {
+      const cached = localStorage.getItem('usdkrw_rate');
+      const updated = localStorage.getItem('usdkrw_updated');
+      if (cached) {
+        rateKRW = parseFloat(cached);
+        statusEl.textContent = `오프라인 모드: 캐시 환율 사용 (1 USD ≈ ${Math.round(rateKRW).toLocaleString('ko-KR')} KRW, 업데이트: ${updated || '알 수 없음'})`;
+        render();
+      } else {
+        statusEl.textContent = '환율을 가져오지 못했어요. 잠시 후 다시 시도해주세요.';
+      }
+    }
+  }
+
+  usdEl.addEventListener('input', render);
+  loadRate();
+  // 30분마다 자동 갱신
+  setInterval(loadRate, 30 * 60 * 1000);
+</script>
+</body>
+</html>
