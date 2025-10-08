@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>삼탠바이미 추천가이드</title>
+  <meta name="description" content="질문에 답하면 상황에 맞는 삼탠바이미 추천 링크로 이동합니다." />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74,42,116,0.18);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Apple SD Gothic Neo, Noto Sans KR, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: var(--bg);
+      color: var(--text);
+    }
+    .wrap { min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; }
+    header { padding: 32px 20px 16px; text-align: center; color: #fff; }
+    header h1 { margin: 0; font-size: clamp(22px, 4vw, 36px); line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15); }
+    header p { margin: 10px 0 0; opacity: .9; }
+
+    .container { width: min(900px, 92vw); margin: 0 auto 36px; background: var(--card); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); padding: clamp(18px, 3.2vw, 28px); }
+    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
+    legend { font-weight: 800; margin: 0 0 12px; font-size: clamp(16px, 2.6vw, 18px); letter-spacing: -0.01em; }
+
+    .options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .options.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio label { display: block; width: 100%; padding: 12px 14px; border: 1.5px solid #e5e5e8; border-radius: 12px; background: #fff; color: var(--text); text-align: center; font-weight: 600; cursor: pointer; user-select: none; transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease; }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+
+    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    button.primary { appearance: none; border: 0; border-radius: 999px; padding: 14px 18px; font-weight: 800; letter-spacing: 0.02em; background: var(--primary); color: var(--primary-contrast); cursor: pointer; box-shadow: 0 10px 24px rgba(74,42,116,0.25); transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease; }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: #a40000; }
+
+    footer { color: #fff; padding: 0 20px 28px; text-align: center; opacity: 0.9; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>삼탠바이미 추천가이드</h1>
+    </header>
+
+    <main class="container">
+      <form id="guide-form" autocomplete="off">
+        <fieldset>
+          <legend>1. 원하시는 모니터의 사이즈는 어떻게 되나요?</legend>
+          <div class="options cols-3" role="radiogroup" aria-label="사이즈 선택">
+            <div class="radio">
+              <input type="radio" id="size-27" name="size" value="27">
+              <label for="size-27">27인치</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-32" name="size" value="32">
+              <label for="size-32">32인치</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-43" name="size" value="43">
+              <label for="size-43">43인치</label>
+            </div>
+          </div></fieldset>
+
+        <fieldset>
+          <legend>2. 모니터의 주 사용목적은 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="사용목적 선택">
+            <div class="radio">
+              <input type="radio" id="pur-yt" name="purpose" value="youtube">
+              <label for="pur-yt">유튜브</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pur-ott" name="purpose" value="ott">
+              <label for="pur-ott">넷플릭스 등의 OTT</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pur-home" name="purpose" value="home">
+              <label for="pur-home">홈 트레이닝</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pur-multi" name="purpose" value="multi">
+              <label for="pur-multi">다목적</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>3. 삼탠바이미에서 가장 중요하게 생각하는 것은?</legend>
+          <div class="options" role="radiogroup" aria-label="중요 항목 선택">
+            <div class="radio">
+              <input type="radio" id="imp-4k" name="importance" value="4k">
+              <label for="imp-4k">4K 해상도</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="imp-speed" name="importance" value="speed">
+              <label for="imp-speed">쾌적한 속도</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="imp-quality" name="importance" value="quality">
+              <label for="imp-quality">화질</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="imp-price" name="importance" value="price">
+              <label for="imp-price">저렴한 가격</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button" aria-label="추천 보기">추천 보러가기</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      <span>선택하신 조건에 맞는 추천 링크로 새 탭에서 이동합니다.</span>
+    </footer>
+  </div>
+
+  <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    const LINKS = {
+      SIZE_27: "https://link.coupang.com/a/cVhJ3s",
+      SIZE_32_P2: "https://link.coupang.com/a/cVhLht",
+      SIZE_32_P1: "https://link.coupang.com/a/cVhNdY",
+      SIZE_43: "https://link.coupang.com/a/cVhNRE"
+    };
+
+    const form = document.getElementById('guide-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+
+    function getValue(name){
+      const el = form.querySelector(`[name="${name}"]:checked`);
+      return el ? el.value : '';
+    }
+
+    function resolveLink(){
+      const size = getValue('size');
+      const purpose = getValue('purpose');
+      const importance = getValue('importance');
+
+      if(size === '27') return LINKS.SIZE_27;
+      if(size === '43') return LINKS.SIZE_43;
+      if(size !== '32') return { error: '사이즈를 선택해 주세요.' };
+
+      const p1Purpose = purpose === 'ott' || purpose === 'multi';
+      const p1Important = importance === '4k' || importance === 'speed' || importance === 'quality';
+      const isP1 = p1Purpose || p1Important;
+
+      const p2Purpose = purpose === 'youtube' || purpose === 'home';
+      const p2Important = importance === 'price';
+      const isP2 = p2Purpose || p2Important;
+
+      if(isP1) return LINKS.SIZE_32_P1;
+      if(isP2) return LINKS.SIZE_32_P2;
+      return { error: '32인치의 경우 목적 또는 중요 항목 중 하나를 선택해 주세요.' };
+    }
+
+    function updateButtonState(){
+      const size = getValue('size');
+      const purpose = getValue('purpose');
+      const importance = getValue('importance');
+
+      let ready = false;
+      if(size === '27' || size === '43') ready = true;
+      else if(size === '32') ready = !!(purpose || importance);
+
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? '' : '필수 항목을 선택해 주세요.';
+    }
+
+    form.addEventListener('change', updateButtonState);
+    updateButtonState();
+
+    goBtn.addEventListener('click', function(){
+      const result = resolveLink();
+      if(typeof result === 'string'){
+        const a = document.createElement('a');
+        a.href = result; a.target = '_blank';
+        a.rel = 'noopener noreferrer nofollow sponsored';
+        document.body.appendChild(a); a.click(); a.remove();
+        msgEl.textContent = '';
+      } else if(result && result.error){
+        msgEl.textContent = result.error; goBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
