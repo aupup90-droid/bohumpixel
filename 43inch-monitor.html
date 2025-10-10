@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>서브 모니터 추천가이드</title>
+  <meta name="description" content="질문에 답하면 상황에 맞는 모니터 추천 링크로 이동합니다." />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74,42,116,0.25);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Helvetica, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .container {
+      display: grid;
+      place-items: center;
+      padding: 16px;
+    }
+    .card {
+      width: 100%;
+      max-width: 760px;
+      background: var(--card);
+      border-radius: 20px;
+      padding: 20px clamp(16px, 3vw, 28px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    fieldset { border: 0; margin: 0; padding: 0; }
+    legend {
+      margin: 16px 0 10px;
+      font-weight: 800;
+      font-size: clamp(16px, 2.5vw, 18px);
+      letter-spacing: -0.01em;
+    }
+    .options {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .radio input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .radio label {
+      display: block;
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    button.primary {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+    .msg { font-size: 13px; color: #a40000; }
+    footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.85); }
+    @media (max-width: 640px) { .options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>서브 모니터 추천가이드</h1>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <form id="form">
+          <fieldset>
+            <legend>원하시는 해상도는 어떻게 되나요?</legend>
+            <div class="options" role="radiogroup" aria-label="해상도 선택">
+              <div class="radio">
+                <input type="radio" id="res-fhd" name="res" value="fhd">
+                <label for="res-fhd">FHD</label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="res-uhd" name="res" value="uhd">
+                <label for="res-uhd">UHD</label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="res-unk" name="res" value="unknown">
+                <label for="res-unk">모르겠음</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>모니터의 주 용도는 어떻게 되나요?</legend>
+            <div class="options" role="radiogroup" aria-label="용도 선택">
+              <div class="radio">
+                <input type="radio" id="use-web" name="purpose" value="web">
+                <label for="use-web">사무 및 웹서핑</label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="use-game" name="purpose" value="game">
+                <label for="use-game">게이밍</label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="use-video" name="purpose" value="video">
+                <label for="use-video">영상시청</label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="use-mobile" name="purpose" value="mobile">
+                <label for="use-mobile">이동형 모니터</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="actions">
+            <span class="msg" id="msg"></span>
+            <button type="button" id="goBtn" class="primary" disabled>추천 받기</button>
+          </div>
+          <p class="hint">선택에 따라 최적의 링크로 이동합니다.</p>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <span>모든 항목을 선택하면 추천 링크로 이동합니다.</span>
+    </footer>
+  </div>
+
+  <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    const LINKS = {
+      FHD: "https://link.coupang.com/a/cVEkk1",
+      UHD_OR_MOBILE: "https://link.coupang.com/a/cVhNRE"
+    };
+
+    function resolveLink(res, purpose) {
+      if (purpose === "mobile") return LINKS.UHD_OR_MOBILE;
+      if (res === "uhd" || res === "unknown") return LINKS.UHD_OR_MOBILE;
+      if (res === "fhd") return LINKS.FHD;
+      return null;
+    }
+
+    const form = document.getElementById("form");
+    const goBtn = document.getElementById("goBtn");
+    const msgEl = document.getElementById("msg");
+
+    function updateButtonState() {
+      const data = new FormData(form);
+      const res = data.get("res");
+      const purpose = data.get("purpose");
+
+      const ready = !!(purpose === "mobile" || res);
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? "" : "필수 항목을 선택해 주세요.";
+    }
+
+    form.addEventListener("change", updateButtonState);
+    updateButtonState();
+
+    goBtn.addEventListener("click", function () {
+      goBtn.disabled = true;
+      const data = new FormData(form);
+      const res = data.get("res");
+      const purpose = data.get("purpose");
+      const target = resolveLink(res, purpose);
+
+      if (typeof target === "string") {
+        const a = document.createElement("a");
+        a.href = target;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer nofollow sponsored";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        msgEl.textContent = "";
+      } else {
+        msgEl.textContent = "선택값을 다시 확인해 주세요.";
+        goBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
