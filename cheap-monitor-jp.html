@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>安いモニターおすすめガイド</title>
+  <meta name="description" content="質問に答えるだけで、あなたに合うコスパ重視のモニターおすすめリンクに移動します。" />
+  <style>
+    :root {
+      /* 기존 가이드와 동일한 톤 & 컴포넌트 스타일 */
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: --bg;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
+    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    /* pill radios (원본 디자인과 동일한 동작/포커스) */
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio label {
+      display: block; width: 100%; padding: 12px 14px; border: 1.5px solid #e5e5e8; border-radius: 12px;
+      background: #fff; color: var(--text); text-align: center; font-weight: 600; cursor: pointer; user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+
+    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    button.primary {
+      appearance: none; border: 0; border-radius: 999px; padding: 14px 18px; font-weight: 800; letter-spacing: 0.02em;
+      background: var(--primary); color: var(--primary-contrast); cursor: pointer; box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: #a40000; }
+
+    footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 640px) { .options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>安いモニターおすすめガイド</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <!-- Q1: 使用年数 -->
+        <fieldset>
+          <legend>1. モニターを何年間使用する予定ですか？</legend>
+          <div class="options" role="radiogroup" aria-label="使用年数">
+            <div class="radio">
+              <input type="radio" id="years-1" name="years" value="1">
+              <label for="years-1">1～3年</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="years-2" name="years" value="2">
+              <label for="years-2">3～5年</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="years-3" name="years" value="3">
+              <label for="years-3">5年以上</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q2: サイズ -->
+        <fieldset>
+          <legend>2. どのサイズのモニターを希望しますか？</legend>
+          <div class="options" role="radiogroup" aria-label="サイズ">
+            <div class="radio">
+              <input type="radio" id="size-24" name="size" value="24">
+              <label for="size-24">24インチ</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-27" name="size" value="27">
+              <label for="size-27">27インチ</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-32" name="size" value="32">
+              <label for="size-32">32インチ</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q3: 解像度 -->
+        <fieldset>
+          <legend>3. 希望する解像度はどれですか？</legend>
+          <div class="options" role="radiogroup" aria-label="解像度">
+            <div class="radio">
+              <input type="radio" id="res-fhd" name="res" value="fhd">
+              <label for="res-fhd">FHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-qhd" name="res" value="qhd">
+              <label for="res-qhd">QHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-uhd" name="res" value="uhd">
+              <label for="res-uhd">UHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-unk" name="res" value="unknown">
+              <label for="res-unk">わからない</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q4: 用途 -->
+        <fieldset>
+          <legend>4. モニターの主な用途は何ですか？</legend>
+          <div class="options" role="radiogroup" aria-label="用途">
+            <div class="radio">
+              <input type="radio" id="use-office" name="use" value="office">
+              <label for="use-office">事務作業・ウェブ閲覧</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="use-gaming" name="use" value="gaming">
+              <label for="use-gaming">ゲーミング</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="use-dual" name="use" value="dual">
+              <label for="use-dual">デュアルモニター</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="use-multi" name="use" value="multi">
+              <label for="use-multi">多目的</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button" aria-label="おすすめを見る">おすすめを見る</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      外部リンクは安全性と透明性のため、<code>rel="noopener noreferrer nofollow sponsored"</code> を付けて新しいタブで開きます。
+    </footer>
+  </div>
+
+  <script>
+    // 元テンプレのUI/挙動を踏襲しつつ、分岐のみ差し替え
+    const LINKS = {
+      // 24インチ 高解像度
+      S24_HI: "https://amzn.to/4o3hAlJ",
+      // 24インチ FHD/Unknown
+      S24_FHD_OFF: {"1":"https://amzn.to/3WN745R","2":"https://amzn.to/47jaXEG","3":"https://amzn.to/49de0R8"},
+      S24_FHD_GAME:{"1":"https://amzn.to/4qEp5kP","2":"https://amzn.to/48AVn9E","3":"https://amzn.to/3WTwte4"},
+      // 27インチ FHD
+      S27_FHD_OFF: {"1":"https://amzn.to/4qryufs","2":"https://amzn.to/4hoO1s3","3":"https://amzn.to/3WQrU4i"},
+      S27_FHD_GAME:{"1":"https://amzn.to/4o4DaGp","2":"https://amzn.to/47nXtY9","3":"https://amzn.to/43xYI5R"},
+      // 27インチ QHD/UHD/Unknown
+      S27_HI_1_OFF: "https://amzn.to/4qryZpQ",
+      S27_HI_1_GAME:"https://amzn.to/4hnVnw6",
+      S27_HI_35_OFF:"https://amzn.to/47CcEyc",
+      S27_HI_35_GAME:"https://amzn.to/4owehTM",
+      // 32インチ
+      S32_FQ_OFF: "https://amzn.to/49burNR",
+      S32_FQ_GAME:"https://amzn.to/48MbTUt",
+      S32_UHD:    "https://amzn.to/479x5B2"
+    };
+
+    const form = document.getElementById('guide-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+
+    function val(name){
+      const el = form.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    }
+
+    function isReady() {
+      const years = val('years');
+      const size  = val('size');
+      const res   = val('res');
+      const use   = val('use');
+
+      if (!size || !res) return false;
+
+      // 24 & (QHD|UHD) → size+resだけで確定
+      if (size === '24' && (res === 'qhd' || res === 'uhd')) return true;
+      // 32 & UHD → size+resだけで確定
+      if (size === '32' && res === 'uhd') return true;
+
+      // 32 & (FHD|QHD|unknown) → 用途があればOK
+      if (size === '32' && (res === 'fhd' || res === 'qhd' || res === 'unknown')) return !!use;
+
+      // 24 & (FHD|unknown) → 年数+用途が必要
+      if (size === '24' && (res === 'fhd' || res === 'unknown')) return !!(years && use);
+
+      // 27 全般 → 年数+用途が必要
+      if (size === '27') return !!(years && use);
+
+      return false;
+    }
+
+    function resolveLink() {
+      const years = val('years');
+      const size  = val('size');
+      const res   = val('res');
+      const use   = val('use');
+
+      // 24インチ
+      if (size === '24') {
+        if (res === 'qhd' || res === 'uhd') return LINKS.S24_HI;
+        // FHD or unknown
+        if (use === 'office' || use === 'dual') return LINKS.S24_FHD_OFF[years];
+        if (use === 'gaming' || use === 'multi') return LINKS.S24_FHD_GAME[years];
+      }
+
+      // 27インチ
+      if (size === '27') {
+        if (res === 'fhd') {
+          if (use === 'office' || use === 'dual') return LINKS.S27_FHD_OFF[years];
+          if (use === 'gaming' || use === 'multi') return LINKS.S27_FHD_GAME[years];
+        } else if (res === 'qhd' || res === 'uhd' || res === 'unknown') {
+          if (years === '1') return (use === 'office' || use === 'dual') ? LINKS.S27_HI_1_OFF : LINKS.S27_HI_1_GAME;
+          if (years === '2' || years === '3') return (use === 'office' || use === 'dual') ? LINKS.S27_HI_35_OFF : LINKS.S27_HI_35_GAME;
+        }
+      }
+
+      // 32インチ
+      if (size === '32') {
+        if (res === 'uhd') return LINKS.S32_UHD;
+        if (res === 'fhd' || res === 'qhd' || res === 'unknown') {
+          return (use === 'office' || use === 'dual') ? LINKS.S32_FQ_OFF : LINKS.S32_FQ_GAME;
+        }
+      }
+
+      return null;
+    }
+
+    function updateButtonState(){
+      goBtn.disabled = !isReady();
+      msgEl.textContent = goBtn.disabled ? '必須項目を選択してください。' : '';
+    }
+
+    form.addEventListener('change', updateButtonState);
+    updateButtonState();
+
+    goBtn.addEventListener('click', function(){
+      const link = resolveLink();
+      if (typeof link === 'string' && link) {
+        const a = document.createElement('a');
+        a.href = link;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer nofollow sponsored';
+        document.body.appendChild(a); a.click(); a.remove();
+        msgEl.textContent = '';
+      } else {
+        msgEl.textContent = '条件に合致するリンクが見つかりませんでした。選択を見直してください。';
+        goBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
