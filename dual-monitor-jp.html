@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>サブモニターおすすめガイド</title>
+  <meta name="description" content="質問に答えると、あなたに合ったサブモニターのおすすめリンクへ移動します。" />
+  <style>
+    :root {
+      /* 기존 가이드와 동일한 톤 & 컴포넌트 스타일 */
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: --bg;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
+    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    /* pill radios (원본 디자인과 동일한 동작/포커스) */
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio label {
+      display: block; width: 100%; padding: 12px 14px; border: 1.5px solid #e5e5e8; border-radius: 12px;
+      background: #fff; color: var(--text); text-align: center; font-weight: 600; cursor: pointer; user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+
+    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    button.primary {
+      appearance: none; border: 0; border-radius: 999px; padding: 14px 18px; font-weight: 800; letter-spacing: 0.02em;
+      background: var(--primary); color: var(--primary-contrast); cursor: pointer; box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: #a40000; }
+
+    footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 640px) { .options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>サブモニターおすすめガイド</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <!-- Q1: 메인 모니터 인치 -->
+        <fieldset>
+          <legend>1. メインモニターのサイズは？</legend>
+          <div class="options" role="radiogroup" aria-label="メインモニターのサイズの選択">
+            <div class="radio">
+              <input type="radio" id="size-24" name="size" value="24">
+              <label for="size-24">24インチ</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-27" name="size" value="27">
+              <label for="size-27">27インチ</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-32" name="size" value="32">
+              <label for="size-32">32インチ</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q2: 서브 사용 용도 -->
+        <fieldset>
+          <legend>2. サブモニターの主な使用用途は何ですか？</legend>
+          <div class="options" role="radiogroup" aria-label="サブモニター用途の選択">
+            <div class="radio">
+              <input type="radio" id="pur-web" name="purpose" value="web">
+              <label for="pur-web">ウェブサイトおよびLINEの閲覧</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pur-game" name="purpose" value="game">
+              <label for="pur-game">ゲーミング</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pur-multi" name="purpose" value="multi">
+              <label for="pur-multi">多目的</label>
+            </div>
+          </div>
+        </fieldset>
+
+        
+        <!-- Q3: 使用年数 -->
+        <fieldset>
+          <legend>3. モニターを何年間使用する予定ですか？</legend>
+          <div class="options" role="radiogroup" aria-label="使用年数の選択">
+            <div class="radio">
+              <input type="radio" id="years-15" name="years" value="15">
+              <label for="years-15">1〜5年</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="years-5p" name="years" value="5p">
+              <label for="years-5p">5年以上</label>
+            </div>
+          </div>
+        </fieldset>
+
+
+        <!-- Q4: 세로 사용 -->
+        <fieldset>
+          <legend>4. サブモニターを縦向きで使用する予定ですか？</legend>
+          <div class="options" role="radiogroup" aria-label="縦向き使用の選択">
+            <div class="radio">
+              <input type="radio" id="vert-yes" name="vert" value="yes">
+              <label for="vert-yes">はい</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="vert-no" name="vert" value="no">
+              <label for="vert-no">いいえ</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="vert-arm" name="vert" value="arm">
+              <label for="vert-arm">モニターアームを使用</label>
+            </div>
+          </div></fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button" aria-label="おすすめを見る">おすすめを見る</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      <span>すべての項目を選ぶとおすすめリンクに移動します。</span>
+    </footer>
+  </div>
+
+  <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  
+  <script>
+    // 推奨リンク（要件に基づく）
+    const LINKS = {
+      WEB_YES_Y15: "https://amzn.to/4opnCwG",
+      WEB_YES_Y5P: "https://amzn.to/4oxgD4T",
+      WEB_NOARM_Y15: "https://amzn.to/4od83Zd",
+      WEB_NOARM_Y5P: "https://amzn.to/47mazVU",
+      GAME_MULTI_Y15: "https://amzn.to/49edPoD",
+      GAME_MULTI_Y5P: "https://amzn.to/4hpyNmD"
+    };
+
+    const form  = document.getElementById('guide-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+
+    function getValue(name){
+      const el = form.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    }
+
+    function resolveLink(){
+      const size    = getValue('size');   // UI要素として維持（分岐では未使用）
+      const purpose = getValue('purpose');
+      const vert    = getValue('vert');
+      const years   = getValue('years');
+
+      if(!(size && purpose && vert && years)){
+        return { error: 'すべての項目を選択してください。' };
+      }
+
+      // 1) ウェブ/LINE
+      if(purpose === 'web'){
+        if(vert === 'yes'){
+          return years === '15' ? LINKS.WEB_YES_Y15 : LINKS.WEB_YES_Y5P;
+        }
+        if(vert === 'no' || vert === 'arm'){
+          return years === '15' ? LINKS.WEB_NOARM_Y15 : LINKS.WEB_NOARM_Y5P;
+        }
+      }
+
+      // 2) ゲーミング / 多目的（縦向きは不問）
+      if(purpose === 'game' || purpose === 'multi'){
+        return years === '15' ? LINKS.GAME_MULTI_Y15 : LINKS.GAME_MULTI_Y5P;
+      }
+
+      return { error: '選択値を確認してください。' };
+    }
+
+    function updateButtonState(){
+      const size    = getValue('size');
+      const purpose = getValue('purpose');
+      const vert    = getValue('vert');
+      const years   = getValue('years');
+
+      // 全設問が選択されたら活性化（デザインはそのまま）
+      const ready = !!(size && purpose && vert && years);
+      goBtn.disabled = !ready;
+      if(!ready){
+        msgEl.textContent = '4つの質問に回答してください。';
+      } else {
+        msgEl.textContent = '';
+      }
+    }
+
+    form.addEventListener('change', updateButtonState);
+    window.addEventListener('DOMContentLoaded', updateButtonState);
+
+    goBtn.addEventListener('click', function(){
+      goBtn.disabled = true;
+      const result = resolveLink();
+      if(typeof result === 'string'){
+        const a = document.createElement('a');
+        a.href = result; a.target = '_blank';
+        a.rel = 'noopener noreferrer nofollow sponsored';
+        document.body.appendChild(a); a.click(); a.remove();
+        msgEl.textContent = '';
+      } else if(result && result.error){
+        msgEl.textContent = result.error;
+        goBtn.disabled = false;
+      }
+    });
+  </script>
+
+</body>
+</html>
