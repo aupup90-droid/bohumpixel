@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>디즈니 플러스 최저가 가이드</title>
+<meta content="질문에 답하면 상황에 맞는 서브 모니터 추천 링크로 이동합니다." name="description"/>
+<style>
+    :root {
+      /* 기존 가이드와 동일한 톤 & 컴포넌트 스타일 */
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: --bg;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
+    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    /* pill radios (원본 디자인과 동일한 동작/포커스) */
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio label {
+      display: block; width: 100%; padding: 12px 14px; border: 1.5px solid #e5e5e8; border-radius: 12px;
+      background: #fff; color: var(--text); text-align: center; font-weight: 600; cursor: pointer; user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+
+    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    button.primary {
+      appearance: none; border: 0; border-radius: 999px; padding: 14px 18px; font-weight: 800; letter-spacing: 0.02em;
+      background: var(--primary); color: var(--primary-contrast); cursor: pointer; box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: #a40000; }
+
+    footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 640px) { .options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>디즈니 플러스 최저가 가이드</h1>
+</header>
+<main class="container" role="main">
+<form id="guide-form" novalidate="">
+<!-- Q1: 이용 인원 -->
+<fieldset>
+<legend>1. 계정은 몇명과 사용하실 예정인가요?</legend>
+<div aria-label="이용 인원 선택" class="options" role="radiogroup">
+<div class="radio">
+<input id="people-solo" name="people" type="radio" value="solo"/>
+<label for="people-solo">혼자</label>
+</div>
+<div class="radio">
+<input id="people-together" name="people" type="radio" value="together"/>
+<label for="people-together">주변인과 함께</label>
+</div>
+</div>
+</fieldset>
+<!-- Q2: 동시 시청 (조건부) -->
+<fieldset aria-hidden="true" hidden="" id="cowatch-fieldset">
+<legend>2. ‘주변인과 함께’라면, 동시에 시청할 가능성이 있을까요?</legend>
+<div aria-label="동시 시청 여부" class="options" role="radiogroup">
+<div class="radio">
+<input id="cowatch-yes" name="cowatch" type="radio" value="yes"/>
+<label for="cowatch-yes">네</label>
+</div>
+<div class="radio">
+<input id="cowatch-no" name="cowatch" type="radio" value="no"/>
+<label for="cowatch-no">아니오</label>
+</div>
+</div>
+<p class="hint">‘주변인과 함께’를 취소하면 이 질문은 사라지고 선택값도 초기화됩니다.</p>
+</fieldset>
+<!-- Q3: 이용 기간 -->
+<fieldset>
+<legend id="duration-legend">3. 디즈니 플러스를 얼마나 이용하실 예정인가요?</legend>
+<div aria-labelledby="duration-legend" class="options" role="radiogroup">
+<div class="radio">
+<input id="dur-short" name="duration" type="radio" value="1-2"/>
+<label for="dur-short">1~2개월</label>
+</div>
+<div class="radio">
+<input id="dur-long" name="duration" type="radio" value="3plus"/>
+<label for="dur-long">3개월 이상</label>
+</div>
+</div>
+</fieldset>
+<!-- Q4: 통신사 -->
+<fieldset>
+<legend id="carrier-legend">4. 이용하고 계신 통신사는?</legend>
+<div aria-labelledby="carrier-legend" class="options" role="radiogroup">
+<div class="radio">
+<input id="c-skt" name="carrier" type="radio" value="SKT"/>
+<label for="c-skt">SKT</label>
+</div>
+<div class="radio">
+<input id="c-kt" name="carrier" type="radio" value="KT"/>
+<label for="c-kt">KT</label>
+</div>
+<div class="radio">
+<input id="c-lgu" name="carrier" type="radio" value="LGU"/>
+<label for="c-lgu">LGU</label>
+</div>
+<div class="radio">
+<input id="c-mvno" name="carrier" type="radio" value="MVNO"/>
+<label for="c-mvno">알뜰폰</label>
+</div>
+</div>
+<p class="hint">알뜰폰은 망에 상관없이 ‘알뜰폰’으로 분류됩니다.</p>
+</fieldset>
+<div class="actions">
+<p aria-live="polite" class="hint" id="msg"></p>
+<button class="primary" disabled="" id="go" type="button">최저가 링크 확인</button>
+</div>
+</form>
+</main>
+<footer>
+<span>모든 항목을 선택하면 추천 링크로 이동합니다.</span>
+</footer>
+</div>
+<noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+<script>
+  const LINKS = {
+    DISNEY: "https://www.disneyplus.com/ko-kr",
+    KT: "https://product.kt.com/wDic/productDetail.do?ItemCode=1583",
+    OTHERS: "https://www.gamsgo.com/partner/RqZaS"
+  };
+
+  const form = document.getElementById('guide-form');
+  const msgEl = document.getElementById('msg');
+  const goBtn = document.getElementById('go');
+  const cowatchFs = document.getElementById('cowatch-fieldset');
+
+  function getValue(name){
+    const el = form.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : null;
+  }
+  function clearGroup(name){
+    form.querySelectorAll('input[name="' + name + '"]').forEach(i => i.checked = false);
+  }
+  function showCowatch(show){
+    cowatchFs.hidden = !show;
+    cowatchFs.setAttribute('aria-hidden', show ? 'false' : 'true');
+    if(!show){ clearGroup('cowatch'); }
+  }
+
+  function updateState(){
+    const people = getValue('people');
+    const needCowatch = (people === 'together');
+    showCowatch(needCowatch);
+
+    const duration = getValue('duration');
+    const carrier = getValue('carrier');
+    const cowatch = getValue('cowatch');
+
+    const ok = people && duration && carrier && (!needCowatch || !!cowatch);
+    goBtn.disabled = !ok;
+
+    if(!people){
+      msgEl.textContent = "먼저 이용 인원을 선택해 주세요.";
+    } else if(needCowatch && !cowatch){
+      msgEl.textContent = "동시에 시청할 가능성을 선택해 주세요.";
+    } else if(!duration){
+      msgEl.textContent = "이용 기간을 선택해 주세요.";
+    } else if(!carrier){
+      msgEl.textContent = "통신사를 선택해 주세요.";
+    } else {
+      msgEl.textContent = "";
+    }
+  }
+
+  form.addEventListener('change', updateState);
+
+  function resolveLink(){
+    const people = getValue('people');      // solo | together
+    const cowatch = getValue('cowatch');    // yes | no | null
+    const duration = getValue('duration');  // 1-2 | 3plus
+    const carrier = getValue('carrier');    // SKT | KT | LGU | MVNO
+
+    // 1) 혼자 / 1~2개월 / KT
+    if(people === 'solo' && duration === '1-2' && carrier === 'KT'){
+      return LINKS.KT;
+    }
+    // 2) 혼자 / 1~2개월 / SKT or LGU or MVNO
+    if(people === 'solo' && duration === '1-2' && (carrier === 'SKT' || carrier === 'LGU' || carrier === 'MVNO')){
+      return LINKS.DISNEY;
+    }
+    // 3) 주변인과 함께 / 동시=네 / KT
+    if(people === 'together' && cowatch === 'yes' && carrier === 'KT'){
+      return LINKS.KT;
+    }
+    // 4) 주변인과 함께 / 동시=네 / SKT or LGU or MVNO
+    if(people === 'together' && cowatch === 'yes' && (carrier === 'SKT' || carrier === 'LGU' || carrier === 'MVNO')){
+      return LINKS.DISNEY;
+    }
+    // 5) 이외의 값
+    return LINKS.OTHERS;
+  }
+
+  goBtn.addEventListener('click', () => {
+    if(goBtn.disabled) return;
+    const url = resolveLink();
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer nofollow";
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+
+  updateState();
+</script>
+</body>
+</html>
