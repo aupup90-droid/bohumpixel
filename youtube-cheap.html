@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>유튜브 프리미엄 할인가이드</title>
+  <meta name="description" content="선호 옵션에 따라 유튜브 프리미엄 할인/우회 관련 안내 링크로 이동합니다." />
+  <style>
+
+    :root {
+      /* 기존 가이드와 동일한 톤 & 컴포넌트 스타일 */
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: --bg;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
+    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    /* pill radios (원본 디자인과 동일한 동작/포커스) */
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio label {
+      display: block; width: 100%; padding: 12px 14px; border: 1.5px solid #e5e5e8; border-radius: 12px;
+      background: #fff; color: var(--text); text-align: center; font-weight: 600; cursor: pointer; user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+
+    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    button.primary {
+      appearance: none; border: 0; border-radius: 999px; padding: 14px 18px; font-weight: 800; letter-spacing: 0.02em;
+      background: var(--primary); color: var(--primary-contrast); cursor: pointer; box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: #a40000; }
+
+    footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 640px) { .options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  
+    /* helper for conditional steps */
+    .hidden { display: none; }
+    .step { margin-top: 16px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>유튜브 프리미엄 할인가이드</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <!-- Q0: 최상위 분기 -->
+        <fieldset class="step" id="step-pref">
+          <legend>편법 우회와 공식 할인 무엇을 선호하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="우회/공식 선택">
+            <div class="radio">
+              <input type="radio" id="pref-bypass" name="pref" value="bypass">
+              <label for="pref-bypass">편법 우회</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pref-official" name="pref" value="official">
+              <label for="pref-official">공식 할인</label>
+            </div>
+          </div></fieldset>
+
+        <!-- BYPASS BRANCH -->
+        <fieldset class="step hidden" id="step-apple">
+          <legend>1. 아이폰, 아이패드 또는 맥북을 가지고 계신가요?</legend>
+          <div class="options" role="radiogroup" aria-label="애플 기기 보유 여부">
+            <div class="radio">
+              <input type="radio" id="apple-yes" name="apple" value="yes">
+              <label for="apple-yes">네</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="apple-no" name="apple" value="no">
+              <label for="apple-no">아니오</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="step hidden" id="step-plan">
+          <legend>2. 개인 멤버쉽, 가족 멤버쉽 무엇을 희망하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="멤버십 유형 선택">
+            <div class="radio">
+              <input type="radio" id="plan-solo" name="plan" value="solo">
+              <label for="plan-solo">개인 멤버쉽</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="plan-family" name="plan" value="family">
+              <label for="plan-family">가족 멤버쉽</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="step hidden" id="step-reuse">
+          <legend>3. 기존 계정을 사용하시길 희망하나요?</legend>
+          <div class="options" role="radiogroup" aria-label="기존 계정 사용 여부">
+            <div class="radio">
+              <input type="radio" id="reuse-keep" name="reuse" value="keep">
+              <label for="reuse-keep">물론이죠</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="reuse-any" name="reuse" value="any">
+              <label for="reuse-any">상관없음</label>
+            </div>
+          </div>
+          <p class="hint">“기존 계정”은 기존 Google 계정을 의미합니다.</p>
+        </fieldset>
+
+        <!-- OFFICIAL BRANCH -->
+        <fieldset class="step hidden" id="step-carrier">
+          <legend>1. 현재 이용중인 휴대폰 통신사는 어떻게 되시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="통신사 구분">
+            <div class="radio">
+              <input type="radio" id="carrier-big3" name="carrier" value="big3">
+              <label for="carrier-big3">통신 3사</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="carrier-mvno" name="carrier" value="mvno">
+              <label for="carrier-mvno">알뜰폰</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <span class="msg" id="msg" role="status" aria-live="polite"></span>
+          <button type="button" class="primary" id="go" disabled>맞춤 링크 열기</button>
+        </div>
+      </form>
+
+      <div id="result" class="step" aria-live="polite"></div>
+    </main>
+
+    <footer>
+      본 가이드는 참고용입니다. 서비스 약관 및 현지 법규를 준수해 주세요. 일부 링크는 nofollow/sponsored 속성이 적용됩니다.
+    </footer>
+  </div>
+
+  <script>
+    const form = document.getElementById('guide-form');
+    const goBtn = document.getElementById('go');
+    const msg = document.getElementById('msg');
+    const result = document.getElementById('result');
+
+    const stepPref = document.getElementById('step-pref');
+    const stepApple = document.getElementById('step-apple');
+    const stepPlan = document.getElementById('step-plan');
+    const stepReuse = document.getElementById('step-reuse');
+    const stepCarrier = document.getElementById('step-carrier');
+
+    const LINKS = {
+      GAMS: 'https://www.gamsgo.com/partner/RqZaS',
+      AMAZON: 'https://www.amazon.in/',
+      SURF: 'https://get.surfshark.net/aff_c?offer_id=926&aff_id=20683',
+      KT: 'https://product.kt.com/wDic/productDetail.do?ItemCode=1581',
+      CARD: 'https://www.card-gorilla.com/home'
+    };
+
+    function $(name) {
+      const fd = new FormData(form);
+      return fd.get(name) || '';
+    }
+
+    function setVisible(el, on) {
+      el.classList.toggle('hidden', !on);
+    }
+
+    function updateVisibility() {
+      const pref = $('pref');
+
+      // Hide all branch steps
+      setVisible(stepApple, false);
+      setVisible(stepPlan, false);
+      setVisible(stepReuse, false);
+      setVisible(stepCarrier, false);
+
+      // Show relevant steps
+      if (pref === 'bypass') {
+        setVisible(stepApple, true);
+        setVisible(stepPlan, true);
+        setVisible(stepReuse, true);
+      } else if (pref === 'official') {
+        setVisible(stepCarrier, true);
+      }
+
+      validate();
+    }
+
+    function resolveLink() {
+      const pref = $('pref');
+      if (!pref) return { error: '우선 “우회/공식”을 선택해 주세요.' };
+
+      if (pref === 'bypass') {
+        const apple = $('apple');
+        const plan = $('plan');
+        const reuse = $('reuse');
+        if (!apple || !plan || !reuse) return { error: '모든 질문에 응답해 주세요.' };
+
+        if (apple === 'yes' && plan === 'solo' && reuse === 'keep') return { url: LINKS.GAMS };
+        if (apple === 'yes' && plan === 'solo' && reuse === 'any') return { url: LINKS.AMAZON };
+        if (apple === 'yes' && plan === 'family' && reuse === 'keep') return { url: LINKS.SURF };
+        if (apple === 'yes' && plan === 'family' && reuse === 'any') return { url: LINKS.AMAZON };
+
+        if (apple === 'no' && plan === 'solo' && reuse === 'keep') return { url: LINKS.GAMS };
+        if (apple === 'no' && plan === 'solo' && reuse === 'any') return { url: LINKS.GAMS };
+        if (apple === 'no' && plan === 'family' && reuse === 'keep') return { url: LINKS.SURF };
+        if (apple === 'no' && plan === 'family' && reuse === 'any') return { url: LINKS.SURF };
+      }
+
+      if (pref === 'official') {
+        const carrier = $('carrier');
+        if (!carrier) return { error: '통신사를 선택해 주세요.' };
+        if (carrier === 'big3') return { url: LINKS.KT };
+        if (carrier === 'mvno') return { url: LINKS.CARD };
+      }
+
+      return { error: '선택값을 다시 확인해 주세요.' };
+    }
+
+    function validate() {
+      const r = resolveLink();
+      const ok = r && r.url;
+      goBtn.disabled = !ok;
+      msg.textContent = ok ? '' : (r.error || '');
+      if (ok) {
+        result.innerHTML = '';
+      } else {
+        result.innerHTML = '';
+      }
+    }
+
+    form.addEventListener('change', () => {
+      updateVisibility();
+    });
+
+    goBtn.addEventListener('click', () => {
+      const r = resolveLink();
+      if (r.url) window.open(r.url, '_blank', 'noopener');
+    });
+
+    updateVisibility();
+  </script>
+</body>
+</html>
