@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>맥북 프로 추천가이드</title>
+  <meta name="description" content="질문에 답하면 상황에 맞는 맥북 프로 추천 링크로 이동합니다." />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    fieldset {
+      border: 0;
+      padding: 0;
+      margin: 0 0 22px;
+    }
+
+    legend {
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    .radio {
+      position: relative;
+    }
+
+    .radio input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .radio label {
+      display: block;
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #ffffff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition:
+        box-shadow .2s ease,
+        border-color .2s ease,
+        background-color .2s ease,
+        color .2s ease,
+        transform .06s ease;
+    }
+
+    .radio label:hover {
+      border-color: #d6d6db;
+    }
+
+    .radio input:focus-visible + label {
+      outline: 0;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+
+    /* 기본 선택 스타일 */
+    .radio input:checked + label {
+      border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(74,42,116,0.18);
+      transform: translateY(-1px);
+    }
+
+    /* 색상 선택 - 기본부터 실제 색상을 보여주고 글레어 효과 추가 */
+    #color-space-black + label {
+      background-color: #121212;
+      background-image:
+        radial-gradient(circle at 20% 0%, rgba(255,255,255,0.35) 0, transparent 45%),
+        radial-gradient(circle at 80% 120%, #000000 0, #121212 55%);
+      border-color: #000000;
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    }
+
+    #color-space-black:checked + label {
+      border-color: #000000;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.8);
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    #color-silver + label {
+      background-color: #C0C0C0;
+      background-image:
+        radial-gradient(circle at 15% 0%, rgba(255,255,255,0.9) 0, transparent 45%),
+        linear-gradient(135deg, #f5f5f5, #c0c0c0);
+      border-color: #b0b0b0;
+      color: #1b1b1b;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    }
+
+    #color-silver:checked + label {
+      border-color: #9a9a9a;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    .actions {
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    button.primary {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      background: linear-gradient(135deg, #5b368f, #3c215f);
+      color: var(--primary-contrast);
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74,42,116,0.3);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    button.primary:hover {
+      box-shadow: 0 14px 32px rgba(74,42,116,0.38);
+    }
+
+    button.primary:active {
+      transform: translateY(1px);
+    }
+
+    button[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .msg {
+      font-size: 13px;
+      color: #a40000;
+      min-height: 1.3em;
+      flex: 1 1 auto;
+    }
+
+    footer {
+      text-align: center;
+      padding: 12px 16px 28px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.9);
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        margin-bottom: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>맥북 프로 추천가이드</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <fieldset>
+          <legend>1. 원하시는 색상은 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="맥북 프로 색상 선택">
+            <div class="radio">
+              <input type="radio" id="color-space-black" name="color" value="space-black">
+              <label for="color-space-black">스페이스 블랙</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="color-silver" name="color" value="silver">
+              <label for="color-silver">실버</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. 원하시는 저장용량은 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="맥북 프로 저장용량 선택">
+            <div class="radio">
+              <input type="radio" id="storage-512" name="storage" value="512">
+              <label for="storage-512">512GB</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="storage-1tb" name="storage" value="1tb">
+              <label for="storage-1tb">1TB</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>3. 3년 간 무제한 수리를 보장하는 애플케어는 약 30만원입니다.</legend>
+          <div class="options" role="radiogroup" aria-label="애플케어 선택">
+            <div class="radio">
+              <input type="radio" id="applecare-yes" name="applecare" value="yes">
+              <label for="applecare-yes">원합니다</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="applecare-no" name="applecare" value="no">
+              <label for="applecare-no">필요없어요</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button" aria-label="추천 보기">
+            추천 보러가기
+          </button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      <span>모든 항목을 선택하면 추천 링크로 이동합니다.</span>
+    </footer>
+  </div>
+
+  <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    const LINKS = {
+      SPACE_BLACK_512: "https://link.coupang.com/a/c6G45Q",
+      SPACE_BLACK_1TB: "https://link.coupang.com/a/c6G5Y4",
+      SILVER_512: "https://link.coupang.com/a/c6Hysr",
+      SILVER_1TB: "https://link.coupang.com/a/c6Hy9B"
+    };
+
+    const form = document.getElementById("guide-form");
+    const msgEl = document.getElementById("msg");
+    const goBtn = document.getElementById("go");
+
+    function getValue(name) {
+      const el = form.querySelector('input[name="' + name + '"]:checked');
+      return el ? el.value : null;
+    }
+
+    function resolveLink() {
+      const color = getValue("color");
+      const storage = getValue("storage");
+      const applecare = getValue("applecare");
+
+      if (!color) {
+        return { error: "원하시는 색상을 먼저 선택해 주세요." };
+      }
+      if (!storage) {
+        return { error: "원하시는 저장용량을 선택해 주세요." };
+      }
+      if (!applecare) {
+        return { error: "애플케어 선택 여부를 골라 주세요." };
+      }
+
+      if (color === "space-black" && storage === "512") return LINKS.SPACE_BLACK_512;
+      if (color === "space-black" && storage === "1tb") return LINKS.SPACE_BLACK_1TB;
+      if (color === "silver" && storage === "512") return LINKS.SILVER_512;
+      if (color === "silver" && storage === "1tb") return LINKS.SILVER_1TB;
+
+      return { error: "추천 링크를 찾지 못했습니다. 선택값을 다시 확인해 주세요." };
+    }
+
+    goBtn.addEventListener("click", function () {
+      msgEl.textContent = "";
+      goBtn.disabled = true;
+
+      const result = resolveLink();
+
+      if (typeof result === "string") {
+        const a = document.createElement("a");
+        a.href = result;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer nofollow sponsored";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } else if (result && result.error) {
+        msgEl.textContent = result.error;
+      }
+
+      goBtn.disabled = false;
+    });
+  </script>
+</body>
+</html>
