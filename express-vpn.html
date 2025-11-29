@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>익스프레스 VPN 적합성 평가</title>
+  <meta name="description" content="질문에 답하면 상황에 맞는 VPN 추천 링크로 이동합니다." />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #cfa6e7, #f3e7ff);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+        "Noto Sans KR", system-ui, sans-serif;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 720px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+    }
+
+    main.container {
+      background: var(--card);
+      border-radius: 18px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.12);
+      padding: 22px 20px 18px;
+    }
+
+    form { margin: 0; }
+
+    fieldset {
+      border: 0;
+      padding: 0;
+      margin: 0 0 22px;
+    }
+
+    legend {
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    .legend-sub {
+      display: block;
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .options.options-4 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .options.options-7 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* pill radios */
+    .radio { position: relative; }
+    .radio input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .radio label {
+      display: block;
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #ffffff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      user-select: none;
+      transition:
+        box-shadow .2s ease,
+        border-color .2s ease,
+        transform .05s ease;
+    }
+    .radio label:hover {
+      border-color: #d6d6db;
+    }
+    .radio input:focus-visible + label {
+      outline: 0;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+    .radio input:checked + label {
+      border-color: var(--primary);
+      background: #f3ebff;
+      box-shadow: 0 0 0 1px rgba(74,42,116,.3);
+    }
+
+    /* checkboxes */
+    .checkbox { position: relative; }
+    .checkbox input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .checkbox label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 9px 10px;
+      border-radius: 10px;
+      border: 1.3px solid #e5e5e8;
+      background: #ffffff;
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+      transition:
+        box-shadow .2s ease,
+        border-color .2s ease,
+        background .15s ease;
+    }
+    .checkbox label:hover {
+      border-color: #d6d6db;
+    }
+
+    .checkbox-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+      border: 1.5px solid #c3c3ca;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      line-height: 1;
+      flex-shrink: 0;
+      background: #fafafa;
+    }
+
+    .checkbox input:focus-visible + label {
+      outline: 0;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+
+    .checkbox input:checked + label {
+      border-color: var(--primary);
+      background: #f5efff;
+    }
+
+    .checkbox input:checked + label .checkbox-icon {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: var(--primary-contrast);
+    }
+
+    .bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #f0f0f4;
+    }
+
+    .msg {
+      font-size: 13px;
+      color: var(--muted);
+      min-height: 1.2em;
+      flex: 1;
+    }
+
+    button.primary {
+      min-width: 130px;
+      border: 0;
+      padding: 11px 16px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 10px 25px rgba(74,42,116,0.35);
+      transition:
+        transform .08s ease,
+        box-shadow .08s ease,
+        opacity .15s ease,
+        background .15s ease;
+    }
+
+    button.primary span.icon {
+      font-size: 15px;
+      transform: translateY(1px);
+    }
+
+    button.primary:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    button.primary:not(:disabled):active {
+      transform: translateY(1px);
+      box-shadow: 0 6px 15px rgba(74,42,116,0.32);
+    }
+
+    footer {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 640px) {
+      main.container {
+        padding: 18px 14px 14px;
+      }
+      header h1 {
+        font-size: 20px;
+      }
+      .options {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .options.options-7 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      button.primary {
+        min-width: 120px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .options {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+      }
+      .options.options-7 {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+      }
+      .bottom {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .msg {
+        text-align: left;
+      }
+      button.primary {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>익스프레스 VPN 적합성 평가</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <!-- Q1: VPN에서 가장 중요하게 생각하는 것 -->
+        <fieldset>
+          <legend>
+            1. VPN에 있어서 가장 중요하게 생각하는 것은 무엇인가요?
+          </legend>
+          <div class="options options-4" role="radiogroup" aria-label="VPN 최우선 기준 선택">
+            <div class="radio">
+              <input type="radio" id="priority-speed" name="priority" value="speed">
+              <label for="priority-speed">인터넷 속도</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="priority-law" name="priority" value="law">
+              <label for="priority-law">경찰 수사협조 여부</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="priority-price" name="priority" value="price">
+              <label for="priority-price">가격</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="priority-bypass" name="priority" value="bypass">
+              <label for="priority-bypass">우회 성능</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q2: 주로 사용하게 될 VPN 서버 위치 -->
+        <fieldset>
+          <legend>
+            2. 주로 사용하게 될 VPN 서버는 어디인가요?
+          </legend>
+          <div class="options" role="radiogroup" aria-label="VPN 서버 위치 선택">
+            <div class="radio">
+              <input type="radio" id="server-kr" name="server" value="kr">
+              <label for="server-kr">한국 서버</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="server-jp" name="server" value="jp">
+              <label for="server-jp">일본 서버</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="server-various" name="server" value="various">
+              <label for="server-various">다양함</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q3: VPN으로 하는 작업 (복수 선택) -->
+        <fieldset>
+          <legend>
+            3. 당신이 VPN으로 하는 작업을 모두 골라주세요.
+          </legend>
+          <div class="options options-7" aria-label="VPN 사용 용도 선택">
+            <div class="checkbox">
+              <input type="checkbox" id="work-overseas" name="usage" value="overseas">
+              <label for="work-overseas">
+                <span class="checkbox-icon">✓</span>
+                <span>해외 사이트 접속</span>
+              </label>
+            </div>
+            <div class="checkbox">
+              <input type="checkbox" id="work-payment" name="usage" value="payment">
+              <label for="work-payment">
+                <span class="checkbox-icon">✓</span>
+                <span>우회 결제</span>
+              </label>
+            </div>
+            <div class="checkbox">
+              <input type="checkbox" id="work-sns" name="usage" value="sns">
+              <label for="work-sns">
+                <span class="checkbox-icon">✓</span>
+                <span>SNS 글 쓰기</span>
+              </label>
+            </div>
+            <div class="checkbox">
+              <input type="checkbox" id="work-nf" name="usage" value="netflix">
+              <label for="work-nf">
+                <span class="checkbox-icon">✓</span>
+                <span>넷플릭스 시청</span>
+              </label>
+            </div>
+            <div class="checkbox">
+              <input type="checkbox" id="work-torrent" name="usage" value="torrent">
+              <label for="work-torrent">
+                <span class="checkbox-icon">✓</span>
+                <span>토렌트</span>
+              </label>
+            </div>
+            <div class="checkbox">
+              <input type="checkbox" id="work-game" name="usage" value="game">
+              <label for="work-game">
+                <span class="checkbox-icon">✓</span>
+                <span>온라인게임</span>
+              </label>
+            </div>
+            <div class="checkbox">
+              <input type="checkbox" id="work-wifi" name="usage" value="wifi">
+              <label for="work-wifi">
+                <span class="checkbox-icon">✓</span>
+                <span>외부 와이파이 접속</span>
+              </label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="bottom">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button" aria-label="VPN 추천 보기" disabled>
+            결과 보러가기
+            <span class="icon">➡️</span>
+          </button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      <span>필수 항목을 선택하면 VPN 추천 링크로 이동합니다.</span>
+    </footer>
+  </div>
+
+  <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    // 링크 맵
+    const LINKS = {
+      nord: "https://go.nordvpn.net/aff_c?offer_id=266&aff_id=89429",
+      surfshark: "https://get.surfshark.net/aff_c?offer_id=926&aff_id=20683",
+      express: "https://go.expressvpn.com/c/4450159/1645836/16063"
+    };
+
+    const form = document.getElementById('guide-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+
+    function getValue(name) {
+      const el = form.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    }
+
+    function resolveLink() {
+      const priority = getValue('priority');
+      const server = getValue('server');
+
+      if (!priority || !server) {
+        return { error: '필수 항목을 먼저 선택해 주세요.' };
+      }
+
+      // 1) 인터넷 속도 + (한국 서버 또는 일본 서버) → NordVPN
+      if (priority === 'speed' && (server === 'kr' || server === 'jp')) {
+        return LINKS.nord;
+      }
+
+      // 2) 가격 최우선 → Surfshark
+      if (priority === 'price') {
+        return LINKS.surfshark;
+      }
+
+      // 3) 나머지 모든 경우 → ExpressVPN
+      return LINKS.express;
+    }
+
+    function updateButtonState() {
+      const priority = getValue('priority');
+      const server = getValue('server');
+
+      const ready = !!(priority && server);
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? '' : '필수 항목을 선택해 주세요.';
+    }
+
+    form.addEventListener('change', updateButtonState);
+    updateButtonState();
+
+    goBtn.addEventListener('click', function () {
+      if (goBtn.disabled) return;
+
+      const result = resolveLink();
+      if (typeof result === 'string') {
+        const a = document.createElement('a');
+        a.href = result;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer nofollow sponsored';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        msgEl.textContent = '';
+      } else if (result && result.error) {
+        msgEl.textContent = result.error;
+        goBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
