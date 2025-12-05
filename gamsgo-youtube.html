@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>겜스고 유튜브 우회 가이드</title>
+  <meta name="description" content="질문에 답하면 상황에 맞는 겜스고 유튜브 우회 상품 추천 링크로 이동합니다." />
+  <style>
+    :root {
+      /* 기존 가이드와 동일한 톤 & 컴포넌트 스타일 */
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
+    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    /* pill radios (원본 디자인과 동일한 동작/포커스) */
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio label {
+      display: block;
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label {
+      border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(74,42,116,0.18);
+      transform: translateY(-1px);
+    }
+
+    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .actions {
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    button.primary {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .msg { font-size: 13px; color: #a40000; }
+
+    footer {
+      text-align: center;
+      padding: 12px 16px 28px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .result-message {
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 40px 16px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 640px) {
+      .options {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>겜스고 유튜브 우회 가이드</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <!-- Q1: 유튜브 뮤직 사용 계획 -->
+        <fieldset>
+          <legend>1. 유튜브 뮤직을 이용하실 계획인가요?</legend>
+          <div class="options" role="radiogroup" aria-label="유튜브 뮤직 사용 계획 선택">
+            <div class="radio">
+              <input type="radio" id="music-yes" name="music" value="yes">
+              <label for="music-yes">네</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="music-no" name="music" value="no">
+              <label for="music-no">아니오</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q2: 유튜브 프리미엄 이용기간 -->
+        <fieldset>
+          <legend>2. 희망하시는 유튜브 프리미엄 이용기간은 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="유튜브 프리미엄 이용기간 선택">
+            <div class="radio">
+              <input type="radio" id="period-6" name="period" value="6">
+              <label for="period-6">6개월</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="period-12" name="period" value="12">
+              <label for="period-12">12개월</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="period-24" name="period" value="24">
+              <label for="period-24">24개월</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button" aria-label="추천 보기">추천 보러가기</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      <span>모든 항목을 선택하면 추천 링크로 이동합니다.</span>
+    </footer>
+  </div>
+
+  <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    const form = document.getElementById('guide-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+
+    const TARGET_URL = "https://www.gamsgo.com/partner/RqZaS";
+
+    function getValue(name) {
+      const el = form.querySelector('input[name="' + name + '"]:checked');
+      return el ? el.value : null;
+    }
+
+    function updateButtonState() {
+      const music = getValue('music');
+      const period = getValue('period');
+
+      const ready = !!(music && period);
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? '' : '필수 항목을 선택해 주세요.';
+    }
+
+    form.addEventListener('change', updateButtonState);
+    updateButtonState();
+
+    goBtn.addEventListener('click', function () {
+      const music = getValue('music');
+      const period = getValue('period');
+
+      if (!music || !period) {
+        msgEl.textContent = '필수 항목을 선택해 주세요.';
+        goBtn.disabled = false;
+        return;
+      }
+
+      let text;
+      if (music === 'yes') {
+        text = '이용자님께 적합한 상품은 개인 멤버십 충전 입니다. 3초 뒤 해당 링크로 이동합니다.';
+      } else {
+        text = '이용자님께 적합한 상품은 1개 프로필 입니다. 3초 뒤 해당 링크로 이동합니다.';
+      }
+
+      // 기존 선택지 제거 후 중앙에 문구 표시
+      form.innerHTML = '<div class="result-message" aria-live="polite">' + text + '</div>';
+
+      // 3초 뒤 링크로 이동
+      setTimeout(function () {
+        window.location.href = TARGET_URL;
+      }, 3000);
+    });
+  </script>
+</body>
+</html>
