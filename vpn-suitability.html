@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VPN 적합성 평가</title>
+  <meta name="description" content="중요한 기준을 순서대로 선택하면 조건에 맞는 VPN 추천 링크로 이동합니다." />
+  <style>
+    :root {
+      /* dual-monitor.html과 동일한 톤 */
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+      --danger: #a40000;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin:0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap{
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header{
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+    header h1{
+      margin:0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container{
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    .lead{
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .options{
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    /* dual-monitor의 pill 라디오 느낌을 버튼으로 확장 */
+    .choice{
+      position: relative;
+      width: 100%;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 800;
+      cursor: pointer;
+      user-select: none;
+      padding: 14px 14px;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease, opacity .2s ease;
+      appearance: none;
+    }
+    .choice:hover{ border-color: #d6d6db; }
+    .choice:active{ transform: translateY(1px); }
+    .choice:focus-visible{ outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .choice[aria-pressed="true"]{
+      border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(74,42,116,0.18);
+      transform: translateY(-1px);
+    }
+
+    .badge{
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      min-width: 26px;
+      height: 26px;
+      padding: 0 8px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing: 0.01em;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      box-shadow: 0 8px 16px rgba(74,42,116,0.22);
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity .15s ease, transform .15s ease;
+      pointer-events: none;
+    }
+    .choice[aria-pressed="true"] .badge{
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .subactions{
+      margin-top: 12px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    button.secondary{
+      appearance: none;
+      border: 1.5px solid #e5e5e8;
+      background: #fff;
+      border-radius: 999px;
+      padding: 11px 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease, opacity .2s ease;
+    }
+    button.secondary:hover{ border-color: #d6d6db; }
+    button.secondary:active{ transform: translateY(1px); }
+    button.secondary:focus-visible{ outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    button.secondary[disabled]{ opacity: .6; cursor: not-allowed; box-shadow: none; }
+
+    .actions{
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    button.primary{
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover{ box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active{ transform: translateY(1px); }
+    button[disabled]{ opacity: .6; cursor: not-allowed; box-shadow: none; }
+
+    .msg{ font-size: 13px; color: var(--danger); }
+    .status{ font-size: 13px; color: var(--muted); }
+
+    footer{
+      text-align: center;
+      padding: 12px 16px 28px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    @media (max-width: 640px){
+      .options{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>VPN 적합성 평가</h1>
+    </header>
+
+    <main class="container" role="main">
+      <p class="lead">아래의 항목에서 이용자 본인에게 가장 중요한 순서대로 선택해주세요.</p>
+
+      <div class="options" role="group" aria-label="우선순위 선택">
+        <button class="choice" type="button" data-key="coop" aria-pressed="false">
+          수사협조 여부
+          <span class="badge" aria-hidden="true"></span>
+        </button>
+        <button class="choice" type="button" data-key="price" aria-pressed="false">
+          가격
+          <span class="badge" aria-hidden="true"></span>
+        </button>
+        <button class="choice" type="button" data-key="speed" aria-pressed="false">
+          VPN 속도
+          <span class="badge" aria-hidden="true"></span>
+        </button>
+        <button class="choice" type="button" data-key="bypass" aria-pressed="false">
+          사이트차단 우회
+          <span class="badge" aria-hidden="true"></span>
+        </button>
+        <button class="choice" type="button" data-key="torrent" aria-pressed="false">
+          토렌트 성능
+          <span class="badge" aria-hidden="true"></span>
+        </button>
+        <button class="choice" type="button" data-key="streaming" aria-pressed="false">
+          스트리밍 성능
+          <span class="badge" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div class="subactions">
+        <button id="reset" class="secondary" type="button" disabled>초기화</button>
+        <span id="status" class="status" aria-live="polite"></span>
+      </div>
+
+      <div class="actions">
+        <span id="msg" class="msg" role="status" aria-live="polite"></span>
+        <button id="go" class="primary" type="button" disabled>추천 보러가기</button>
+      </div>
+    </main>
+
+    <footer>
+      <span>6개 항목을 모두 선택하면 추천 링크로 이동합니다.</span>
+    </footer>
+  </div>
+
+  <noscript>이 페이지는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    // 제휴 링크
+    const LINKS = {
+      SURFSHARK: "https://get.surfshark.net/aff_c?offer_id=926&aff_id=20683",
+      PROTON: "https://go.getproton.me/aff_c?offer_id=26&aff_id=14422",
+      NORD: "https://go.nordvpn.net/aff_c?offer_id=266&aff_id=89429",
+      EXPRESS: "https://go.expressvpn.com/c/4450159/1645836/16063",
+    };
+
+    const KEYS = ["coop","price","speed","bypass","torrent","streaming"];
+
+    const msgEl = document.getElementById("msg");
+    const statusEl = document.getElementById("status");
+    const goBtn = document.getElementById("go");
+    const resetBtn = document.getElementById("reset");
+    const buttons = Array.from(document.querySelectorAll(".choice"));
+
+    // 선택 순서 배열: [key1, key2, ...] (0 => 1등)
+    let order = [];
+
+    function rankOf(key){
+      const idx = order.indexOf(key);
+      return idx === -1 ? null : idx + 1;
+    }
+
+    function updateUI(){
+      // 버튼 배지 갱신
+      buttons.forEach(btn => {
+        const key = btn.dataset.key;
+        const r = rankOf(key);
+        btn.setAttribute("aria-pressed", r ? "true" : "false");
+        const badge = btn.querySelector(".badge");
+        badge.textContent = r ? String(r) : "";
+      });
+
+      const selectedCount = order.length;
+      resetBtn.disabled = selectedCount === 0;
+      goBtn.disabled = selectedCount !== KEYS.length;
+
+      // 상태/메시지
+      msgEl.textContent = "";
+      if(selectedCount === 0){
+        statusEl.textContent = "아직 선택된 항목이 없습니다.";
+      } else if(selectedCount < KEYS.length){
+        statusEl.textContent = `${selectedCount}/6 선택됨 · 계속 선택해 주세요.`;
+      } else {
+        statusEl.textContent = "모든 항목 선택 완료! 추천을 확인하세요.";
+      }
+    }
+
+    function clearAll(){
+      order = [];
+      updateUI();
+    }
+
+    function toggleKey(key){
+      const idx = order.indexOf(key);
+      if(idx !== -1){
+        // 제거 후 재정렬 (연속 1..N 유지)
+        order.splice(idx, 1);
+      } else {
+        if(order.length >= KEYS.length) return;
+        order.push(key);
+      }
+      updateUI();
+    }
+
+    function resolveLink(){
+      // order가 6개 아닐 때는 호출하지 않는게 원칙이지만, 안전장치로 체크
+      if(order.length !== KEYS.length){
+        return { error: "6개 항목을 모두 선택해 주세요." };
+      }
+
+      const first = order[0]; // 1등
+      const priceRank = rankOf("price");
+      const torrentRank = rankOf("torrent");
+      const bypassRank = rankOf("bypass");
+
+      // 1) 가격 1등
+      if(first === "price"){
+        if(torrentRank === 2 || torrentRank === 3) return LINKS.PROTON;
+        return LINKS.SURFSHARK;
+      }
+
+      // 2) 토렌트 1등
+      if(first === "torrent"){
+        return LINKS.PROTON;
+      }
+
+      // 3) 수사협조 여부 1등
+      if(first === "coop"){
+        if(bypassRank === 2 || bypassRank === 3) return LINKS.EXPRESS;
+        return LINKS.NORD;
+      }
+
+      // 4) VPN 속도 1등
+      if(first === "speed"){
+        if(bypassRank === 2 || bypassRank === 3) return LINKS.EXPRESS;
+        return LINKS.NORD;
+      }
+
+      // 5) 사이트차단 우회 1등
+      if(first === "bypass"){
+        return LINKS.EXPRESS;
+      }
+
+      // 6) 스트리밍 1등
+      if(first === "streaming"){
+        if(priceRank === 2 || priceRank === 3) return LINKS.SURFSHARK;
+        return LINKS.NORD;
+      }
+
+      return { error: "선택값을 다시 확인해 주세요." };
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => toggleKey(btn.dataset.key));
+    });
+
+    resetBtn.addEventListener("click", clearAll);
+
+    goBtn.addEventListener("click", () => {
+      const result = resolveLink();
+      if(typeof result === "string"){
+        const a = document.createElement("a");
+        a.href = result;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer nofollow sponsored";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } else if(result && result.error){
+        msgEl.textContent = result.error;
+      }
+    });
+
+    updateUI();
+  </script>
+</body>
+</html>
