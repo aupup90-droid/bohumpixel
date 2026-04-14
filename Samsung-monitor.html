@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>삼성 모니터 추천가이드</title>
-  <meta name="description" content="사이즈/해상도/용도/게임 유형 선택에 따라 추천 링크로 안내하는 삼성 모니터 추천 가이드" />
+  <meta name="description" content="질문에 답하면 상황에 맞는 삼성 모니터 추천 링크로 이동합니다." />
   <style>
     :root {
       --bg: #cfa6e7;
@@ -21,115 +21,102 @@
       margin: 0;
       background: var(--bg);
       color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, "Apple SD Gothic Neo", Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
     }
 
     .wrap {
-      min-height: 100%;
+      min-height: 100vh;
       display: grid;
       grid-template-rows: auto 1fr auto;
     }
 
     header {
-      padding: 26px 16px 16px;
+      padding: 32px 20px 16px;
       text-align: center;
-      color: #ffffff;
-      text-shadow: 0 1px 1px rgba(0,0,0,0.12);
+      color: #fff;
     }
     header h1 {
-      margin: 0 0 6px;
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
       font-weight: 800;
       letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
     }
 
     .container {
-      width: 100%;
-      max-width: 780px;
-      margin: 0 auto 24px;
-      padding: 0 16px;
-    }
-    form {
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
       background: var(--card);
       border-radius: 16px;
-      padding: 18px 16px 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-      border: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
     }
 
-    fieldset {
-      border: none;
-      padding: 0;
-      margin: 0 0 16px 0;
-    }
-    legend {
-      padding: 0;
-      margin-bottom: 10px;
-      font-weight: 700;
-      font-size: 16px;
-    }
+    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
+    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; }
 
     .options {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
     }
-    .radio { position: relative; }
-    .radio input {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-    }
-    .radio label {
-      display: block;
-      border: 1px solid rgba(0,0,0,0.08);
-      background: #fff;
-      border-radius: 12px;
-      padding: 12px 14px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-      transition: border-color .2s ease, box-shadow .2s ease, transform .06s ease;
-      background: #fff;
-    }
-    .radio label:hover {
-      box-shadow: 0 6px 14px rgba(0,0,0,0.10);
-      transform: translateY(-1px);
-    }
-    .radio input:focus-visible + label {
-      outline: 3px solid var(--ring);
-      outline-offset: 2px;
-    }
-    .radio input:checked + label {
-      border-color: var(--primary);
-      box-shadow: 0 8px 18px rgba(74,42,116,0.15);
-    }
 
-    .inline {
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio label {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-
-    .btn {
-      appearance: none;
-      border: none;
-      background: var(--primary);
-      color: var(--primary-contrast);
-      border-radius: 999px;
-      padding: 12px 18px;
-      font-size: 16px;
-      font-weight: 700;
+      width: 100%;
+      min-height: 52px;
+      padding: 12px 14px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 600;
       cursor: pointer;
       user-select: none;
-      box-shadow: 0 8px 24px rgba(74,42,116,0.25);
-      transition: transform .06s ease, box-shadow .15s ease, opacity .15s ease;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
     }
-    .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 30px rgba(74,42,116,0.30); }
-    .btn:active { transform: translateY(0); box-shadow: 0 6px 16px rgba(74,42,116,0.25); }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+
+    .conditional {
+      display: none;
+    }
+    .conditional.show {
+      display: block;
+    }
+
+    .actions {
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    button.primary {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
     button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
 
     .msg { font-size: 13px; color: #a40000; }
@@ -141,7 +128,7 @@
       color: rgba(255,255,255,0.85);
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 760px) {
       .options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
   </style>
@@ -154,10 +141,9 @@
 
     <main class="container" role="main">
       <form id="guide-form" novalidate>
-        <!-- Q1: Size -->
         <fieldset>
-          <legend>어떤 사이즈의 모니터를 원하시나요?</legend>
-          <div class="options" role="radiogroup" aria-label="사이즈 선택">
+          <legend>1. 어떤 사이즈의 모니터를 원하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="모니터 사이즈 선택">
             <div class="radio">
               <input type="radio" id="size-24" name="size" value="24">
               <label for="size-24">24인치</label>
@@ -173,88 +159,97 @@
           </div>
         </fieldset>
 
-        <!-- Q2: Resolution -->
         <fieldset>
-          <legend>원하시는 해상도는 어떻게 되나요?</legend>
+          <legend>2. 원하시는 해상도는 어떻게 되나요?</legend>
           <div class="options" role="radiogroup" aria-label="해상도 선택">
             <div class="radio">
-              <input type="radio" id="res-fhd" name="res" value="FHD">
+              <input type="radio" id="res-fhd" name="resolution" value="fhd">
               <label for="res-fhd">FHD</label>
             </div>
             <div class="radio">
-              <input type="radio" id="res-qhd" name="res" value="QHD">
+              <input type="radio" id="res-qhd" name="resolution" value="qhd">
               <label for="res-qhd">QHD</label>
             </div>
             <div class="radio">
-              <input type="radio" id="res-uhd" name="res" value="UHD">
+              <input type="radio" id="res-uhd" name="resolution" value="uhd">
               <label for="res-uhd">UHD</label>
             </div>
             <div class="radio">
-              <input type="radio" id="res-unk" name="res" value="unknown">
-              <label for="res-unk">모르겠음</label>
+              <input type="radio" id="res-unknown" name="resolution" value="unknown">
+              <label for="res-unknown">모르겠음</label>
             </div>
           </div>
         </fieldset>
 
-        <!-- Q3: Purpose -->
         <fieldset>
-          <legend>모니터의 주 용도는 어떻게 되나요?</legend>
-          <div class="options" role="radiogroup" aria-label="주 용도 선택">
+          <legend>3. 모니터의 주 용도는 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="모니터 주 용도 선택">
             <div class="radio">
-              <input type="radio" id="pur-office" name="purpose" value="사무 및 웹서핑">
-              <label for="pur-office">사무 및 웹서핑</label>
+              <input type="radio" id="purpose-office" name="purpose" value="office">
+              <label for="purpose-office">사무 및 웹서핑</label>
             </div>
             <div class="radio">
-              <input type="radio" id="pur-gaming" name="purpose" value="게이밍">
-              <label for="pur-gaming">게이밍</label>
+              <input type="radio" id="purpose-gaming" name="purpose" value="gaming">
+              <label for="purpose-gaming">게이밍</label>
             </div>
             <div class="radio">
-              <input type="radio" id="pur-dual" name="purpose" value="듀얼 모니터">
-              <label for="pur-dual">듀얼 모니터</label>
+              <input type="radio" id="purpose-dual" name="purpose" value="dual">
+              <label for="purpose-dual">듀얼 모니터</label>
             </div>
             <div class="radio">
-              <input type="radio" id="pur-multi" name="purpose" value="다목적">
-              <label for="pur-multi">다목적</label>
+              <input type="radio" id="purpose-multi" name="purpose" value="multi">
+              <label for="purpose-multi">다목적</label>
             </div>
           </div>
         </fieldset>
 
-        <!-- Q4: Game Type (only when purpose is Gaming) -->
-        <fieldset id="game-field" style="display:none;">
-          <legend>주로 어떤 게임을 하시나요?</legend>
-          <div class="options" role="radiogroup" aria-label="게임 유형 선택">
+        <fieldset id="game-field" class="conditional" aria-hidden="true">
+          <legend>4. 주로 어떤 게임을 하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="게임 종류 선택">
             <div class="radio">
-              <input type="radio" id="game-competitive" name="game" value="경쟁적인 온라인게임">
-              <label for="game-competitive">경쟁적인 온라인게임</label>
+              <input type="radio" id="game-online" name="game" value="online">
+              <label for="game-online">경쟁적인 온라인게임</label>
             </div>
             <div class="radio">
-              <input type="radio" id="game-console" name="game" value="고사양 콘솔게임">
+              <input type="radio" id="game-console" name="game" value="console">
               <label for="game-console">고사양 콘솔게임</label>
             </div>
             <div class="radio">
-              <input type="radio" id="game-all" name="game" value="전부">
+              <input type="radio" id="game-all" name="game" value="all">
               <label for="game-all">전부</label>
             </div>
           </div>
         </fieldset>
 
-        <div class="inline">
-          <button id="go" type="button" class="btn" disabled>추천 보러가기</button>
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button" aria-label="추천 보기">추천 보러가기</button>
         </div>
-        <div id="msg" class="msg" role="status" aria-live="polite"></div>
       </form>
     </main>
 
     <footer>
-     <span>필요한 항목을 선택하면 추천제품으로 이동합니다</span>
+      <span>선택한 조건에 맞는 추천 링크로 이동합니다.</span>
     </footer>
   </div>
 
   <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
 
   <script>
-    const OFFICE_OR_DUAL = new Set(['사무 및 웹서핑', '듀얼 모니터']);
-    const GAME_OR_MULTI = new Set(['게이밍', '다목적']);
+    const LINKS = {
+      MON24_OFFICE: "https://link.coupang.com/a/eoBeQF",
+      MON24_GAME: "https://link.coupang.com/a/cSLz8n",
+      MON24_HIGHRES: "https://link.coupang.com/a/cSLxIm",
+      MON27_FHD_OFFICE: "https://link.coupang.com/a/eoBC21",
+      MON27_FHD_GAME: "https://link.coupang.com/a/cSLEP8",
+      MON27_QHD_GENERAL: "https://link.coupang.com/a/eozgze",
+      MON27_QHD_FAST: "https://link.coupang.com/a/eoy0B7",
+      MON27_UHD_OFFICE: "https://link.coupang.com/a/cSLM6J",
+      MON27_UHD_GAME: "https://link.coupang.com/a/eoB3Tb",
+      MON32_STD: "https://link.coupang.com/a/eoy6MK",
+      MON32_UHD_OFFICE: "https://link.coupang.com/a/eoCeVf",
+      MON32_UHD_GAME: "https://link.coupang.com/a/eozzRN"
+    };
 
     const form = document.getElementById('guide-form');
     const msgEl = document.getElementById('msg');
@@ -266,100 +261,99 @@
       return el ? el.value : null;
     }
 
-    function need(fields) {
-      const labels = {
-        size: '사이즈',
-        res: '해상도',
-        purpose: '주 용도',
-        game: '게임 유형',
-      };
-      return `${fields.map(f => labels[f]).join(', ')}를 선택해 주세요.`;
+    function clearGameSelection() {
+      form.querySelectorAll('input[name="game"]').forEach((input) => {
+        input.checked = false;
+      });
     }
 
-    function computeResult() {
+    function syncGameQuestion() {
+      const purpose = getValue('purpose');
+      const show = purpose === 'gaming';
+      gameField.classList.toggle('show', show);
+      gameField.setAttribute('aria-hidden', show ? 'false' : 'true');
+      if (!show) clearGameSelection();
+    }
+
+    function isReady() {
       const size = getValue('size');
-      const res = getValue('res');
+      const resolution = getValue('resolution');
       const purpose = getValue('purpose');
       const game = getValue('game');
 
-      if (!size && !res && !purpose) return { error: need(['size','res','purpose']) };
-      if (!size && !res) return { error: need(['size','res']) };
-      if (!size && !purpose) return { error: need(['size','purpose']) };
-      if (!res && !purpose) return { error: need(['res','purpose']) };
-      if (!size) return { error: need(['size']) };
-      if (!res) return { error: need(['res']) };
-      if (!purpose) return { error: need(['purpose']) };
-
-      // Show/hide game field and require when purpose is gaming
-      const needGame = purpose === '게이밍';
-      if (needGame && !game) return { error: need(['game']) };
-
-      // --- Mapping rules ---
-      // 24"
-      if (size === '24') {
-        if (res === 'QHD' || res === 'UHD') {
-          return 'https://link.coupang.com/a/cSLxIm'; // A
-        }
-        if (res === 'FHD' || res === 'unknown') {
-          if (OFFICE_OR_DUAL.has(purpose)) return 'https://link.coupang.com/a/cSLxIm'; // A
-          if (purpose === '게이밍' || purpose === '다목적') return 'https://link.coupang.com/a/cSLz8n'; // B
-        }
-      }
-
-      // 27"
-      if (size === '27') {
-        if (res === 'FHD') {
-          if (OFFICE_OR_DUAL.has(purpose)) return 'https://link.coupang.com/a/cSLD3c'; // C
-          if (purpose === '게이밍' || purpose === '다목적') return 'https://link.coupang.com/a/cSLEP8'; // D
-        }
-        if (res === 'QHD' || res === 'unknown') {
-          return 'https://link.coupang.com/a/cSLGRh'; // E (용도/게임유형 무관)
-        }
-        if (res === 'UHD') {
-          if (OFFICE_OR_DUAL.has(purpose)) return 'https://link.coupang.com/a/cSLM6J'; // F
-          if (purpose === '게이밍' || purpose === '다목적') return 'https://link.coupang.com/a/cSLLzL'; // G
-        }
-      }
-
-      // 32"
-      if (size === '32') {
-        if (res === 'FHD' || res === 'QHD' || res === 'unknown') {
-          return 'https://link.coupang.com/a/cSLOwU'; // H (용도 무관)
-        }
-        if (res === 'UHD') {
-          if (OFFICE_OR_DUAL.has(purpose)) return 'https://link.coupang.com/a/cSLZJr'; // I
-          if (purpose === '게이밍' || purpose === '다목적') return 'https://link.coupang.com/a/cSL7RZ'; // J
-        }
-      }
-
-      return { error: '선택값 조합을 처리하지 못했습니다. 다시 선택해 주세요.' };
+      if (!size || !resolution || !purpose) return false;
+      if (purpose === 'gaming' && !game) return false;
+      return true;
     }
 
-    function updateVisibility() {
+    function resolveLink() {
+      const size = getValue('size');
+      const resolution = getValue('resolution');
       const purpose = getValue('purpose');
-      const showGame = purpose === '게이밍';
-      gameField.style.display = showGame ? '' : 'none';
-      if (!showGame) {
-        // clear selected game when hidden
-        const checked = form.querySelector('input[name="game"]:checked');
-        if (checked) checked.checked = false;
+      const game = getValue('game');
+
+      if (!size) return { error: '모니터 사이즈를 선택해 주세요.' };
+      if (!resolution) return { error: '해상도를 선택해 주세요.' };
+      if (!purpose) return { error: '주 용도를 선택해 주세요.' };
+      if (purpose === 'gaming' && !game) return { error: '게임 종류를 선택해 주세요.' };
+
+      if (size === '24') {
+        if (resolution === 'qhd' || resolution === 'uhd') {
+          return LINKS.MON24_HIGHRES;
+        }
+        if (resolution === 'fhd' || resolution === 'unknown') {
+          if (purpose === 'office' || purpose === 'dual') return LINKS.MON24_OFFICE;
+          if (purpose === 'gaming' || purpose === 'multi') return LINKS.MON24_GAME;
+        }
       }
+
+      if (size === '27') {
+        if (resolution === 'fhd') {
+          if (purpose === 'office' || purpose === 'dual') return LINKS.MON27_FHD_OFFICE;
+          if (purpose === 'gaming' || purpose === 'multi') return LINKS.MON27_FHD_GAME;
+        }
+
+        if (resolution === 'qhd' || resolution === 'unknown') {
+          if (purpose === 'office' || purpose === 'dual' || purpose === 'multi') {
+            return LINKS.MON27_QHD_GENERAL;
+          }
+          if (purpose === 'gaming') {
+            if (game === 'console') return LINKS.MON27_QHD_GENERAL;
+            if (game === 'online' || game === 'all') return LINKS.MON27_QHD_FAST;
+          }
+        }
+
+        if (resolution === 'uhd') {
+          if (purpose === 'office' || purpose === 'dual') return LINKS.MON27_UHD_OFFICE;
+          if (purpose === 'gaming' || purpose === 'multi') return LINKS.MON27_UHD_GAME;
+        }
+      }
+
+      if (size === '32') {
+        if (resolution === 'fhd' || resolution === 'qhd' || resolution === 'unknown') {
+          return LINKS.MON32_STD;
+        }
+        if (resolution === 'uhd') {
+          if (purpose === 'office' || purpose === 'dual') return LINKS.MON32_UHD_OFFICE;
+          if (purpose === 'gaming' || purpose === 'multi') return LINKS.MON32_UHD_GAME;
+        }
+      }
+
+      return { error: '선택값을 다시 확인해 주세요.' };
     }
 
     function updateButtonState() {
-      const result = computeResult();
-      const hasError = !!(result && result.error);
-      goBtn.disabled = hasError;
-      msgEl.textContent = '';
+      syncGameQuestion();
+      const ready = isReady();
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? '' : '필수 항목을 선택해 주세요.';
     }
 
-    form.addEventListener('change', () => {
-      updateVisibility();
-      updateButtonState();
-    });
+    form.addEventListener('change', updateButtonState);
+    updateButtonState();
 
     goBtn.addEventListener('click', () => {
-      const result = computeResult();
+      const result = resolveLink();
       if (typeof result === 'string') {
         const a = document.createElement('a');
         a.href = result;
@@ -369,12 +363,11 @@
         a.click();
         a.remove();
         msgEl.textContent = '';
+      } else if (result && result.error) {
+        msgEl.textContent = result.error;
+        goBtn.disabled = false;
       }
     });
-
-    // 초기 표시 상태
-    updateVisibility();
-    updateButtonState();
   </script>
 </body>
 </html>
