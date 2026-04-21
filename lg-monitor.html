@@ -18,7 +18,6 @@
 
     * { box-sizing: border-box; }
     html, body { height: 100%; }
-
     body {
       margin: 0;
       background: var(--bg);
@@ -72,18 +71,13 @@
 
     .options {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
     }
 
-    .options.cols-3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
+    .cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
-    .radio {
-      position: relative;
-    }
-
+    .radio { position: relative; }
     .radio input {
       position: absolute;
       opacity: 0;
@@ -103,28 +97,26 @@
       cursor: pointer;
       user-select: none;
       transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+      word-break: keep-all;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .radio label:hover { border-color: #d6d6db; }
-    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:focus-visible + label {
+      outline: 0;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
     .radio input:checked + label {
       border-color: var(--primary);
       box-shadow: 0 6px 18px rgba(74,42,116,0.18);
       transform: translateY(-1px);
     }
 
-    .conditional {
-      overflow: hidden;
-      max-height: 0;
-      opacity: 0;
-      margin-bottom: 0;
-      transition: max-height .25s ease, opacity .2s ease, margin-bottom .25s ease;
-    }
-
-    .conditional.show {
-      max-height: 240px;
-      opacity: 1;
-      margin-bottom: 22px;
+    .hidden {
+      display: none;
     }
 
     .actions {
@@ -152,7 +144,11 @@
 
     button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
     button.primary:active { transform: translateY(1px); }
-    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+    button[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
 
     .msg {
       font-size: 13px;
@@ -166,21 +162,14 @@
       color: rgba(255,255,255,0.85);
     }
 
-    @media (max-width: 760px) {
-      .options,
-      .options.cols-3 {
+    @media (max-width: 720px) {
+      .cols-4,
+      .cols-3 {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
-
-    @media (max-width: 460px) {
-      .options,
-      .options.cols-3 {
-        grid-template-columns: 1fr;
-      }
-    }
   </style>
-<script type="text/javascript" nonce="498d9817e43c496ca790b92cc2b" src="//local.adguard.org?ts=1776748964564&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000009a1872098e46e5868df783a1%26ts%3D493542%26p%3Dfs%26cid%3D1%26sig%3D807ae1858cf22c8f089323574468f50cb60ecabe659821728a3c7c739745db48%26v%3D0&amp;app=com.google.Chrome&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="498d9817e43c496ca790b92cc2b" src="//local.adguard.org?ts=1776748964564&amp;name=AdGuard%20Extra&amp;type=user-script"></script></head>
+<script type="text/javascript" nonce="498d9817e43c496ca790b92cc2b" src="//local.adguard.org?ts=1776748964564&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_0000000007847209a073089d57f73eac%26ts%3D493542%26p%3Dfs%26cid%3D1%26sig%3Db1f0d6be02ca4558a2e798f55e90cec72312e0a02a234187b66d5375819c7de2%26v%3D0&amp;app=com.google.Chrome&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="498d9817e43c496ca790b92cc2b" src="//local.adguard.org?ts=1776748964564&amp;name=AdGuard%20Extra&amp;type=user-script"></script></head>
 <body>
   <div class="wrap">
     <header>
@@ -209,7 +198,7 @@
 
         <fieldset>
           <legend>2. 원하시는 해상도는 어떻게 되나요?</legend>
-          <div class="options" role="radiogroup" aria-label="해상도 선택">
+          <div class="options cols-4" role="radiogroup" aria-label="해상도 선택">
             <div class="radio">
               <input type="radio" id="res-fhd" name="resolution" value="fhd">
               <label for="res-fhd">FHD</label>
@@ -231,14 +220,14 @@
 
         <fieldset>
           <legend>3. 모니터의 주 용도는 어떻게 되나요?</legend>
-          <div class="options" role="radiogroup" aria-label="모니터 용도 선택">
+          <div class="options cols-4" role="radiogroup" aria-label="모니터 용도 선택">
             <div class="radio">
               <input type="radio" id="purpose-office" name="purpose" value="office">
               <label for="purpose-office">사무 및 웹서핑</label>
             </div>
             <div class="radio">
-              <input type="radio" id="purpose-game" name="purpose" value="game">
-              <label for="purpose-game">게이밍</label>
+              <input type="radio" id="purpose-gaming" name="purpose" value="gaming">
+              <label for="purpose-gaming">게이밍</label>
             </div>
             <div class="radio">
               <input type="radio" id="purpose-dual" name="purpose" value="dual">
@@ -251,20 +240,20 @@
           </div>
         </fieldset>
 
-        <fieldset id="game-fieldset" class="conditional" aria-hidden="true">
+        <fieldset id="game-fieldset" class="hidden" aria-hidden="true">
           <legend>4. 주로 어떤 게임을 하시나요?</legend>
           <div class="options cols-3" role="radiogroup" aria-label="게임 종류 선택">
             <div class="radio">
-              <input type="radio" id="genre-online" name="genre" value="online">
-              <label for="genre-online">경쟁적인 온라인게임</label>
+              <input type="radio" id="game-competitive" name="gameType" value="competitive">
+              <label for="game-competitive">경쟁적인 온라인게임</label>
             </div>
             <div class="radio">
-              <input type="radio" id="genre-console" name="genre" value="console">
-              <label for="genre-console">고사양 콘솔게임</label>
+              <input type="radio" id="game-console" name="gameType" value="console">
+              <label for="game-console">고사양 콘솔게임</label>
             </div>
             <div class="radio">
-              <input type="radio" id="genre-all" name="genre" value="all">
-              <label for="genre-all">전부</label>
+              <input type="radio" id="game-all" name="gameType" value="all">
+              <label for="game-all">전부</label>
             </div>
           </div>
         </fieldset>
@@ -277,7 +266,7 @@
     </main>
 
     <footer>
-      <span>모든 항목을 선택하면 추천 링크로 이동합니다.</span>
+      <span>모든 필수 항목을 선택하면 추천 링크로 이동합니다.</span>
     </footer>
   </div>
 
@@ -285,46 +274,46 @@
 
   <script>
     const LINKS = {
-      A_24_FHD_OFFICE_DUAL: "https://link.coupang.com/a/cSlBeP",
-      B_24_FHD_GAME_MULTI: "https://link.coupang.com/a/cSlAFb",
-      C_24_HIGH_RES: "https://link.coupang.com/a/etl7ZT",
-      D_27_FHD_OFFICE_DUAL: "https://link.coupang.com/a/etmbWm",
-      E_27_FHD_GAME_MULTI: "https://link.coupang.com/a/cSlFed",
-      F_27_QHD_GENERAL: "https://link.coupang.com/a/etgnd6",
-      G_27_QHD_COMPETITIVE: "https://link.coupang.com/a/etemLb",
-      H_27_UHD_OFFICE_DUAL: "https://link.coupang.com/a/cSlUhx",
-      I_27_UHD_GAME_MULTI: "https://link.coupang.com/a/etmqvd",
-      J_32_NON_UHD_OFFICE_DUAL: "https://link.coupang.com/a/etgjBb",
-      K_32_NON_UHD_GAME_MULTI: "https://link.coupang.com/a/cQkMWf",
-      L_32_UHD_OFFICE_DUAL: "https://link.coupang.com/a/etgahx",
-      M_32_UHD_GAME_MULTI: "https://link.coupang.com/a/etetah"
+      SIZE24_OFFICE_OR_DUAL_FHD_UNKNOWN: "https://link.coupang.com/a/cSlBeP",
+      SIZE24_GAME_OR_MULTI_FHD_UNKNOWN: "https://link.coupang.com/a/cSlAFb",
+      SIZE24_QHD_UHD: "https://link.coupang.com/a/etl7ZT",
+      SIZE27_FHD_OFFICE_OR_DUAL: "https://link.coupang.com/a/etmbWm",
+      SIZE27_FHD_GAME_OR_MULTI: "https://link.coupang.com/a/cSlFed",
+      SIZE27_QHD_UNKNOWN_GENERAL: "https://link.coupang.com/a/etgnd6",
+      SIZE27_QHD_UNKNOWN_COMPETITIVE: "https://link.coupang.com/a/etemLb",
+      SIZE27_UHD_OFFICE_OR_DUAL: "https://link.coupang.com/a/cSlUhx",
+      SIZE27_UHD_GAME_OR_MULTI: "https://link.coupang.com/a/etmqvd",
+      SIZE32_FHD_QHD_UNKNOWN_OFFICE_OR_DUAL: "https://link.coupang.com/a/etgjBb",
+      SIZE32_FHD_QHD_UNKNOWN_GAME_OR_MULTI: "https://link.coupang.com/a/cQkMWf",
+      SIZE32_UHD_OFFICE_OR_DUAL: "https://link.coupang.com/a/etgahx",
+      SIZE32_UHD_GAME_OR_MULTI: "https://link.coupang.com/a/etetah"
     };
 
     const form = document.getElementById('guide-form');
+    const gameFieldset = document.getElementById('game-fieldset');
     const msgEl = document.getElementById('msg');
     const goBtn = document.getElementById('go');
-    const gameFieldset = document.getElementById('game-fieldset');
 
     function getValue(name) {
-      const checked = form.querySelector(`input[name="${name}"]:checked`);
-      return checked ? checked.value : null;
+      const el = form.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
     }
 
-    function clearGenre() {
-      form.querySelectorAll('input[name="genre"]').forEach((input) => {
+    function clearRadioGroup(name) {
+      form.querySelectorAll(`input[name="${name}"]`).forEach((input) => {
         input.checked = false;
       });
     }
 
-    function toggleGameQuestion() {
+    function syncGameQuestion() {
       const purpose = getValue('purpose');
-      const shouldShow = purpose === 'game';
+      const shouldShow = purpose === 'gaming';
 
-      gameFieldset.classList.toggle('show', shouldShow);
-      gameFieldset.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
+      gameFieldset.classList.toggle('hidden', !shouldShow);
+      gameFieldset.setAttribute('aria-hidden', String(!shouldShow));
 
       if (!shouldShow) {
-        clearGenre();
+        clearRadioGroup('gameType');
       }
     }
 
@@ -332,92 +321,104 @@
       const size = getValue('size');
       const resolution = getValue('resolution');
       const purpose = getValue('purpose');
-      const genre = getValue('genre');
+      const gameType = getValue('gameType');
 
       if (!size) return { error: '모니터 사이즈를 선택해 주세요.' };
       if (!resolution) return { error: '해상도를 선택해 주세요.' };
       if (!purpose) return { error: '모니터의 주 용도를 선택해 주세요.' };
-      if (purpose === 'game' && !genre) return { error: '주로 어떤 게임을 하시는지 선택해 주세요.' };
+      if (purpose === 'gaming' && !gameType) return { error: '주로 어떤 게임을 하시는지 선택해 주세요.' };
 
       if (size === '24') {
         if (resolution === 'qhd' || resolution === 'uhd') {
-          return LINKS.C_24_HIGH_RES;
+          return LINKS.SIZE24_QHD_UHD;
         }
-        if (purpose === 'office' || purpose === 'dual') {
-          return LINKS.A_24_FHD_OFFICE_DUAL;
+
+        if (resolution === 'fhd' || resolution === 'unknown') {
+          if (purpose === 'office' || purpose === 'dual') {
+            return LINKS.SIZE24_OFFICE_OR_DUAL_FHD_UNKNOWN;
+          }
+          if (purpose === 'gaming' || purpose === 'multi') {
+            return LINKS.SIZE24_GAME_OR_MULTI_FHD_UNKNOWN;
+          }
         }
-        return LINKS.B_24_FHD_GAME_MULTI;
       }
 
       if (size === '27') {
         if (resolution === 'fhd') {
           if (purpose === 'office' || purpose === 'dual') {
-            return LINKS.D_27_FHD_OFFICE_DUAL;
+            return LINKS.SIZE27_FHD_OFFICE_OR_DUAL;
           }
-          return LINKS.E_27_FHD_GAME_MULTI;
+          if (purpose === 'gaming' || purpose === 'multi') {
+            return LINKS.SIZE27_FHD_GAME_OR_MULTI;
+          }
         }
 
         if (resolution === 'qhd' || resolution === 'unknown') {
           if (purpose === 'office' || purpose === 'dual' || purpose === 'multi') {
-            return LINKS.F_27_QHD_GENERAL;
+            return LINKS.SIZE27_QHD_UNKNOWN_GENERAL;
           }
-          if (genre === 'console') {
-            return LINKS.F_27_QHD_GENERAL;
+          if (purpose === 'gaming') {
+            if (gameType === 'console') {
+              return LINKS.SIZE27_QHD_UNKNOWN_GENERAL;
+            }
+            if (gameType === 'competitive' || gameType === 'all') {
+              return LINKS.SIZE27_QHD_UNKNOWN_COMPETITIVE;
+            }
           }
-          return LINKS.G_27_QHD_COMPETITIVE;
         }
 
         if (resolution === 'uhd') {
           if (purpose === 'office' || purpose === 'dual') {
-            return LINKS.H_27_UHD_OFFICE_DUAL;
+            return LINKS.SIZE27_UHD_OFFICE_OR_DUAL;
           }
-          return LINKS.I_27_UHD_GAME_MULTI;
+          if (purpose === 'gaming' || purpose === 'multi') {
+            return LINKS.SIZE27_UHD_GAME_OR_MULTI;
+          }
         }
       }
 
       if (size === '32') {
         if (resolution === 'uhd') {
           if (purpose === 'office' || purpose === 'dual') {
-            return LINKS.L_32_UHD_OFFICE_DUAL;
+            return LINKS.SIZE32_UHD_OFFICE_OR_DUAL;
           }
-          return LINKS.M_32_UHD_GAME_MULTI;
+          if (purpose === 'gaming' || purpose === 'multi') {
+            return LINKS.SIZE32_UHD_GAME_OR_MULTI;
+          }
         }
 
-        if (purpose === 'office' || purpose === 'dual') {
-          return LINKS.J_32_NON_UHD_OFFICE_DUAL;
+        if (resolution === 'fhd' || resolution === 'qhd' || resolution === 'unknown') {
+          if (purpose === 'office' || purpose === 'dual') {
+            return LINKS.SIZE32_FHD_QHD_UNKNOWN_OFFICE_OR_DUAL;
+          }
+          if (purpose === 'gaming' || purpose === 'multi') {
+            return LINKS.SIZE32_FHD_QHD_UNKNOWN_GAME_OR_MULTI;
+          }
         }
-        return LINKS.K_32_NON_UHD_GAME_MULTI;
       }
 
       return { error: '선택값을 다시 확인해 주세요.' };
     }
 
     function updateButtonState() {
+      syncGameQuestion();
+
       const size = getValue('size');
       const resolution = getValue('resolution');
       const purpose = getValue('purpose');
-      const genre = getValue('genre');
+      const gameType = getValue('gameType');
 
-      let ready = !!(size && resolution && purpose);
-      if (purpose === 'game') {
-        ready = ready && !!genre;
-      }
+      const needsGameType = purpose === 'gaming';
+      const ready = !!(size && resolution && purpose && (!needsGameType || gameType));
 
       goBtn.disabled = !ready;
       msgEl.textContent = ready ? '' : '필수 항목을 선택해 주세요.';
     }
 
-    form.addEventListener('change', (event) => {
-      if (event.target.name === 'purpose') {
-        toggleGameQuestion();
-      }
-      updateButtonState();
-    });
-
-    toggleGameQuestion();
+    form.addEventListener('change', updateButtonState);
     updateButtonState();
 
-    goBtn.addEventListener('click', () => {
+    goBtn.addEventListener('click', function() {
       const result = resolveLink();
       if (typeof result === 'string') {
         const a = document.createElement('a');
