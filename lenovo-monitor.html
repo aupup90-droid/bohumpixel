@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>레노버 모니터 추천가이드</title>
+  <meta name="description" content="질문에 답하면 상황에 맞는 레노버 모니터 추천 링크로 이동합니다." />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+      --danger: #a40000;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(24px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
+    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .options.purpose {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+
+    .radio label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 48px;
+      padding: 11px 12px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 700;
+      line-height: 1.25;
+      cursor: pointer;
+      user-select: none;
+      word-break: keep-all;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+
+    .actions {
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    button.primary {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: var(--danger); }
+
+    .result {
+      display: none;
+      text-align: center;
+      padding: clamp(18px, 3.2vw, 30px) 8px 6px;
+    }
+
+    .result.is-visible { display: block; }
+    .result-title {
+      margin: 0 0 12px;
+      font-size: clamp(20px, 3.8vw, 28px);
+      line-height: 1.25;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--primary);
+    }
+
+    .result-copy {
+      margin: 0 auto 22px;
+      max-width: 620px;
+      color: var(--text);
+      font-size: clamp(15px, 2.8vw, 18px);
+      line-height: 1.65;
+      word-break: keep-all;
+    }
+
+    .secondary {
+      appearance: none;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--primary);
+      padding: 12px 16px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 12px 16px 28px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    @media (max-width: 760px) {
+      .options.purpose { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 480px) {
+      header { padding: 24px 16px 12px; }
+      .container { width: min(94vw, 480px); padding: 16px; margin-bottom: 24px; }
+      fieldset { margin-bottom: 18px; }
+      legend { font-size: 15px; margin-bottom: 10px; }
+      .options { gap: 8px; }
+      .radio label { min-height: 44px; padding: 10px 8px; font-size: 14px; }
+      .actions { justify-content: stretch; }
+      .actions .msg { width: 100%; text-align: center; }
+      button.primary { width: 100%; padding: 14px 16px; }
+      .secondary { width: 100%; }
+      .result { padding-top: 12px; }
+      .result-copy { line-height: 1.55; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>레노버 모니터 추천가이드</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <fieldset>
+          <legend>1. 어떤 사이즈의 모니터를 원하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="모니터 사이즈 선택">
+            <div class="radio">
+              <input type="radio" id="size-24" name="size" value="24">
+              <label for="size-24">24인치</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-27" name="size" value="27">
+              <label for="size-27">27인치</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-32" name="size" value="32">
+              <label for="size-32">32인치</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. 모니터의 주 용도는 어떻게 되나요?</legend>
+          <div class="options purpose" role="radiogroup" aria-label="모니터 용도 선택">
+            <div class="radio">
+              <input type="radio" id="purpose-office" name="purpose" value="office">
+              <label for="purpose-office">사무 및<br>웹서핑</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="purpose-gaming" name="purpose" value="gaming">
+              <label for="purpose-gaming">게이밍</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="purpose-video" name="purpose" value="video">
+              <label for="purpose-video">영상시청</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="purpose-multi" name="purpose" value="multi">
+              <label for="purpose-multi">다목적</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button" aria-label="추천 보기">추천 보러가기</button>
+        </div>
+      </form>
+
+      <section id="result" class="result" aria-live="polite">
+        <h2 class="result-title">추천 결과 안내</h2>
+        <p class="result-copy">
+          저희 BH픽셀은 레노버의 모든 모델을 철저하게 조사하였으나,<br>
+          추천할만한 32인치 모델을 찾을 수 없었습니다.
+        </p>
+        <button id="reset" class="secondary" type="button">다시 선택하기</button>
+      </section>
+    </main>
+
+    <footer>
+      <span>모든 항목을 선택하면 추천 결과를 확인할 수 있습니다.</span>
+    </footer>
+  </div>
+
+  <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    const LINKS = {
+      SIZE_24_FAST: "https://link.coupang.com/a/eAThXX",
+      SIZE_24_BASIC: "https://link.coupang.com/a/eAUUu1",
+      SIZE_27_FAST: "https://link.coupang.com/a/eATZcd",
+      SIZE_27_BASIC: "https://link.coupang.com/a/eAURiS"
+    };
+
+    const form = document.getElementById('guide-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+    const resultEl = document.getElementById('result');
+    const resetBtn = document.getElementById('reset');
+
+    function getValue(name) {
+      const el = form.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    }
+
+    function isFastPurpose(purpose) {
+      return purpose === 'gaming' || purpose === 'multi';
+    }
+
+    function resolveResult() {
+      const size = getValue('size');
+      const purpose = getValue('purpose');
+
+      if (!size) return { error: '모니터 사이즈를 선택해 주세요.' };
+      if (!purpose) return { error: '모니터 용도를 선택해 주세요.' };
+
+      if (size === '32') return { type: 'message' };
+
+      if (size === '24') {
+        return { type: 'link', url: isFastPurpose(purpose) ? LINKS.SIZE_24_FAST : LINKS.SIZE_24_BASIC };
+      }
+
+      if (size === '27') {
+        return { type: 'link', url: isFastPurpose(purpose) ? LINKS.SIZE_27_FAST : LINKS.SIZE_27_BASIC };
+      }
+
+      return { error: '선택값을 다시 확인해 주세요.' };
+    }
+
+    function updateButtonState() {
+      const ready = !!(getValue('size') && getValue('purpose'));
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? '' : '필수 항목을 선택해 주세요.';
+      resultEl.classList.remove('is-visible');
+      form.style.display = '';
+    }
+
+    function openRecommendation(url) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer nofollow sponsored';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    form.addEventListener('change', updateButtonState);
+    updateButtonState();
+
+    goBtn.addEventListener('click', function() {
+      const result = resolveResult();
+
+      if (result.type === 'link') {
+        openRecommendation(result.url);
+        msgEl.textContent = '';
+        return;
+      }
+
+      if (result.type === 'message') {
+        form.style.display = 'none';
+        resultEl.classList.add('is-visible');
+        resultEl.querySelector('.result-title').focus?.();
+        return;
+      }
+
+      if (result.error) {
+        msgEl.textContent = result.error;
+        goBtn.disabled = false;
+      }
+    });
+
+    resetBtn.addEventListener('click', function() {
+      form.reset();
+      updateButtonState();
+    });
+  </script>
+</body>
+</html>
