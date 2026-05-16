@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>듀얼모니터 시뮬레이터</title>
+  <meta name="description" content="메인 모니터와 서브 모니터 크기를 선택하면 듀얼모니터 배치 구조를 시뮬레이션합니다." />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --line: #e5e5e8;
+      --disabled: #f1f1f4;
+      --disabled-text: #999999;
+      --ring: rgba(74, 42, 116, 0.35);
+      --danger: #a40000;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 28px 18px 14px;
+      text-align: center;
+      color: #fff;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(24px, 5vw, 38px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 28px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3vw, 28px);
+    }
+
+    fieldset {
+      border: 0;
+      padding: 0;
+      margin: 0 0 22px;
+    }
+
+    legend {
+      font-weight: 800;
+      margin-bottom: 12px;
+      font-size: 16px;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .options.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .radio { position: relative; }
+    .radio input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .radio label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease, background .2s ease, color .2s ease;
+    }
+
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label {
+      border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(74,42,116,0.18);
+      transform: translateY(-1px);
+    }
+
+    .radio input:disabled + label {
+      background: var(--disabled);
+      color: var(--disabled-text);
+      border-color: var(--line);
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .actions,
+    .result-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .actions { margin-top: 6px; }
+    .result-actions { margin-top: 18px; justify-content: center; }
+
+    button,
+    .link-button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease, background .2s ease;
+    }
+
+    .primary,
+    .link-button.primary {
+      background: var(--primary);
+      color: var(--primary-contrast);
+      box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+    }
+
+    .secondary {
+      background: #f4f0f8;
+      color: var(--primary);
+      box-shadow: inset 0 0 0 1px rgba(74,42,116,0.15);
+    }
+
+    button:hover,
+    .link-button:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.25); }
+    button:active,
+    .link-button:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+
+    .msg {
+      flex: 1 1 auto;
+      min-width: 180px;
+      font-size: 13px;
+      color: var(--danger);
+      text-align: right;
+    }
+
+    .result {
+      display: none;
+      text-align: center;
+    }
+
+    .result.active { display: block; }
+    .form-area.hidden { display: none; }
+
+    .result-title {
+      margin: 0 0 16px;
+      font-size: clamp(18px, 3.2vw, 24px);
+      line-height: 1.35;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .image-box {
+      width: 100%;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 14px;
+      background: #f8f8fa;
+      border: 1px solid #eeeeef;
+    }
+
+    .result-image {
+      display: block;
+      width: 100%;
+      max-width: 760px;
+      max-height: min(58vh, 560px);
+      height: auto;
+      object-fit: contain;
+      margin: 0 auto;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px 16px 24px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    @media (max-width: 640px) {
+      header { padding: 20px 14px 10px; }
+      .container {
+        width: min(94vw, 520px);
+        margin-bottom: 18px;
+        padding: 16px;
+        border-radius: 14px;
+      }
+      fieldset { margin-bottom: 16px; }
+      legend { font-size: 15px; margin-bottom: 9px; }
+      .options,
+      .options.two { gap: 8px; }
+      .radio label {
+        min-height: 42px;
+        padding: 10px 8px;
+        border-radius: 11px;
+        font-size: 14px;
+      }
+      .actions,
+      .result-actions {
+        justify-content: stretch;
+        gap: 8px;
+      }
+      .msg {
+        order: 2;
+        width: 100%;
+        min-width: 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      button,
+      .link-button {
+        flex: 1 1 100%;
+        padding: 13px 14px;
+        text-align: center;
+      }
+      .result-title { margin-bottom: 12px; }
+      .result-image { max-height: 48vh; }
+      footer { padding-bottom: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>듀얼모니터 시뮬레이터</h1>
+    </header>
+
+    <main class="container" role="main">
+      <section id="form-area" class="form-area" aria-label="듀얼모니터 시뮬레이션 선택 영역">
+        <form id="simulator-form" novalidate>
+          <fieldset>
+            <legend>메인 모니터의 크기는 어떻게 되나요?</legend>
+            <div class="options" role="radiogroup" aria-label="메인 모니터 크기 선택">
+              <div class="radio">
+                <input type="radio" id="main-32" name="main" value="32">
+                <label for="main-32">32인치</label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="main-27" name="main" value="27">
+                <label for="main-27">27인치</label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="main-24" name="main" value="24">
+                <label for="main-24">24인치</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>원하시는 서브 모니터의 크기를 알려주세요.</legend>
+            <div class="options" role="radiogroup" aria-label="서브 모니터 크기 선택">
+              <div class="radio">
+                <input type="radio" id="sub-27" name="sub" value="27">
+                <label for="sub-27">27인치</label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="sub-24" name="sub" value="24">
+                <label for="sub-24">24인치</label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="sub-156" name="sub" value="15.6">
+                <label for="sub-156">15.6인치</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>서브 모니터는 세로로 놓으실 건가요?</legend>
+            <div class="options two" role="radiogroup" aria-label="서브 모니터 방향 선택">
+              <div class="radio">
+                <input type="radio" id="orient-horizontal" name="orientation" value="horizontal">
+                <label for="orient-horizontal">가로</label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="orient-vertical" name="orientation" value="vertical">
+                <label for="orient-vertical">세로</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="actions">
+            <span id="msg" class="msg" role="status" aria-live="polite"></span>
+            <button id="simulate" class="primary" type="button">시뮬레이션 해보기</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="result" class="result" aria-label="듀얼모니터 시뮬레이션 결과">
+        <h2 class="result-title">배치 구조는 다음과 같습니다.</h2>
+        <div class="image-box">
+          <img id="result-image" class="result-image" src="" alt="선택한 듀얼모니터 배치 구조 이미지" loading="lazy">
+        </div>
+        <div class="result-actions">
+          <a id="recommend-link" class="link-button primary" href="#" target="_blank" rel="noopener noreferrer nofollow sponsored">추천 링크 열기</a>
+          <button id="reset" class="secondary" type="button">다시 선택하기</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>원하는 조합을 선택하고 배치 구조를 확인해 보세요.</span>
+    </footer>
+  </div>
+
+  <noscript>이 시뮬레이터는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    const RESULTS = {
+      "32_27_horizontal": {
+        image: "https://static.wixstatic.com/media/45d0e1_ce8538f691a94ddbb9cc08f7b276badb~mv2.png/v1/fill/w_1332,h_533,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/45d0e1_ce8538f691a94ddbb9cc08f7b276badb~mv2.png",
+        link: "https://link.coupang.com/a/dNJSkAHc2m"
+      },
+      "32_27_vertical": {
+        image: "https://static.wixstatic.com/media/45d0e1_b89ddbb11b8544288e4ca9b47feb00df~mv2.png/v1/fill/w_1332,h_805,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/45d0e1_b89ddbb11b8544288e4ca9b47feb00df~mv2.png",
+        link: "https://link.coupang.com/a/dNJSkAHc2m"
+      },
+      "32_24_horizontal": {
+        image: "https://static.wixstatic.com/media/45d0e1_68ad9fe9476b4059b05104f0ae66d932~mv2.png/v1/fill/w_1332,h_544,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/45d0e1_68ad9fe9476b4059b05104f0ae66d932~mv2.png",
+        link: "https://link.coupang.com/a/dNJHE5nm4y"
+      },
+      "32_24_vertical": {
+        image: "https://static.wixstatic.com/media/45d0e1_73e0dcea5f0a4072805d23465dc4ff78~mv2.png/v1/fill/w_1332,h_792,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/45d0e1_73e0dcea5f0a4072805d23465dc4ff78~mv2.png",
+        link: "https://link.coupang.com/a/dNJHE5nm4y"
+      },
+      "32_15.6_vertical": {
+        image: "https://static.wixstatic.com/media/45d0e1_6b20146d01a244b1b35932c8f1c7ba9a~mv2.png/v1/fill/w_1330,h_710,al_c,q_90,enc_avif,quality_auto/45d0e1_6b20146d01a244b1b35932c8f1c7ba9a~mv2.png",
+        link: "https://link.coupang.com/a/dNJ0A3Js2m"
+      },
+      "27_27_horizontal": {
+        image: "https://static.wixstatic.com/media/45d0e1_30bc109e6c3e497783b31c68b49544c4~mv2.png/v1/fill/w_1332,h_502,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/45d0e1_30bc109e6c3e497783b31c68b49544c4~mv2.png",
+        link: "https://link.coupang.com/a/dNJSkAHc2m"
+      },
+      "27_27_vertical": {
+        image: "https://static.wixstatic.com/media/45d0e1_a22d3a5019b4427e929f20d91772e534~mv2.png/v1/fill/w_806,h_533,al_c,lg_1,q_90,enc_avif,quality_auto/45d0e1_a22d3a5019b4427e929f20d91772e534~mv2.png",
+        link: "https://link.coupang.com/a/dNJSkAHc2m"
+      },
+      "27_24_horizontal": {
+        image: "https://static.wixstatic.com/media/45d0e1_cd941fa3d4ba41a5b48704cce1cbdc32~mv2.png/v1/fill/w_1332,h_526,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/45d0e1_cd941fa3d4ba41a5b48704cce1cbdc32~mv2.png",
+        link: "https://link.coupang.com/a/dNJHE5nm4y"
+      },
+      "27_24_vertical": {
+        image: "https://static.wixstatic.com/media/45d0e1_d27f58d616a84faea9a60995dfd3aef8~mv2.png/v1/fill/w_762,h_500,al_c,lg_1,q_90,enc_avif,quality_auto/45d0e1_d27f58d616a84faea9a60995dfd3aef8~mv2.png",
+        link: "https://link.coupang.com/a/dNJHE5nm4y"
+      },
+      "27_15.6_vertical": {
+        image: "https://static.wixstatic.com/media/45d0e1_90ab1ede6c2d4803b8b17eb47ccc79c1~mv2.png/v1/fill/w_1153,h_634,al_c,q_90,enc_avif,quality_auto/45d0e1_90ab1ede6c2d4803b8b17eb47ccc79c1~mv2.png",
+        link: "https://link.coupang.com/a/dNJ0A3Js2m"
+      },
+      "24_24_horizontal": {
+        image: "https://static.wixstatic.com/media/45d0e1_168d62d9dd044323954a5fec1751da7a~mv2.png/v1/fill/w_1332,h_562,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/45d0e1_168d62d9dd044323954a5fec1751da7a~mv2.png",
+        link: "https://link.coupang.com/a/dNJHE5nm4y"
+      },
+      "24_24_vertical": {
+        image: "https://static.wixstatic.com/media/45d0e1_f27468dfda2443da97c369cd87d7629f~mv2.png/v1/fill/w_1220,h_791,al_c,q_90,enc_avif,quality_auto/45d0e1_f27468dfda2443da97c369cd87d7629f~mv2.png",
+        link: "https://link.coupang.com/a/dNJHE5nm4y"
+      },
+      "24_15.6_vertical": {
+        image: "https://static.wixstatic.com/media/45d0e1_6151e0b2c5024035954882480bf46d51~mv2.png/v1/fill/w_1075,h_654,al_c,q_90,enc_avif,quality_auto/45d0e1_6151e0b2c5024035954882480bf46d51~mv2.png",
+        link: "https://link.coupang.com/a/dNJ0A3Js2m"
+      }
+    };
+
+    const form = document.getElementById('simulator-form');
+    const formArea = document.getElementById('form-area');
+    const resultArea = document.getElementById('result');
+    const simulateBtn = document.getElementById('simulate');
+    const resetBtn = document.getElementById('reset');
+    const msgEl = document.getElementById('msg');
+    const resultImage = document.getElementById('result-image');
+    const recommendLink = document.getElementById('recommend-link');
+
+    const main24 = document.getElementById('main-24');
+    const sub27 = document.getElementById('sub-27');
+    const sub156 = document.getElementById('sub-156');
+    const orientHorizontal = document.getElementById('orient-horizontal');
+    const orientVertical = document.getElementById('orient-vertical');
+
+    function getValue(name) {
+      const checked = form.querySelector(`input[name="${name}"]:checked`);
+      return checked ? checked.value : null;
+    }
+
+    function setMessage(text) {
+      msgEl.textContent = text || '';
+    }
+
+    function updateRules() {
+      const main = getValue('main');
+      const sub = getValue('sub');
+
+      if (main === '24') {
+        sub27.disabled = true;
+        if (sub27.checked) sub27.checked = false;
+      } else {
+        sub27.disabled = false;
+      }
+
+      if (sub === '15.6') {
+        orientVertical.checked = true;
+        orientHorizontal.checked = false;
+        orientHorizontal.disabled = true;
+        orientVertical.disabled = false;
+      } else {
+        orientHorizontal.disabled = false;
+        orientVertical.disabled = false;
+      }
+
+      updateButtonState();
+    }
+
+    function updateButtonState() {
+      const main = getValue('main');
+      const sub = getValue('sub');
+      const orientation = getValue('orientation');
+      const ready = Boolean(main && sub && orientation);
+      simulateBtn.disabled = !ready;
+      setMessage(ready ? '' : '모든 항목을 선택해 주세요.');
+    }
+
+    function showResult() {
+      const main = getValue('main');
+      const sub = getValue('sub');
+      const orientation = sub === '15.6' ? 'vertical' : getValue('orientation');
+      const key = `${main}_${sub}_${orientation}`;
+      const result = RESULTS[key];
+
+      if (!result) {
+        setMessage('선택 조합을 다시 확인해 주세요.');
+        return;
+      }
+
+      resultImage.src = result.image;
+      resultImage.alt = `${main}인치 메인 모니터와 ${sub}인치 서브 모니터의 듀얼모니터 배치 구조`;
+      recommendLink.href = result.link;
+      formArea.classList.add('hidden');
+      resultArea.classList.add('active');
+      setMessage('');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetSimulator() {
+      form.reset();
+      sub27.disabled = false;
+      orientHorizontal.disabled = false;
+      orientVertical.disabled = false;
+      resultImage.removeAttribute('src');
+      recommendLink.href = '#';
+      resultArea.classList.remove('active');
+      formArea.classList.remove('hidden');
+      updateButtonState();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    form.addEventListener('change', updateRules);
+    simulateBtn.addEventListener('click', showResult);
+    resetBtn.addEventListener('click', resetSimulator);
+    updateRules();
+  </script>
+</body>
+</html>
