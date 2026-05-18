@@ -16,72 +16,122 @@
       --ring: rgba(74, 42, 116, 0.35);
     }
     * { box-sizing: border-box; }
-    html, body { height: 100%; }
+    html, body { min-height: 100%; }
     body {
       margin: 0;
-      background: --bg;
       background: var(--bg);
       color: var(--text);
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+
     .wrap {
       min-height: 100vh;
       display: grid;
       grid-template-rows: auto 1fr auto;
     }
+
     header {
-      padding: 32px 20px 16px;
+      padding: 28px 20px 14px;
       text-align: center;
       color: #fff;
     }
     header h1 {
       margin: 0;
-      font-size: clamp(22px, 4vw, 36px);
+      font-size: clamp(23px, 5vw, 36px);
       line-height: 1.15;
       font-weight: 800;
       letter-spacing: -0.02em;
       text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
     }
+
     .container {
-      width: min(900px, 92vw);
-      margin: 0 auto 36px;
+      width: min(820px, 92vw);
+      margin: 0 auto 30px;
       background: var(--card);
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      padding: clamp(18px, 3.2vw, 28px);
+      padding: clamp(16px, 3vw, 26px);
     }
-    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
-    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 18px; }
+    legend { font-weight: 700; margin-bottom: 10px; font-size: 16px; line-height: 1.35; }
+
     .options {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
     }
+    .options.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
     .radio { position: relative; }
     .radio input { position: absolute; opacity: 0; pointer-events: none; }
     .radio label {
-      display: block; width: 100%; padding: 12px 14px; border: 1.5px solid #e5e5e8; border-radius: 12px;
-      background: #fff; color: var(--text); text-align: center; font-weight: 600; cursor: pointer; user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      width: 100%;
+      padding: 11px 12px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      line-height: 1.25;
       transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
     }
     .radio label:hover { border-color: #d6d6db; }
     .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
     .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
-    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
-    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+
+    .pick-note {
+      min-height: 18px;
+      margin: -8px 0 12px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .actions { margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
     button.primary {
-      appearance: none; border: 0; border-radius: 999px; padding: 14px 18px; font-weight: 800; letter-spacing: 0.02em;
-      background: var(--primary); color: var(--primary-contrast); cursor: pointer; box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74,42,116,0.25);
       transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
     }
     button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
     button.primary:active { transform: translateY(1px); }
     button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
     .msg { font-size: 13px; color: #a40000; }
-    footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.85); }
-    @media (max-width: 640px) { .options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+    footer { text-align: center; padding: 10px 16px 24px; font-size: 12px; color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 640px) {
+      header { padding: 22px 16px 12px; }
+      .container { width: min(94vw, 520px); margin-bottom: 22px; padding: 16px; border-radius: 14px; }
+      fieldset { margin-bottom: 15px; }
+      legend { font-size: 15px; margin-bottom: 8px; }
+      .options, .options.two { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .radio label { min-height: 44px; padding: 10px 9px; font-size: 14px; }
+      .pick-note { margin: -5px 0 10px; font-size: 11.5px; }
+      .actions { justify-content: stretch; }
+      .actions .msg { width: 100%; text-align: center; }
+      button.primary { width: 100%; padding: 13px 16px; }
+      footer { padding-bottom: 18px; }
+    }
   </style>
 </head>
 <body>
@@ -89,11 +139,12 @@
     <header>
       <h1>OLED 모니터 추천가이드</h1>
     </header>
+
     <main class="container" role="main">
       <form id="guide-form" novalidate>
         <fieldset>
           <legend>1. 원하시는 모니터의 사이즈는 어떻게 되나요?</legend>
-          <div class="options" role="radiogroup" aria-label="사이즈 선택">
+          <div class="options two" role="radiogroup" aria-label="모니터 사이즈 선택">
             <div class="radio">
               <input type="radio" id="size-27" name="size" value="27">
               <label for="size-27">27인치</label>
@@ -102,109 +153,132 @@
               <input type="radio" id="size-32" name="size" value="32">
               <label for="size-32">32인치</label>
             </div>
-            <div class="radio">
-              <input type="radio" id="size-34" name="size" value="34">
-              <label for="size-34">34인치</label>
-            </div>
           </div>
         </fieldset>
+
         <fieldset>
-          <legend>2. 원하시는 해상도는 어떻게 되나요?</legend>
-          <div class="options" role="radiogroup" aria-label="해상도 선택">
+          <legend>2. 컴퓨터를 주로 밤에 하시나요, 낮에 하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="사용 시간대 선택">
             <div class="radio">
-              <input type="radio" id="res-qhd" name="res" value="qhd">
-              <label for="res-qhd">QHD</label>
+              <input type="radio" id="time-night" name="time" value="night">
+              <label for="time-night">밤</label>
             </div>
             <div class="radio">
-              <input type="radio" id="res-uhd" name="res" value="uhd">
-              <label for="res-uhd">UHD</label>
+              <input type="radio" id="time-day" name="time" value="day">
+              <label for="time-day">낮</label>
             </div>
             <div class="radio">
-              <input type="radio" id="res-unknown" name="res" value="unknown">
-              <label for="res-unknown">모르겠음</label>
+              <input type="radio" id="time-both" name="time" value="both">
+              <label for="time-both">밤낮으로</label>
             </div>
           </div>
         </fieldset>
+
         <fieldset>
-          <legend>3. 모니터의 주 용도는 어떻게 되나요?</legend>
-          <div class="options" role="radiogroup" aria-label="용도 선택">
+          <legend>3. 가성비 픽과 프리미엄 픽 중에 무엇을 선택 하실건가요?</legend>
+          <div class="options two" role="radiogroup" aria-label="추천 타입 선택">
             <div class="radio">
-              <input type="radio" id="purpose-office" name="purpose" value="office">
-              <label for="purpose-office">사무 및 웹서핑</label>
+              <input type="radio" id="pick-value" name="pick" value="value">
+              <label for="pick-value">가성비 픽</label>
             </div>
             <div class="radio">
-              <input type="radio" id="purpose-game" name="purpose" value="game">
-              <label for="purpose-game">게이밍</label>
-            </div>
-            <div class="radio">
-              <input type="radio" id="purpose-media" name="purpose" value="media">
-              <label for="purpose-media">영상시청</label>
-            </div>
-            <div class="radio">
-              <input type="radio" id="purpose-multi" name="purpose" value="multi">
-              <label for="purpose-multi">다목적</label>
+              <input type="radio" id="pick-premium" name="pick" value="premium">
+              <label for="pick-premium">프리미엄 픽</label>
             </div>
           </div>
         </fieldset>
+
+        <p id="pick-note" class="pick-note" aria-live="polite"></p>
+
         <div class="actions">
           <span id="msg" class="msg" role="status" aria-live="polite"></span>
           <button id="go" class="primary" type="button" aria-label="추천 보기">추천 보러가기</button>
         </div>
       </form>
     </main>
+
     <footer>
       <span>모든 항목을 선택하면 추천 링크로 이동합니다.</span>
     </footer>
   </div>
+
   <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
   <script>
     const LINKS = {
-      L_27_QHD: "https://link.coupang.com/a/cVDPaK",
-      L_27_UHD: "https://link.coupang.com/a/cVDQ4N",
-      L_32: "https://link.coupang.com/a/cVDWsa",
-      L_34: "https://link.coupang.com/a/cVDX9X"
+      OLED_27_NIGHT_VALUE: "https://link.coupang.com/a/dQ0Uoerpbo",
+      OLED_27_NIGHT_PREMIUM: "https://link.coupang.com/a/dQ03HUHuDY",
+      OLED_32_NIGHT: "https://link.coupang.com/a/dQ4u7KgsXQ",
+      OLED_27_DAY: "https://link.coupang.com/a/dQ24iLfiKb",
+      OLED_32_DAY: "https://link.coupang.com/a/dQ3gnOXYdM"
     };
+
     const form = document.getElementById('guide-form');
     const msgEl = document.getElementById('msg');
     const goBtn = document.getElementById('go');
+    const pickNoteEl = document.getElementById('pick-note');
+
     function getValue(name){
       const el = form.querySelector(`input[name="${name}"]:checked`);
       return el ? el.value : null;
     }
+
+    function updatePickNote(){
+      const pick = getValue('pick');
+      if(pick === 'value'){
+        pickNoteEl.textContent = '‘가성비 픽’은 가격에 중점을 둔 선택지로, 일부 품질과 안정성이 떨어질 수 있습니다.';
+      } else if(pick === 'premium'){
+        pickNoteEl.textContent = '‘프리미엄 픽’은 품질과 안정성에 중점을 둔 선택지로, 가격대가 높을 수 있습니다.';
+      } else {
+        pickNoteEl.textContent = '';
+      }
+    }
+
     function resolveLink(){
       const size = getValue('size');
-      const res = getValue('res');
-      if(!size) return { error: '사이즈를 먼저 선택해 주세요.' };
-      if(size === '32') return LINKS.L_32;
-      if(size === '34') return LINKS.L_34;
-      if(size === '27'){
-        if(!res) return { error: '해상도를 선택해 주세요.' };
-        if(res === 'qhd' || res === 'unknown') return LINKS.L_27_QHD;
-        if(res === 'uhd') return LINKS.L_27_UHD;
+      const time = getValue('time');
+      const pick = getValue('pick');
+
+      if(!size) return { error: '모니터 사이즈를 선택해 주세요.' };
+      if(!time) return { error: '사용 시간대를 선택해 주세요.' };
+      if(!pick) return { error: '추천 타입을 선택해 주세요.' };
+
+      if(size === '27' && time === 'day') return LINKS.OLED_27_DAY;
+      if(size === '32' && time === 'day') return LINKS.OLED_32_DAY;
+      if(size === '32' && (time === 'night' || time === 'both')) return LINKS.OLED_32_NIGHT;
+
+      if(size === '27' && (time === 'night' || time === 'both')){
+        if(pick === 'value') return LINKS.OLED_27_NIGHT_VALUE;
+        if(pick === 'premium') return LINKS.OLED_27_NIGHT_PREMIUM;
       }
+
       return { error: '선택값을 다시 확인해 주세요.' };
     }
+
     function updateButtonState(){
-      const size = getValue('size');
-      const res = getValue('res');
-      let ready = false;
-      if(size === '32' || size === '34') ready = true;
-      else if(size === '27' && res) ready = true;
+      updatePickNote();
+      const ready = !!(getValue('size') && getValue('time') && getValue('pick'));
       goBtn.disabled = !ready;
       msgEl.textContent = ready ? '' : '필수 항목을 선택해 주세요.';
     }
+
     form.addEventListener('change', updateButtonState);
     updateButtonState();
+
     goBtn.addEventListener('click', function(){
       const result = resolveLink();
       if(typeof result === 'string'){
         const a = document.createElement('a');
-        a.href = result; a.target = '_blank';
+        a.href = result;
+        a.target = '_blank';
         a.rel = 'noopener noreferrer nofollow sponsored';
-        document.body.appendChild(a); a.click(); a.remove();
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
         msgEl.textContent = '';
       } else if(result && result.error){
-        msgEl.textContent = result.error; goBtn.disabled = false;
+        msgEl.textContent = result.error;
+        goBtn.disabled = false;
       }
     });
   </script>
