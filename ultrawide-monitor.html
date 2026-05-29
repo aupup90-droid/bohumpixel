@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>울트라와이드 모니터</title>
+  <title>울트라와이드 모니터 추천가이드</title>
+  <meta name="description" content="질문에 답하면 원하는 사이즈와 예산 성향에 맞는 울트라와이드 모니터 추천 링크로 이동합니다." />
   <style>
     :root {
-      /* 기존 가이드와 동일한 톤 & 컴포넌트 스타일 */
       --bg: #cfa6e7;
       --card: #ffffff;
       --text: #1b1b1b;
@@ -16,10 +16,9 @@
       --ring: rgba(74, 42, 116, 0.35);
     }
     * { box-sizing: border-box; }
-    html, body { height: 100%; }
+    html, body { min-height: 100%; }
     body {
       margin: 0;
-      background: --bg;
       background: var(--bg);
       color: var(--text);
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
@@ -34,13 +33,13 @@
     }
 
     header {
-      padding: 32px 20px 16px;
+      padding: 28px 16px 14px;
       text-align: center;
       color: #fff;
     }
     header h1 {
       margin: 0;
-      font-size: clamp(22px, 4vw, 36px);
+      font-size: clamp(23px, 4vw, 36px);
       line-height: 1.15;
       font-weight: 800;
       letter-spacing: -0.02em;
@@ -49,40 +48,74 @@
 
     .container {
       width: min(900px, 92vw);
-      margin: 0 auto 36px;
+      margin: 0 auto 28px;
       background: var(--card);
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      padding: clamp(18px, 3.2vw, 28px);
+      padding: clamp(17px, 3vw, 28px);
     }
 
-    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
-    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; }
+    fieldset { border: 0; padding: 0; margin: 0 0 20px; }
+    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; line-height: 1.35; }
 
     .options {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
     }
+    .options.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
-    /* pill radios (원본 디자인과 동일한 동작/포커스) */
     .radio { position: relative; }
     .radio input { position: absolute; opacity: 0; pointer-events: none; }
     .radio label {
-      display: block; width: 100%; padding: 12px 14px; border: 1.5px solid #e5e5e8; border-radius: 12px;
-      background: #fff; color: var(--text); text-align: center; font-weight: 600; cursor: pointer; user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 46px;
+      padding: 11px 12px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      line-height: 1.25;
       transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
     }
     .radio label:hover { border-color: #d6d6db; }
     .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
     .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
 
-    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+    .hint {
+      min-height: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      margin: 8px 2px 0;
+    }
 
-    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    .actions {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
     button.primary {
-      appearance: none; border: 0; border-radius: 999px; padding: 14px 18px; font-weight: 800; letter-spacing: 0.02em;
-      background: var(--primary); color: var(--primary-contrast); cursor: pointer; box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74,42,116,0.25);
       transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
     }
     button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
@@ -91,93 +124,64 @@
 
     .msg { font-size: 13px; color: #a40000; }
 
-    footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.85); }
+    footer { text-align: center; padding: 10px 16px 24px; font-size: 12px; color: rgba(255,255,255,0.85); }
 
-    @media (max-width: 640px) { .options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 640px) {
+      header { padding-top: 22px; }
+      .container { width: min(430px, 92vw); margin-bottom: 22px; }
+      fieldset { margin-bottom: 16px; }
+      legend { font-size: 15px; margin-bottom: 10px; }
+      .options,
+      .options.two { grid-template-columns: 1fr; gap: 8px; }
+      .radio label { min-height: 42px; padding: 10px 12px; font-size: 14px; }
+      .hint { font-size: 12.5px; margin-top: 7px; }
+      .actions { margin-top: 10px; justify-content: stretch; }
+      .msg { width: 100%; text-align: center; }
+      button.primary { width: 100%; padding: 13px 16px; }
+      footer { padding-bottom: 20px; }
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>울트라와이드 모니터</h1>
+      <h1>울트라와이드 모니터 추천가이드</h1>
     </header>
 
     <main class="container" role="main">
       <form id="guide-form" novalidate>
-        <!-- Q1: 비율 -->
         <fieldset>
-          <legend>어떤 비율의 울트라와이드 모니터를 원하시나요? <small>(참고사항 : 일반모니터는 16:9 비율입니다.)</small></legend>
-          <div class="options" role="radiogroup" aria-label="울트라와이드 비율 선택">
+          <legend>1. 어떤 사이즈의 울트라와이드 모니터를 원하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="울트라와이드 모니터 사이즈 선택">
             <div class="radio">
-              <input type="radio" id="aspect-21" name="aspect" value="21_9">
-              <label for="aspect-21">21:9 비율</label>
+              <input type="radio" id="size-34" name="size" value="34">
+              <label for="size-34">34인치 모니터</label>
             </div>
             <div class="radio">
-              <input type="radio" id="aspect-34" name="aspect" value="34_9">
-              <label for="aspect-34">34:9 비율</label>
+              <input type="radio" id="size-38" name="size" value="38">
+              <label for="size-38">38인치 모니터</label>
             </div>
             <div class="radio">
-              <input type="radio" id="aspect-unk" name="aspect" value="unknown">
-              <label for="aspect-unk">모르겠음</label>
+              <input type="radio" id="size-49" name="size" value="49">
+              <label for="size-49">49인치 모니터</label>
             </div>
           </div>
+          <p id="size-hint" class="hint" aria-live="polite"></p>
         </fieldset>
 
-        <!-- Q2: 해상도 -->
         <fieldset>
-          <legend>원하시는 해상도는 어떻게 되나요.</legend>
-          <div class="options" role="radiogroup" aria-label="해상도 선택">
+          <legend>2. 가성비 픽과 프리미엄 픽 중에 무엇을 선택 하실건가요?</legend>
+          <div class="options two" role="radiogroup" aria-label="추천 픽 선택">
             <div class="radio">
-              <input type="radio" id="res-fhd" name="resolution" value="fhd">
-              <label for="res-fhd">FHD</label>
+              <input type="radio" id="pick-value" name="pick" value="value">
+              <label for="pick-value">가성비 픽</label>
             </div>
             <div class="radio">
-              <input type="radio" id="res-qhd" name="resolution" value="qhd">
-              <label for="res-qhd">QHD</label>
-            </div>
-            <div class="radio">
-              <input type="radio" id="res-unk" name="resolution" value="unknown">
-              <label for="res-unk">모르겠음</label>
+              <input type="radio" id="pick-premium" name="pick" value="premium">
+              <label for="pick-premium">프리미엄 픽</label>
             </div>
           </div>
-        </fieldset>
-
-        <!-- Q3: 용도 -->
-        <fieldset>
-          <legend>모니터의 주 용도는 어떻게 되나요?</legend>
-          <div class="options" role="radiogroup" aria-label="용도 선택">
-            <div class="radio">
-              <input type="radio" id="pur-web" name="purpose" value="web">
-              <label for="pur-web">사무 및 웹서핑</label>
-            </div>
-            <div class="radio">
-              <input type="radio" id="pur-game" name="purpose" value="game">
-              <label for="pur-game">게이밍</label>
-            </div>
-            <div class="radio">
-              <input type="radio" id="pur-video" name="purpose" value="video">
-              <label for="pur-video">영상시청</label>
-            </div>
-            <div class="radio">
-              <input type="radio" id="pur-multi" name="purpose" value="multi">
-              <label for="pur-multi">다목적</label>
-            </div>
-          </div>
-        </fieldset>
-
-        <!-- Q4: 사용 기간 -->
-        <fieldset>
-          <legend>모니터를 몇 년간 사용하실 예정인가요?</legend>
-          <div class="options" role="radiogroup" aria-label="사용 기간 선택">
-            <div class="radio">
-              <input type="radio" id="yr-short" name="years" value="short">
-              <label for="yr-short">1~5년</label>
-            </div>
-            <div class="radio">
-              <input type="radio" id="yr-long" name="years" value="long">
-              <label for="yr-long">5년 이상</label>
-            </div>
-          </div>
+          <p id="pick-hint" class="hint" aria-live="polite"></p>
         </fieldset>
 
         <div class="actions">
@@ -196,98 +200,77 @@
 
   <script>
     const LINKS = {
-      FHD_WEB_SHORT: "https://link.coupang.com/a/cTlwgk",
-      FHD_WEB_LONG:  "https://link.coupang.com/a/cTluX7",
-      FHD_GAME_MULTI: "https://link.coupang.com/a/cTluX7",
-
-      QHD_WEB_SHORT: "https://link.coupang.com/a/cTJBXZ",
-      QHD_WEB_LONG:  "https://link.coupang.com/a/cTlyja",
-      QHD_GAME_MULTI: "https://link.coupang.com/a/cTJFcS",
-
-      A34_SHORT: "https://link.coupang.com/a/cTJIA4",
-      A34_LONG:  "https://link.coupang.com/a/cTJHk9"
+      "34_value": "https://link.coupang.com/a/d8vFqR2JzM",
+      "34_premium": "https://link.coupang.com/a/d8vUriN2Hc",
+      "38_value": "https://link.coupang.com/a/d8wsmqBOH6",
+      "38_premium": "https://link.coupang.com/a/d8wJ9bnlXV",
+      "49_value": "https://link.coupang.com/a/d8xncFKy28",
+      "49_premium": "https://link.coupang.com/a/d8xIVOiisK"
     };
 
+    const SIZE_HINTS = {
+      "34": "34인치 모니터는 21:9 비율 모니터로, 세로 길이는 27인치 모니터와 거의 동일합니다.",
+      "38": "38인치 모니터는 21:9 비율 모니터로, 세로 길이는 32인치 모니터와 거의 동일합니다.",
+      "49": "49인치 모니터는 32:9 비율 모니터로, 세로 길이는 27인치 모니터와 거의 동일합니다."
+    };
+
+    const PICK_HINTS = {
+      "value": "‘가성비 픽’은 가격에 중점을 둔 선택지로, 일부 품질과 안정성이 떨어질 수 있습니다.",
+      "premium": "‘프리미엄 픽’은 품질과 안정성에 중점을 둔 선택지로, 가격대가 높을 수 있습니다."
+    };
+
+    const form = document.getElementById('guide-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+    const sizeHintEl = document.getElementById('size-hint');
+    const pickHintEl = document.getElementById('pick-hint');
+
     function getValue(name){
-      const el = document.querySelector(`input[name="${name}"]:checked`);
+      const el = form.querySelector(`input[name="${name}"]:checked`);
       return el ? el.value : null;
     }
 
-    function updateButtonState(){
-      const aspect = getValue('aspect');
-      const resolution = getValue('resolution');
-      const purpose = getValue('purpose');
-      const years = getValue('years');
+    function resolveLink(){
+      const size = getValue('size');
+      const pick = getValue('pick');
 
-      let ready = false;
-      if(aspect === '34_9') {
-        ready = !!years; // 34:9는 기간만 필수
-      } else if(aspect === '21_9' || aspect === 'unknown') {
-        ready = !!(resolution && purpose && years);
-      }
-      document.getElementById('go').disabled = !ready;
-      document.getElementById('msg').textContent = ready ? '' : '필수 항목을 선택해 주세요.';
+      if(!size) return { error: '모니터 사이즈를 선택해 주세요.' };
+      if(!pick) return { error: '추천 픽을 선택해 주세요.' };
+
+      const key = `${size}_${pick}`;
+      return LINKS[key] || { error: '선택값을 다시 확인해 주세요.' };
     }
 
-    document.getElementById('guide-form').addEventListener('change', updateButtonState);
-    updateButtonState();
+    function updateGuide(){
+      const size = getValue('size');
+      const pick = getValue('pick');
 
-    document.getElementById('go').addEventListener('click', () => {
-      const aspect = getValue('aspect');
-      const resolution = getValue('resolution');
-      const purpose = getValue('purpose');
-      const years = getValue('years');
-      const msgEl = document.getElementById('msg');
-      const goBtn = document.getElementById('go');
+      sizeHintEl.textContent = size ? SIZE_HINTS[size] : '';
+      pickHintEl.textContent = pick ? PICK_HINTS[pick] : '';
 
-      function openLink(url) {
+      const ready = !!(size && pick);
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? '' : '필수 항목을 선택해 주세요.';
+    }
+
+    form.addEventListener('change', updateGuide);
+    updateGuide();
+
+    goBtn.addEventListener('click', function(){
+      const result = resolveLink();
+      if(typeof result === 'string'){
         const a = document.createElement('a');
-        a.href = url;
+        a.href = result;
         a.target = '_blank';
         a.rel = 'noopener noreferrer nofollow sponsored';
         document.body.appendChild(a);
         a.click();
         a.remove();
-      }
-
-      function error(msg) {
-        msgEl.textContent = msg;
+        msgEl.textContent = '';
+      } else if(result && result.error){
+        msgEl.textContent = result.error;
         goBtn.disabled = false;
       }
-
-      goBtn.disabled = true; msgEl.textContent = '';
-
-      // 34:9 우선 분기 (해상도/용도 무시)
-      if(aspect === '34_9') {
-        if(years === 'short') return openLink(LINKS.A34_SHORT);
-        if(years === 'long')  return openLink(LINKS.A34_LONG);
-        return error('사용 기간을 선택해 주세요.');
-      }
-
-      // 21:9 또는 모름
-      if(aspect === '21_9' || aspect === 'unknown') {
-        if(resolution === 'fhd') {
-          if(purpose === 'game' || purpose === 'multi') return openLink(LINKS.FHD_GAME_MULTI);
-          if(purpose === 'web' || purpose === 'video') {
-            if(years === 'short') return openLink(LINKS.FHD_WEB_SHORT);
-            if(years === 'long')  return openLink(LINKS.FHD_WEB_LONG);
-          }
-          return error('사용 기간을 선택해 주세요.');
-        }
-
-        if(resolution === 'qhd' || resolution === 'unknown') {
-          if(purpose === 'game' || purpose === 'multi') return openLink(LINKS.QHD_GAME_MULTI);
-          if(purpose === 'web' || purpose === 'video') {
-            if(years === 'short') return openLink(LINKS.QHD_WEB_SHORT);
-            if(years === 'long')  return openLink(LINKS.QHD_WEB_LONG);
-          }
-          return error('사용 기간을 선택해 주세요.');
-        }
-
-        return error('해상도를 선택해 주세요.');
-      }
-
-      return error('비율을 선택해 주세요.');
     });
   </script>
 </body>
