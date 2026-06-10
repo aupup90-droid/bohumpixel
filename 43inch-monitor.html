@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>43인치 모니터 추천가이드</title>
-  <meta name="description" content="질문에 답하면 상황에 맞는 모니터 추천 링크로 이동합니다." />
+  <meta name="description" content="질문에 답하면 상황에 맞는 43인치 모니터 추천 링크로 이동합니다." />
   <style>
     :root {
       --bg: #cfa6e7;
@@ -13,81 +13,89 @@
       --muted: #5b5b5b;
       --primary: #4a2a74;
       --primary-contrast: #ffffff;
-      --ring: rgba(74,42,116,0.25);
+      --ring: rgba(74, 42, 116, 0.35);
     }
     * { box-sizing: border-box; }
-    html, body { height: 100%; }
+    html, body { min-height: 100%; }
     body {
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Helvetica, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+
     .wrap {
       min-height: 100vh;
       display: grid;
       grid-template-rows: auto 1fr auto;
     }
+
     header {
-      padding: 32px 20px 16px;
+      padding: 30px 20px 14px;
       text-align: center;
       color: #fff;
     }
     header h1 {
       margin: 0;
-      font-size: clamp(22px, 4vw, 36px);
+      font-size: clamp(24px, 5vw, 38px);
       line-height: 1.15;
       font-weight: 800;
       letter-spacing: -0.02em;
       text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
     }
+
     .container {
-      display: grid;
-      place-items: center;
-      padding: 16px;
-    }
-    .card {
-      width: 100%;
-      max-width: 760px;
+      width: min(900px, 92vw);
+      margin: 0 auto 32px;
       background: var(--card);
-      border-radius: 20px;
-      padding: 20px clamp(16px, 3vw, 28px);
+      border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(16px, 3vw, 28px);
     }
-    fieldset { border: 0; margin: 0; padding: 0; }
-    legend {
-      margin: 16px 0 10px;
-      font-weight: 800;
-      font-size: clamp(16px, 2.5vw, 18px);
-      letter-spacing: -0.01em;
-    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 18px; }
+    legend { font-weight: 700; margin-bottom: 10px; font-size: 16px; line-height: 1.35; }
+
     .options {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 8px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
     }
-    .radio input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
     .radio label {
-      display: block;
+      display: flex;
       width: 100%;
-      padding: 12px 14px;
+      min-height: 46px;
+      padding: 10px 12px;
       border: 1.5px solid #e5e5e8;
       border-radius: 12px;
       background: #fff;
       color: var(--text);
       text-align: center;
-      font-weight: 600;
+      font-weight: 650;
+      line-height: 1.25;
       cursor: pointer;
       user-select: none;
+      align-items: center;
+      justify-content: center;
       transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
     }
     .radio label:hover { border-color: #d6d6db; }
     .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
     .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
-    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
-    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+
+    .actions {
+      margin-top: 12px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
     button.primary {
       appearance: none;
       border: 0;
@@ -104,67 +112,98 @@
     button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
     button.primary:active { transform: translateY(1px); }
     button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
     .msg { font-size: 13px; color: #a40000; }
-    footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.85); }
-    @media (max-width: 640px) { .options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    footer { text-align: center; padding: 10px 16px 26px; font-size: 12px; color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 640px) {
+      header { padding: 22px 16px 10px; }
+      .container {
+        width: min(94vw, 520px);
+        margin-bottom: 22px;
+        padding: 15px;
+        border-radius: 14px;
+      }
+      fieldset { margin-bottom: 14px; }
+      legend { font-size: 14.5px; margin-bottom: 8px; }
+      .options { gap: 8px; }
+      .radio label { min-height: 42px; padding: 9px 8px; font-size: 13.5px; border-radius: 10px; }
+      .actions { margin-top: 8px; justify-content: stretch; }
+      .msg { width: 100%; min-height: 18px; }
+      button.primary { width: 100%; padding: 13px 16px; }
+      footer { padding-bottom: 18px; }
+    }
   </style>
-</head>
+<script type="text/javascript" nonce="db883a8612294d76b4617a05e7b" src="//local.adguard.org?ts=1781086933795&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000009348720bafbfeceb7915ae6d%26ts%3D494748%26p%3Dfs%26cid%3D1%26sig%3D48e7e0381646c1d68073bd4c66f90bdebfe6a439e8780e93f6bf4e7a19ed74ec%26v%3D0&amp;app=com.google.Chrome&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=0"></script><script type="text/javascript" nonce="db883a8612294d76b4617a05e7b" src="//local.adguard.org?ts=1781086933795&amp;name=AdGuard%20Extra&amp;type=user-script"></script></head>
 <body>
   <div class="wrap">
     <header>
-      <h1>43인치 모니터 추천가이드</h1>
+      <h1>43인치 모니터</h1>
     </header>
 
-    <main class="container">
-      <section class="card">
-        <form id="form">
-          <fieldset>
-            <legend>원하시는 해상도는 어떻게 되나요?</legend>
-            <div class="options" role="radiogroup" aria-label="해상도 선택">
-              <div class="radio">
-                <input type="radio" id="res-fhd" name="res" value="fhd">
-                <label for="res-fhd">FHD</label>
-              </div>
-              <div class="radio">
-                <input type="radio" id="res-uhd" name="res" value="uhd">
-                <label for="res-uhd">UHD</label>
-              </div>
-              <div class="radio">
-                <input type="radio" id="res-unk" name="res" value="unknown">
-                <label for="res-unk">모르겠음</label>
-              </div>
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <fieldset>
+          <legend>1. 가격은 어느 정도를 생각하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="가격대 선택">
+            <div class="radio">
+              <input type="radio" id="price-under" name="price" value="under50">
+              <label for="price-under">50만원대 이하</label>
             </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>모니터의 주 용도는 어떻게 되나요?</legend>
-            <div class="options" role="radiogroup" aria-label="용도 선택">
-              <div class="radio">
-                <input type="radio" id="use-web" name="purpose" value="web">
-                <label for="use-web">사무 및 웹서핑</label>
-              </div>
-              <div class="radio">
-                <input type="radio" id="use-game" name="purpose" value="game">
-                <label for="use-game">게이밍</label>
-              </div>
-              <div class="radio">
-                <input type="radio" id="use-video" name="purpose" value="video">
-                <label for="use-video">영상시청</label>
-              </div>
-              <div class="radio">
-                <input type="radio" id="use-mobile" name="purpose" value="mobile">
-                <label for="use-mobile">이동형 모니터</label>
-              </div>
+            <div class="radio">
+              <input type="radio" id="price-over" name="price" value="over50">
+              <label for="price-over">50만원 초과</label>
             </div>
-          </fieldset>
-
-          <div class="actions">
-            <span class="msg" id="msg"></span>
-            <button type="button" id="goBtn" class="primary" disabled>추천 받기</button>
           </div>
-          <p class="hint">선택에 따라 최적의 링크로 이동합니다.</p>
-        </form>
-      </section>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. 선명한 해상도(화질)의 모니터를 원하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="선명한 해상도 선호 선택">
+            <div class="radio">
+              <input type="radio" id="resolution-yes" name="resolution" value="yes">
+              <label for="resolution-yes">네</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="resolution-no" name="resolution" value="no">
+              <label for="resolution-no">아니오</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>3. TV처럼 리모콘 사용을 원하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="리모콘 사용 선호 선택">
+            <div class="radio">
+              <input type="radio" id="remote-yes" name="remote" value="yes">
+              <label for="remote-yes">원해요</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="remote-no" name="remote" value="no">
+              <label for="remote-no">원하지 않아요</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>4. 오래 사용해도 눈이 편안한 모니터를 원하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="눈이 편안한 모니터 선호 선택">
+            <div class="radio">
+              <input type="radio" id="eye-yes" name="eye" value="yes">
+              <label for="eye-yes">네, 편안한 제품을 원해요</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="eye-no" name="eye" value="no">
+              <label for="eye-no">상관없어요</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button" aria-label="추천 보기">추천 보러가기</button>
+        </div>
+      </form>
     </main>
 
     <footer>
@@ -176,52 +215,65 @@
 
   <script>
     const LINKS = {
-      FHD: "https://link.coupang.com/a/cVEkk1",
-      UHD_OR_MOBILE: "https://link.coupang.com/a/cVhNRE"
+      REMOTE: "https://link.coupang.com/a/esxpzIfFRc",
+      EYE_PREMIUM: "https://link.coupang.com/a/esxuv5O5dY",
+      NO_RESOLUTION: "https://link.coupang.com/a/esxrKFN62m",
+      DEFAULT: "https://link.coupang.com/a/esxyrVF70K"
     };
 
-    function resolveLink(res, purpose) {
-      if (purpose === "mobile") return LINKS.UHD_OR_MOBILE;
-      if (res === "uhd" || res === "unknown") return LINKS.UHD_OR_MOBILE;
-      if (res === "fhd") return LINKS.FHD;
-      return null;
+    const form = document.getElementById('guide-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+
+    function getValue(name){
+      const el = form.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
     }
 
-    const form = document.getElementById("form");
-    const goBtn = document.getElementById("goBtn");
-    const msgEl = document.getElementById("msg");
+    function resolveLink(){
+      const price = getValue('price');
+      const resolution = getValue('resolution');
+      const remote = getValue('remote');
+      const eye = getValue('eye');
 
-    function updateButtonState() {
-      const data = new FormData(form);
-      const res = data.get("res");
-      const purpose = data.get("purpose");
+      if(!price) return { error: '가격대를 선택해 주세요.' };
+      if(!resolution) return { error: '해상도 선호를 선택해 주세요.' };
+      if(!remote) return { error: '리모콘 사용 여부를 선택해 주세요.' };
+      if(!eye) return { error: '눈이 편안한 모니터 선호를 선택해 주세요.' };
 
-      const ready = !!(purpose === "mobile" || res);
+      if(remote === 'yes') return LINKS.REMOTE;
+      if(price === 'over50' && eye === 'yes') return LINKS.EYE_PREMIUM;
+      if(resolution === 'no') return LINKS.NO_RESOLUTION;
+      return LINKS.DEFAULT;
+    }
+
+    function updateButtonState(){
+      const ready = !!(
+        getValue('price') &&
+        getValue('resolution') &&
+        getValue('remote') &&
+        getValue('eye')
+      );
       goBtn.disabled = !ready;
-      msgEl.textContent = ready ? "" : "필수 항목을 선택해 주세요.";
+      msgEl.textContent = ready ? '' : '필수 항목을 선택해 주세요.';
     }
 
-    form.addEventListener("change", updateButtonState);
+    form.addEventListener('change', updateButtonState);
     updateButtonState();
 
-    goBtn.addEventListener("click", function () {
-      goBtn.disabled = true;
-      const data = new FormData(form);
-      const res = data.get("res");
-      const purpose = data.get("purpose");
-      const target = resolveLink(res, purpose);
-
-      if (typeof target === "string") {
-        const a = document.createElement("a");
-        a.href = target;
-        a.target = "_blank";
-        a.rel = "noopener noreferrer nofollow sponsored";
+    goBtn.addEventListener('click', function(){
+      const result = resolveLink();
+      if(typeof result === 'string'){
+        const a = document.createElement('a');
+        a.href = result;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer nofollow sponsored';
         document.body.appendChild(a);
         a.click();
         a.remove();
-        msgEl.textContent = "";
-      } else {
-        msgEl.textContent = "선택값을 다시 확인해 주세요.";
+        msgEl.textContent = '';
+      } else if(result && result.error){
+        msgEl.textContent = result.error;
         goBtn.disabled = false;
       }
     });
