@@ -33,13 +33,13 @@
     }
 
     header {
-      padding: 28px 20px 14px;
+      padding: 32px 20px 14px;
       text-align: center;
       color: #fff;
     }
     header h1 {
       margin: 0;
-      font-size: clamp(23px, 5vw, 36px);
+      font-size: clamp(22px, 4vw, 36px);
       line-height: 1.15;
       font-weight: 800;
       letter-spacing: -0.02em;
@@ -47,16 +47,17 @@
     }
 
     .container {
-      width: min(820px, 92vw);
-      margin: 0 auto 30px;
+      width: min(900px, 92vw);
+      margin: 0 auto 34px;
       background: var(--card);
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      padding: clamp(16px, 3vw, 26px);
+      padding: clamp(18px, 3.2vw, 28px);
     }
 
-    fieldset { border: 0; padding: 0; margin: 0 0 18px; }
-    legend { font-weight: 700; margin-bottom: 10px; font-size: 16px; line-height: 1.35; }
+    fieldset { border: 0; padding: 0; margin: 0 0 20px; }
+    fieldset:last-of-type { margin-bottom: 14px; }
+    legend { font-weight: 700; margin-bottom: 11px; font-size: 16px; }
 
     .options {
       display: grid;
@@ -68,36 +69,40 @@
     .radio { position: relative; }
     .radio input { position: absolute; opacity: 0; pointer-events: none; }
     .radio label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
+      display: block;
       width: 100%;
-      padding: 11px 12px;
+      padding: 12px 14px;
       border: 1.5px solid #e5e5e8;
       border-radius: 12px;
       background: #fff;
       color: var(--text);
       text-align: center;
-      font-weight: 700;
+      font-weight: 600;
       cursor: pointer;
       user-select: none;
-      line-height: 1.25;
       transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
     }
     .radio label:hover { border-color: #d6d6db; }
     .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
     .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
 
-    .pick-note {
+    .hint {
       min-height: 18px;
-      margin: -8px 0 12px;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 12.5px;
       line-height: 1.45;
+      margin-top: 8px;
     }
+    .hint:empty { display: none; }
 
-    .actions { margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    .actions {
+      margin-top: 12px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
     button.primary {
       appearance: none;
       border: 0;
@@ -117,20 +122,24 @@
 
     .msg { font-size: 13px; color: #a40000; }
 
-    footer { text-align: center; padding: 10px 16px 24px; font-size: 12px; color: rgba(255,255,255,0.85); }
+    footer {
+      text-align: center;
+      padding: 12px 16px 26px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.85);
+    }
 
     @media (max-width: 640px) {
-      header { padding: 22px 16px 12px; }
-      .container { width: min(94vw, 520px); margin-bottom: 22px; padding: 16px; border-radius: 14px; }
-      fieldset { margin-bottom: 15px; }
-      legend { font-size: 15px; margin-bottom: 8px; }
-      .options, .options.two { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-      .radio label { min-height: 44px; padding: 10px 9px; font-size: 14px; }
-      .pick-note { margin: -5px 0 10px; font-size: 11.5px; }
+      header { padding: 24px 16px 12px; }
+      .container { width: min(94vw, 900px); margin-bottom: 26px; padding: 16px; }
+      fieldset { margin-bottom: 16px; }
+      legend { font-size: 15px; margin-bottom: 9px; }
+      .options, .options.two { gap: 8px; }
+      .radio label { padding: 11px 8px; font-size: 14px; }
+      .hint { font-size: 12px; margin-top: 6px; }
       .actions { justify-content: stretch; }
-      .actions .msg { width: 100%; text-align: center; }
+      .msg { width: 100%; text-align: center; }
       button.primary { width: 100%; padding: 13px 16px; }
-      footer { padding-bottom: 18px; }
     }
   </style>
 </head>
@@ -178,17 +187,16 @@
           <legend>3. 가성비 픽과 프리미엄 픽 중에 무엇을 선택 하실건가요?</legend>
           <div class="options two" role="radiogroup" aria-label="추천 타입 선택">
             <div class="radio">
-              <input type="radio" id="pick-value" name="pick" value="value">
-              <label for="pick-value">가성비 픽</label>
+              <input type="radio" id="tier-budget" name="tier" value="budget">
+              <label for="tier-budget">가성비 픽</label>
             </div>
             <div class="radio">
-              <input type="radio" id="pick-premium" name="pick" value="premium">
-              <label for="pick-premium">프리미엄 픽</label>
+              <input type="radio" id="tier-premium" name="tier" value="premium">
+              <label for="tier-premium">프리미엄 픽</label>
             </div>
           </div>
+          <p id="tier-hint" class="hint" aria-live="polite"></p>
         </fieldset>
-
-        <p id="pick-note" class="pick-note" aria-live="polite"></p>
 
         <div class="actions">
           <span id="msg" class="msg" role="status" aria-live="polite"></span>
@@ -206,58 +214,55 @@
 
   <script>
     const LINKS = {
-      OLED_27_NIGHT_VALUE: "https://link.coupang.com/a/dQ0Uoerpbo",
-      OLED_27_NIGHT_PREMIUM: "https://link.coupang.com/a/dQ03HUHuDY",
-      OLED_32_NIGHT: "https://link.coupang.com/a/dQ4u7KgsXQ",
-      OLED_27_DAY: "https://link.coupang.com/a/dQ24iLfiKb",
-      OLED_32_DAY: "https://link.coupang.com/a/dQ3gnOXYdM"
+      SIZE_27_NIGHT_BUDGET: "https://link.coupang.com/a/e1q2QtStgW",
+      SIZE_27_NIGHT_PREMIUM: "https://link.coupang.com/a/e1qZ6lz9BA",
+      SIZE_32_NIGHT: "https://link.coupang.com/a/e1qXyko48O",
+      SIZE_27_DAY: "https://link.coupang.com/a/dQ24iLfiKb",
+      SIZE_32_DAY: "https://link.coupang.com/a/e1qUSFosns"
     };
 
     const form = document.getElementById('guide-form');
     const msgEl = document.getElementById('msg');
     const goBtn = document.getElementById('go');
-    const pickNoteEl = document.getElementById('pick-note');
+    const tierHint = document.getElementById('tier-hint');
 
     function getValue(name){
       const el = form.querySelector(`input[name="${name}"]:checked`);
       return el ? el.value : null;
     }
 
-    function updatePickNote(){
-      const pick = getValue('pick');
-      if(pick === 'value'){
-        pickNoteEl.textContent = '‘가성비 픽’은 가격에 중점을 둔 선택지로, 일부 품질과 안정성이 떨어질 수 있습니다.';
-      } else if(pick === 'premium'){
-        pickNoteEl.textContent = '‘프리미엄 픽’은 품질과 안정성에 중점을 둔 선택지로, 가격대가 높을 수 있습니다.';
-      } else {
-        pickNoteEl.textContent = '';
-      }
-    }
-
     function resolveLink(){
       const size = getValue('size');
       const time = getValue('time');
-      const pick = getValue('pick');
+      const tier = getValue('tier');
 
       if(!size) return { error: '모니터 사이즈를 선택해 주세요.' };
       if(!time) return { error: '사용 시간대를 선택해 주세요.' };
-      if(!pick) return { error: '추천 타입을 선택해 주세요.' };
+      if(!tier) return { error: '추천 타입을 선택해 주세요.' };
 
-      if(size === '27' && time === 'day') return LINKS.OLED_27_DAY;
-      if(size === '32' && time === 'day') return LINKS.OLED_32_DAY;
-      if(size === '32' && (time === 'night' || time === 'both')) return LINKS.OLED_32_NIGHT;
-
-      if(size === '27' && (time === 'night' || time === 'both')){
-        if(pick === 'value') return LINKS.OLED_27_NIGHT_VALUE;
-        if(pick === 'premium') return LINKS.OLED_27_NIGHT_PREMIUM;
-      }
+      if(size === '27' && time === 'day') return LINKS.SIZE_27_DAY;
+      if(size === '32' && time === 'day') return LINKS.SIZE_32_DAY;
+      if(size === '32' && (time === 'night' || time === 'both')) return LINKS.SIZE_32_NIGHT;
+      if(size === '27' && (time === 'night' || time === 'both') && tier === 'budget') return LINKS.SIZE_27_NIGHT_BUDGET;
+      if(size === '27' && (time === 'night' || time === 'both') && tier === 'premium') return LINKS.SIZE_27_NIGHT_PREMIUM;
 
       return { error: '선택값을 다시 확인해 주세요.' };
     }
 
+    function updateTierHint(){
+      const tier = getValue('tier');
+      if(tier === 'budget') {
+        tierHint.textContent = '‘가성비 픽’은 가격에 중점을 둔 선택지로, 일부 품질과 안정성이 떨어질 수 있습니다.';
+      } else if(tier === 'premium') {
+        tierHint.textContent = '‘프리미엄 픽’은 품질과 안정성에 중점을 둔 선택지로, 가격대가 높을 수 있습니다.';
+      } else {
+        tierHint.textContent = '';
+      }
+    }
+
     function updateButtonState(){
-      updatePickNote();
-      const ready = !!(getValue('size') && getValue('time') && getValue('pick'));
+      updateTierHint();
+      const ready = !!(getValue('size') && getValue('time') && getValue('tier'));
       goBtn.disabled = !ready;
       msgEl.textContent = ready ? '' : '필수 항목을 선택해 주세요.';
     }
