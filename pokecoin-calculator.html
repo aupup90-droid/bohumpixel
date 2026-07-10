@@ -177,7 +177,7 @@
       .msg { width: 100%; text-align: center; }
     }
   </style>
-<script type="text/javascript" nonce="4bda8be192ad438196d05f8af5d" src="//local.adguard.org?ts=1783580986447&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000d07c720bb2a47262827b5b23%26ts%3D495439%26p%3Dfs%26cid%3D1%26sig%3D886eeeb091d0d7ce73fbd7ae586f87e7e81309ae41fb59798f23b5edcad6acc5%26v%3D0&amp;app=com.google.Chrome&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="4bda8be192ad438196d05f8af5d" src="//local.adguard.org?ts=1783580986447&amp;name=AdGuard%20Extra&amp;type=user-script"></script></head>
+<script type="text/javascript" nonce="4bda8be192ad438196d05f8af5d" src="//local.adguard.org?ts=1783650233436&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000006e1471fb994381ca1d433f66%26fn%3Dpokecoin-calculator.html%26cd%3Dattachment%26ts%3D495458%26p%3Dfs%26cid%3D1%26sig%3D991b3fb93bd5ab7e8c6a6821e274511fede7666e505859dc7d588dfc550351a9%26v%3D0&amp;app=com.google.Chrome&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="4bda8be192ad438196d05f8af5d" src="//local.adguard.org?ts=1783650233436&amp;name=AdGuard%20Extra&amp;type=user-script"></script><script type="text/javascript" nonce="4bda8be192ad438196d05f8af5d" src="//local.adguard.org?ts=1783580986447&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000d07c720bb2a47262827b5b23%26ts%3D495439%26p%3Dfs%26cid%3D1%26sig%3D886eeeb091d0d7ce73fbd7ae586f87e7e81309ae41fb59798f23b5edcad6acc5%26v%3D0&amp;app=com.google.Chrome&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="4bda8be192ad438196d05f8af5d" src="//local.adguard.org?ts=1783580986447&amp;name=AdGuard%20Extra&amp;type=user-script"></script></head>
 <body>
   <div class="wrap">
     <header>
@@ -283,13 +283,22 @@
         return;
       }
 
+      const targetWindow = window.open('about:blank', '_blank');
+      if(targetWindow){
+        targetWindow.opener = null;
+      }
+
       resultText.textContent = RESULTS[selected];
       form.style.display = 'none';
       resultPanel.classList.add('is-active');
       resultPanel.setAttribute('aria-hidden', 'false');
 
       window.setTimeout(function(){
-        window.location.href = TARGET_URL;
+        if(targetWindow && !targetWindow.closed){
+          targetWindow.location.replace(TARGET_URL);
+        }else{
+          window.open(TARGET_URL, '_blank', 'noopener,noreferrer');
+        }
       }, 2000);
     });
   </script>
