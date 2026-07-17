@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>로벅스 대리구매 이득율 계산기</title>
+  <meta name="description" content="구매할 로벅스를 선택하면 대리구매 시 공식 구매보다 얼마나 저렴한지 확인할 수 있습니다." />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 30px 18px 14px;
+      text-align: center;
+      color: #fff;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    header p {
+      max-width: 720px;
+      margin: 10px auto 0;
+      font-size: clamp(13px, 2.4vw, 16px);
+      line-height: 1.55;
+      color: rgba(255,255,255,0.95);
+      word-break: keep-all;
+    }
+
+    .container {
+      width: min(860px, 92vw);
+      margin: 0 auto 32px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3vw, 28px);
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0; }
+
+    legend {
+      font-weight: 800;
+      margin-bottom: 12px;
+      font-size: 17px;
+      letter-spacing: -0.01em;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+
+    .radio label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      width: 100%;
+      padding: 11px 12px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 700;
+      line-height: 1.25;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+      word-break: keep-all;
+    }
+
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 12px;
+    }
+
+    .hint p { margin: 2px 0; }
+
+    .actions {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    button.primary {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 20px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: #a40000; }
+
+    .result-panel {
+      display: none;
+      text-align: center;
+      padding: clamp(8px, 2vw, 16px) 0;
+    }
+
+    .result-panel.is-active { display: block; }
+
+    .result-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: rgba(74,42,116,0.10);
+      color: var(--primary);
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .result-panel h2 {
+      margin: 0;
+      color: var(--primary);
+      font-size: clamp(23px, 5vw, 38px);
+      line-height: 1.25;
+      letter-spacing: -0.03em;
+      word-break: keep-all;
+    }
+
+    .redirect-text {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px 16px 26px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    @media (max-width: 640px) {
+      header { padding-top: 24px; }
+      .container { width: min(94vw, 520px); margin-bottom: 24px; }
+      .options { gap: 8px; }
+      .radio label { min-height: 46px; padding: 10px 8px; font-size: 14px; }
+      .actions { justify-content: stretch; }
+      button.primary { width: 100%; }
+      .msg { width: 100%; text-align: center; }
+    }
+  </style>
+<script type="text/javascript" nonce="4bda8be192ad438196d05f8af5d" src="//local.adguard.org?ts=1784247834397&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000002f08720c8382713859b113cb%26fn%3Drobux-calculator.html%26cd%3Dattachment%26ts%3D495626%26p%3Dfs%26cid%3D1%26sig%3D093645876c79e59686f3d6169a7c9d6531eb655f8d4abd51d6c17f25c730a0b5%26v%3D0&amp;app=com.google.Chrome&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="4bda8be192ad438196d05f8af5d" src="//local.adguard.org?ts=1784247834397&amp;name=AdGuard%20Extra&amp;type=user-script"></script></head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>로벅스 대리구매 이득율 계산기</h1>
+      <p>아래 항목을 선택하면, 대리구매 시 공식 구매보다 얼마나 저렴한지 확인할 수 있습니다.</p>
+    </header>
+
+    <main class="container" role="main">
+      <form id="robux-form" novalidate>
+        <fieldset>
+          <legend>구매하실 로벅스는 대략 얼마정도인가요?</legend>
+          <div class="options" role="radiogroup" aria-label="구매할 로벅스 선택">
+            <div class="radio">
+              <input type="radio" id="robux-1000" name="robux" value="1000">
+              <label for="robux-1000">1000 로벅스</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="robux-3000" name="robux" value="3000">
+              <label for="robux-3000">3000 로벅스</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="robux-5000" name="robux" value="5000">
+              <label for="robux-5000">5000 로벅스</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="robux-10000" name="robux" value="10000">
+              <label for="robux-10000">10000 로벅스</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="hint" aria-label="안내사항">
+          <p>*대리구매는 환율에 따라서 변동될 수 있습니다.</p>
+        </div>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button" aria-label="결과 보기">결과 보기</button>
+        </div>
+      </form>
+
+      <section id="result-panel" class="result-panel" aria-live="polite" aria-hidden="true">
+        <div class="result-badge" aria-hidden="true">🪙</div>
+        <h2 id="result-text"></h2>
+        <p class="redirect-text">잠시 후, 가격 리스트로 이동합니다.</p>
+      </section>
+    </main>
+
+    <footer>
+      <span>로벅스를 선택하면 대리구매 가격 차이를 확인할 수 있습니다.</span>
+    </footer>
+  </div>
+
+  <noscript>이 계산기는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    const TARGET_URL = 'https://www.gamsgo.com/ko/game-coins/buy-robux/partner/RqZaS';
+
+    const RESULTS = {
+      '1000': '대리구매가 약 5,000원 더 저렴합니다.',
+      '3000': '대리구매가 약 15,000원 더 저렴합니다.',
+      '5000': '대리구매가 약 25,000원 더 저렴합니다.',
+      '10000': '대리구매가 50,000원 더 저렴합니다.'
+    };
+
+    const form = document.getElementById('robux-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+    const resultPanel = document.getElementById('result-panel');
+    const resultText = document.getElementById('result-text');
+
+    function getSelectedRobux() {
+      const selected = form.querySelector('input[name="robux"]:checked');
+      return selected ? selected.value : null;
+    }
+
+    function updateButtonState() {
+      const selected = getSelectedRobux();
+      goBtn.disabled = !selected;
+      msgEl.textContent = selected ? '' : '구매하실 로벅스를 선택해 주세요.';
+    }
+
+    form.addEventListener('change', updateButtonState);
+    updateButtonState();
+
+    goBtn.addEventListener('click', function () {
+      const selected = getSelectedRobux();
+
+      if (!selected || !RESULTS[selected]) {
+        msgEl.textContent = '구매하실 로벅스를 선택해 주세요.';
+        goBtn.disabled = false;
+        return;
+      }
+
+      resultText.textContent = RESULTS[selected];
+      form.style.display = 'none';
+      resultPanel.classList.add('is-active');
+      resultPanel.setAttribute('aria-hidden', 'false');
+
+      window.setTimeout(function () {
+        window.location.assign(TARGET_URL);
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
