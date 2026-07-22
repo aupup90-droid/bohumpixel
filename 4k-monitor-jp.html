@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>4Kモニターおすすめガイド</title>
+  <meta name="description" content="質問に答えると、用途に合った4Kモニターのおすすめページへ移動します。">
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+    header {
+      padding: 30px 20px 14px;
+      text-align: center;
+      color: #fff;
+    }
+    header h1 {
+      margin: 0;
+      font-size: clamp(23px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .container {
+      width: min(860px, 92vw);
+      margin: 0 auto 28px;
+      padding: clamp(18px, 3vw, 28px);
+      align-self: start;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    fieldset {
+      border: 0;
+      padding: 0;
+      margin: 0 0 20px;
+    }
+    legend {
+      margin-bottom: 11px;
+      font-size: 16px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+    .options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .options.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .radio { position: relative; }
+    .radio input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .radio label {
+      display: flex;
+      width: 100%;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      padding: 11px 12px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 650;
+      line-height: 1.25;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label {
+      outline: 0;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+    .radio input:checked + label {
+      border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(74,42,116,0.18);
+      transform: translateY(-1px);
+    }
+    .hint {
+      display: none;
+      margin: 8px 2px 0;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+    .hint.show { display: block; }
+    .actions {
+      margin-top: 8px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    button.primary {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .msg {
+      min-height: 18px;
+      color: #a40000;
+      font-size: 13px;
+    }
+    @media (max-width: 720px) {
+      .options.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 520px) {
+      .wrap { min-height: auto; }
+      header { padding: 16px 10px 8px; }
+      header h1 { font-size: 21px; }
+      .container {
+        width: calc(100% - 20px);
+        margin-bottom: 10px;
+        padding: 13px;
+        border-radius: 14px;
+      }
+      fieldset { margin-bottom: 13px; }
+      legend {
+        margin-bottom: 7px;
+        font-size: 14px;
+        line-height: 1.3;
+      }
+      .options { gap: 7px; }
+      .radio label {
+        min-height: 40px;
+        padding: 7px 5px;
+        border-radius: 10px;
+        font-size: 13px;
+      }
+      .hint {
+        margin-top: 6px;
+        font-size: 11px;
+        line-height: 1.35;
+      }
+      .actions {
+        margin-top: 2px;
+        gap: 5px;
+        justify-content: stretch;
+      }
+      .msg {
+        width: 100%;
+        min-height: 0;
+        font-size: 12px;
+      }
+      .msg:not(:empty) { min-height: 16px; }
+      button.primary {
+        width: 100%;
+        padding: 11px 14px;
+      }
+    }
+  </style>
+<script type="text/javascript" nonce="f71c95c8503f4127a55ac56235c" src="//local.adguard.org?ts=1784689030863&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000687c81fdbc59b05a3279c128%26fn%3D4k-monitor-guide-ja.html%26cd%3Dattachment%26ts%3D495747%26p%3Dfs%26cid%3D1%26sig%3D97318c94204159592ca391201654ed7a4b3583754c15a340ce581408e06c8e69%26v%3D0&amp;app=com.google.Chrome&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="f71c95c8503f4127a55ac56235c" src="//local.adguard.org?ts=1784689030863&amp;name=AdGuard%20Extra&amp;type=user-script"></script></head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>4Kモニターおすすめガイド</h1>
+    </header>
+
+    <main class="container">
+      <form id="guide-form" novalidate>
+        <fieldset>
+          <legend>1. どのサイズのモニターをご希望ですか？</legend>
+          <div class="options" role="radiogroup" aria-label="モニターサイズ">
+            <div class="radio">
+              <input type="radio" id="size-27" name="size" value="27">
+              <label for="size-27">27インチ</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-32" name="size" value="32">
+              <label for="size-32">32インチ</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. モニターの主な用途は何ですか？</legend>
+          <div class="options four" role="radiogroup" aria-label="モニターの主な用途">
+            <div class="radio">
+              <input type="radio" id="purpose-game" name="purpose" value="game">
+              <label for="purpose-game">ゲーミング</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="purpose-work" name="purpose" value="work">
+              <label for="purpose-work">仕事・Web閲覧</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="purpose-video" name="purpose" value="video">
+              <label for="purpose-video">動画視聴</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="purpose-all" name="purpose" value="all">
+              <label for="purpose-all">すべて</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>3. コスパ重視セレクトとプレミアセレクトのどちらをご希望ですか？</legend>
+          <div class="options" role="radiogroup" aria-label="セレクト">
+            <div class="radio">
+              <input type="radio" id="tier-budget" name="tier" value="budget">
+              <label for="tier-budget">コスパ重視セレクト</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="tier-premium" name="tier" value="premium">
+              <label for="tier-premium">プレミアセレクト</label>
+            </div>
+          </div>
+          <p id="tier-hint" class="hint" aria-live="polite"></p>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button">おすすめを見る</button>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <noscript>このガイドを利用するには、JavaScriptを有効にしてください。</noscript>
+
+  <script>
+    const LINKS = {
+      "27_game_budget": "https://amzn.to/4b9aXd8",
+      "27_game_premium": "https://amzn.to/4ffps1x",
+      "32_game_budget": "https://amzn.to/4wiRsr2",
+      "32_game_premium": "https://amzn.to/4b3KVrD",
+      "27_general_budget": "https://amzn.to/44DhuJo",
+      "27_general_premium": "https://amzn.to/4fqbTem",
+      "32_general_budget": "https://amzn.to/4b4YnLZ",
+      "32_general_premium": "https://amzn.to/3Tyddo9"
+    };
+
+    const form = document.getElementById("guide-form");
+    const msgEl = document.getElementById("msg");
+    const goBtn = document.getElementById("go");
+    const tierHint = document.getElementById("tier-hint");
+
+    function getValue(name) {
+      const el = form.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    }
+
+    function resolveLink() {
+      const size = getValue("size");
+      const purpose = getValue("purpose");
+      const tier = getValue("tier");
+
+      if (!size) return { error: "モニターサイズを選択してください。" };
+      if (!purpose) return { error: "モニターの主な用途を選択してください。" };
+      if (!tier) return { error: "セレクトを選択してください。" };
+
+      const purposeGroup = purpose === "game" || purpose === "all" ? "game" : "general";
+      const link = LINKS[`${size}_${purposeGroup}_${tier}`];
+      return link || { error: "選択内容をもう一度ご確認ください。" };
+    }
+
+    function updateTierHint() {
+      const tier = getValue("tier");
+
+      if (tier === "budget") {
+        tierHint.textContent = "「コスパ重視セレクト」は価格を重視した選択肢のため、品質や安定性が一部劣る場合があります。";
+        tierHint.classList.add("show");
+        return;
+      }
+
+      if (tier === "premium") {
+        tierHint.textContent = "「プレミアセレクト」は品質と安定性を重視した選択肢のため、価格帯が高くなる場合があります。";
+        tierHint.classList.add("show");
+        return;
+      }
+
+      tierHint.textContent = "";
+      tierHint.classList.remove("show");
+    }
+
+    function updateButtonState() {
+      goBtn.disabled = !(getValue("size") && getValue("purpose") && getValue("tier"));
+      msgEl.textContent = "";
+      updateTierHint();
+    }
+
+    form.addEventListener("change", updateButtonState);
+    updateButtonState();
+
+    goBtn.addEventListener("click", function () {
+      const result = resolveLink();
+
+      if (typeof result === "string") {
+        const link = document.createElement("a");
+        link.href = result;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer nofollow sponsored";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        msgEl.textContent = "";
+        return;
+      }
+
+      if (result && result.error) {
+        msgEl.textContent = result.error;
+        goBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
