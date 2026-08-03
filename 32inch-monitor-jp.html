@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>32インチモニターおすすめガイド</title>
+  <meta name="description" content="質問に答えると、用途に合った32インチモニターのおすすめページへ移動します。">
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --error: #a40000;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body { min-height: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 28px 20px 14px;
+      color: #fff;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(21px, 4vw, 36px);
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 26px;
+      padding: clamp(17px, 3vw, 26px);
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    fieldset {
+      margin: 0 0 19px;
+      padding: 0;
+      border: 0;
+    }
+
+    legend {
+      margin-bottom: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .options.two-options {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .radio { position: relative; }
+
+    .radio input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .radio label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 11px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      font-weight: 600;
+      line-height: 1.3;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.02s ease;
+    }
+
+    .radio label:hover { border-color: #d6d6db; }
+
+    .radio input:focus-visible + label {
+      outline: 0;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+
+    .radio input:checked + label {
+      border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(74, 42, 116, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .hint {
+      display: none;
+      margin: 7px 1px 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .hint.show { display: block; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .msg {
+      color: var(--error);
+      font-size: 13px;
+    }
+
+    button.primary {
+      appearance: none;
+      padding: 14px 18px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74, 42, 116, 0.25);
+      transition: transform 0.06s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74, 42, 116, 0.32); }
+    button.primary:active { transform: translateY(1px); }
+
+    button[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    footer {
+      padding: 8px 16px 20px;
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      header { padding: 16px 12px 9px; }
+
+      header h1 { font-size: clamp(19px, 6vw, 24px); }
+
+      .container {
+        width: min(460px, 94vw);
+        margin-bottom: 14px;
+        padding: 13px;
+        border-radius: 14px;
+      }
+
+      fieldset { margin-bottom: 13px; }
+
+      legend {
+        margin-bottom: 7px;
+        font-size: 14px;
+        line-height: 1.35;
+      }
+
+      .options { gap: 7px; }
+
+      .radio label {
+        min-height: 40px;
+        padding: 7px 5px;
+        border-radius: 10px;
+        font-size: 13px;
+        line-height: 1.25;
+      }
+
+      .hint {
+        margin-top: 6px;
+        font-size: 11px;
+        line-height: 1.4;
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 6px;
+        margin-top: 8px;
+      }
+
+      .msg {
+        min-height: 16px;
+        font-size: 12px;
+        text-align: center;
+      }
+
+      button.primary {
+        width: 100%;
+        padding: 11px 14px;
+      }
+
+      footer { padding: 6px 12px 14px; }
+    }
+  </style>
+<script type="text/javascript" nonce="f71c95c8503f4127a55ac56235c" src="//local.adguard.org?ts=1785765436536&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000004f8c822f8e37cc76d792eb80%26fn%3D32-inch-monitor-guide-ja.html%26cd%3Dattachment%26ts%3D496046%26p%3Dfs%26cid%3D1%26sig%3D26c7f7fd541ef87ab8a6b4eeb14d811656a5f9ca61757de3b1d1680fcecd5286%26v%3D0&amp;app=com.google.Chrome&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="f71c95c8503f4127a55ac56235c" src="//local.adguard.org?ts=1785765436536&amp;name=AdGuard%20Extra&amp;type=user-script"></script></head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>32インチモニターおすすめガイド</h1>
+    </header>
+
+    <main class="container">
+      <form id="guide-form" novalidate>
+        <fieldset>
+          <legend>1. ご希望の解像度はどれですか？</legend>
+          <div class="options" role="radiogroup" aria-label="解像度を選択">
+            <div class="radio">
+              <input type="radio" id="res-fhd" name="resolution" value="fhd">
+              <label for="res-fhd">フルHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-wqhd" name="resolution" value="wqhd">
+              <label for="res-wqhd">WQHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="res-4k" name="resolution" value="4k">
+              <label for="res-4k">4K</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. モニターの主な用途は何ですか？</legend>
+          <div class="options" role="radiogroup" aria-label="主な用途を選択">
+            <div class="radio">
+              <input type="radio" id="pur-game" name="purpose" value="game">
+              <label for="pur-game">ゲーミング</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pur-work" name="purpose" value="work">
+              <label for="pur-work">仕事・Web閲覧</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pur-all" name="purpose" value="all">
+              <label for="pur-all">すべて</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>3. コスパ重視セレクトとプレミアセレクトのどちらをご希望ですか？</legend>
+          <div class="options two-options" role="radiogroup" aria-label="セレクトを選択">
+            <div class="radio">
+              <input type="radio" id="tier-value" name="tier" value="value">
+              <label for="tier-value">コスパ重視セレクト</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="tier-premium" name="tier" value="premium">
+              <label for="tier-premium">プレミアセレクト</label>
+            </div>
+          </div>
+          <p id="tier-hint" class="hint" aria-live="polite"></p>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button">おすすめを見る</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>すべての項目を選択すると、おすすめページへ移動します。</footer>
+  </div>
+
+  <noscript>このガイドを利用するには、JavaScriptを有効にしてください。</noscript>
+
+  <script>
+    const LINKS = {
+      FHD_GAME_ALL: "https://amzn.to/4hLsSKQ",
+      FHD_WORK: "https://amzn.to/3U9M8ry",
+      WQHD_GAME_ALL_VALUE: "https://amzn.to/4w1NH8s",
+      WQHD_GAME_ALL_PREMIUM: "https://amzn.to/4yVtmEr",
+      WQHD_WORK_VALUE: "https://amzn.to/4fGCl4F",
+      WQHD_WORK_PREMIUM: "https://amzn.to/4fGCl4F",
+      FOUR_K_GAME_ALL_VALUE: "https://amzn.to/4fL5Np4",
+      FOUR_K_GAME_ALL_PREMIUM: "https://amzn.to/4b3KVrD",
+      FOUR_K_WORK_VALUE: "https://amzn.to/4cf0kWs",
+      FOUR_K_WORK_PREMIUM: "https://amzn.to/3Tyddo9"
+    };
+
+    const form = document.getElementById("guide-form");
+    const msgEl = document.getElementById("msg");
+    const goBtn = document.getElementById("go");
+    const tierHint = document.getElementById("tier-hint");
+
+    function getValue(name) {
+      const selected = form.querySelector(`input[name="${name}"]:checked`);
+      return selected ? selected.value : null;
+    }
+
+    function resolveLink() {
+      const resolution = getValue("resolution");
+      const purpose = getValue("purpose");
+      const tier = getValue("tier");
+
+      if (!resolution) return { error: "解像度を選択してください。" };
+      if (!purpose) return { error: "主な用途を選択してください。" };
+      if (!tier) return { error: "セレクトを選択してください。" };
+
+      if (resolution === "fhd") {
+        return purpose === "work" ? LINKS.FHD_WORK : LINKS.FHD_GAME_ALL;
+      }
+
+      if (resolution === "wqhd") {
+        if (purpose === "work") {
+          return tier === "value" ? LINKS.WQHD_WORK_VALUE : LINKS.WQHD_WORK_PREMIUM;
+        }
+        return tier === "value" ? LINKS.WQHD_GAME_ALL_VALUE : LINKS.WQHD_GAME_ALL_PREMIUM;
+      }
+
+      if (resolution === "4k") {
+        if (purpose === "work") {
+          return tier === "value" ? LINKS.FOUR_K_WORK_VALUE : LINKS.FOUR_K_WORK_PREMIUM;
+        }
+        return tier === "value" ? LINKS.FOUR_K_GAME_ALL_VALUE : LINKS.FOUR_K_GAME_ALL_PREMIUM;
+      }
+
+      return { error: "選択内容をもう一度ご確認ください。" };
+    }
+
+    function updateTierHint() {
+      const tier = getValue("tier");
+
+      if (tier === "value") {
+        tierHint.textContent = "コスパ重視セレクトは価格を重視した選択肢のため、品質や安定性がやや劣る場合があります。";
+        tierHint.classList.add("show");
+      } else if (tier === "premium") {
+        tierHint.textContent = "プレミアセレクトは品質と安定性を重視した選択肢のため、価格が高めになる場合があります。";
+        tierHint.classList.add("show");
+      } else {
+        tierHint.textContent = "";
+        tierHint.classList.remove("show");
+      }
+    }
+
+    function updateButtonState() {
+      const ready = Boolean(getValue("resolution") && getValue("purpose") && getValue("tier"));
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? "" : "すべての項目を選択してください。";
+      updateTierHint();
+    }
+
+    form.addEventListener("change", updateButtonState);
+    updateButtonState();
+
+    goBtn.addEventListener("click", () => {
+      const result = resolveLink();
+
+      if (typeof result === "string") {
+        const link = document.createElement("a");
+        link.href = result;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer nofollow sponsored";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        msgEl.textContent = "";
+      } else if (result && result.error) {
+        msgEl.textContent = result.error;
+        goBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
