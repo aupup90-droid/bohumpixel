@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>43インチモニターおすすめガイド</title>
+  <meta name="description" content="質問に答えると、条件に合った43インチモニターのおすすめページへ移動します。">
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 30px 20px 14px;
+      text-align: center;
+      color: #fff;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(24px, 5vw, 38px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 32px;
+      padding: clamp(16px, 3vw, 28px);
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    fieldset {
+      margin: 0 0 18px;
+      padding: 0;
+      border: 0;
+    }
+
+    legend {
+      margin-bottom: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .radio { position: relative; }
+
+    .radio input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .radio label {
+      display: flex;
+      width: 100%;
+      min-height: 46px;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 12px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      font-weight: 650;
+      line-height: 1.3;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.02s ease;
+    }
+
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label {
+      border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(74, 42, 116, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 12px;
+    }
+
+    button.primary {
+      appearance: none;
+      padding: 14px 18px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74, 42, 116, 0.25);
+      transition: transform 0.06s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74, 42, 116, 0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { color: #a40000; font-size: 13px; }
+
+    footer {
+      padding: 10px 16px 26px;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      header { padding: 18px 14px 9px; }
+      header h1 { font-size: 23px; }
+
+      .container {
+        width: min(94vw, 520px);
+        margin-bottom: 18px;
+        padding: 14px;
+        border-radius: 14px;
+      }
+
+      fieldset { margin-bottom: 12px; }
+      legend { margin-bottom: 7px; font-size: 14px; line-height: 1.3; }
+      .options { gap: 7px; }
+      .radio label { min-height: 40px; padding: 7px 6px; border-radius: 10px; font-size: 12.5px; }
+      .actions { margin-top: 7px; justify-content: stretch; }
+      .msg { width: 100%; min-height: 17px; font-size: 12px; }
+      button.primary { width: 100%; padding: 12px 15px; }
+      footer { padding: 8px 12px 16px; }
+    }
+  </style>
+<script type="text/javascript" nonce="f71c95c8503f4127a55ac56235c" src="//local.adguard.org?ts=1786003035890&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000624c81f7b59fac24978acbc6%26fn%3D43inch-monitor-guide-ja.html%26cd%3Dattachment%26ts%3D496112%26p%3Dfs%26cid%3D1%26sig%3Da9d90089cb50f3620ba39e55b7d65d01c4e955b210ce7e1a426282dd8519272d%26v%3D0&amp;app=com.google.Chrome&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="f71c95c8503f4127a55ac56235c" src="//local.adguard.org?ts=1786003035890&amp;name=AdGuard%20Extra&amp;type=user-script"></script></head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>43インチモニター</h1>
+    </header>
+
+    <main class="container">
+      <form id="guide-form" novalidate>
+        <fieldset>
+          <legend>1. 価格帯はどれくらいをお考えですか？</legend>
+          <div class="options" role="radiogroup" aria-label="価格帯を選択">
+            <div class="radio">
+              <input type="radio" id="price-under" name="price" value="under50">
+              <label for="price-under">5万円以下</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="price-over" name="price" value="over50">
+              <label for="price-over">5万円超</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. 高精細な解像度（画質）のモニターをお探しですか？</legend>
+          <div class="options" role="radiogroup" aria-label="画質の希望を選択">
+            <div class="radio">
+              <input type="radio" id="resolution-yes" name="resolution" value="yes">
+              <label for="resolution-yes">はい</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="resolution-no" name="resolution" value="no">
+              <label for="resolution-no">いいえ</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>3. テレビのようにリモコンを使いたいですか？</legend>
+          <div class="options" role="radiogroup" aria-label="リモコンの希望を選択">
+            <div class="radio">
+              <input type="radio" id="remote-yes" name="remote" value="yes">
+              <label for="remote-yes">使いたい</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="remote-no" name="remote" value="no">
+              <label for="remote-no">必要ない</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>4. 長時間使っても目が疲れにくいモニターをお探しですか？</legend>
+          <div class="options" role="radiogroup" aria-label="目の疲れにくさの希望を選択">
+            <div class="radio">
+              <input type="radio" id="eye-yes" name="eye" value="yes">
+              <label for="eye-yes">はい、目が疲れにくい製品がいい</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="eye-no" name="eye" value="no">
+              <label for="eye-no">特に気にしない</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button" aria-label="おすすめを見る">おすすめを見る</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      <span>すべての項目を選択すると、おすすめページへ移動します。</span>
+    </footer>
+  </div>
+
+  <noscript>このガイドを利用するには、ブラウザのJavaScriptを有効にしてください。</noscript>
+
+  <script>
+    const LINKS = {
+      REMOTE: "https://amzn.to/4fWoUwy",
+      EYE_PREMIUM: "https://amzn.to/45NjoaE",
+      NO_RESOLUTION: "https://amzn.to/4fVYiM0",
+      DEFAULT: "https://amzn.to/4wfAIjF"
+    };
+
+    const form = document.getElementById("guide-form");
+    const msgEl = document.getElementById("msg");
+    const goBtn = document.getElementById("go");
+
+    function getValue(name) {
+      const selected = form.querySelector(`input[name="${name}"]:checked`);
+      return selected ? selected.value : null;
+    }
+
+    function resolveLink() {
+      const price = getValue("price");
+      const resolution = getValue("resolution");
+      const remote = getValue("remote");
+      const eye = getValue("eye");
+
+      if (!price) return { error: "価格帯を選択してください。" };
+      if (!resolution) return { error: "画質の希望を選択してください。" };
+      if (!remote) return { error: "リモコンの希望を選択してください。" };
+      if (!eye) return { error: "目の疲れにくさの希望を選択してください。" };
+
+      if (remote === "yes") return LINKS.REMOTE;
+      if (price === "over50" && eye === "yes") return LINKS.EYE_PREMIUM;
+      if (resolution === "no") return LINKS.NO_RESOLUTION;
+      return LINKS.DEFAULT;
+    }
+
+    function updateButtonState() {
+      const ready = Boolean(
+        getValue("price") &&
+        getValue("resolution") &&
+        getValue("remote") &&
+        getValue("eye")
+      );
+
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? "" : "すべての項目を選択してください。";
+    }
+
+    form.addEventListener("change", updateButtonState);
+    updateButtonState();
+
+    goBtn.addEventListener("click", () => {
+      const result = resolveLink();
+
+      if (typeof result === "string") {
+        const link = document.createElement("a");
+        link.href = result;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer nofollow sponsored";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        msgEl.textContent = "";
+        return;
+      }
+
+      if (result?.error) {
+        msgEl.textContent = result.error;
+      }
+    });
+  </script>
+</body>
+</html>
