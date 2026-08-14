@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>240hz 추천가이드</title>
-  <meta name="description" content="패널과 픽 유형을 선택하면 상황에 맞는 240hz 모니터 추천 링크로 이동합니다." />
+  <meta name="description" content="패널과 사이즈, 픽 유형을 선택하면 상황에 맞는 240hz 모니터 추천 링크로 이동합니다." />
   <style>
     :root {
       --bg: #cfa6e7;
@@ -108,12 +108,12 @@
     .hints {
       display: grid;
       gap: 6px;
-      min-height: 44px;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .hint {
       display: none;
+      margin: 0;
       color: var(--muted);
       font-size: 13px;
       line-height: 1.45;
@@ -165,22 +165,37 @@
     }
 
     @media (max-width: 640px) {
-      header { padding: 24px 16px 12px; }
-      .container { width: min(94vw, 860px); margin-bottom: 24px; }
-      .options { grid-template-columns: 1fr; gap: 8px; }
-      .options.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .radio label { min-height: 42px; padding: 10px 10px; font-size: 14px; }
-      fieldset { margin-bottom: 16px; }
-      .hints { min-height: 58px; gap: 4px; }
+      header { padding: 20px 14px 10px; }
+      .container {
+        width: min(94vw, 860px);
+        margin-bottom: 20px;
+        padding: 15px;
+        border-radius: 14px;
+      }
+      fieldset { margin-bottom: 14px; }
+      fieldset:last-of-type { margin-bottom: 10px; }
+      legend { margin-bottom: 8px; font-size: 14px; }
+      .options { gap: 6px; }
+      .radio label {
+        min-height: 40px;
+        padding: 8px 5px;
+        border-radius: 10px;
+        font-size: 13px;
+        line-height: 1.2;
+      }
+      .hints { gap: 4px; margin-top: 6px; }
       .hint { font-size: 12px; line-height: 1.38; }
       .actions { margin-top: 10px; }
-      button.primary { padding: 13px 15px; font-size: 14px; }
+      button.primary { padding: 12px 14px; font-size: 14px; }
+      footer { padding-top: 6px; }
     }
 
     @media (max-width: 360px) {
-      .options.two { grid-template-columns: 1fr; }
-      .actions { flex-direction: column; align-items: stretch; }
-      button.primary { width: 100%; }
+      .container { width: 96vw; padding: 13px 11px; }
+      .options { gap: 4px; }
+      .radio label { padding-inline: 3px; font-size: 12px; }
+      .actions { gap: 6px; }
+      .msg { font-size: 12px; }
     }
   </style>
 </head>
@@ -206,6 +221,20 @@
             <div class="radio">
               <input type="radio" id="panel-oled" name="panel" value="oled">
               <label for="panel-oled">OLED 패널</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>어떤 사이즈를 원하시나요?</legend>
+          <div class="options two" role="radiogroup" aria-label="사이즈 선택">
+            <div class="radio">
+              <input type="radio" id="size-24" name="size" value="24">
+              <label for="size-24">24인치급</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-27" name="size" value="27">
+              <label for="size-27">27인치급</label>
             </div>
           </div>
         </fieldset>
@@ -245,19 +274,25 @@
 
   <script>
     const LINKS = {
-      ips_value: "https://link.coupang.com/a/dWaxGtH260",
-      ips_premium: "https://link.coupang.com/a/dWcwv1O9PU",
-      tn_value: "https://link.coupang.com/a/dWcC6elwqG",
-      tn_premium: "https://link.coupang.com/a/dWbxWLMwfs",
-      oled_value: "https://link.coupang.com/a/dWbODZHLoa",
-      oled_premium: "https://link.coupang.com/a/dWb16aj8KG"
+      ips_24_value: "https://link.coupang.com/a/gcJ8vqBAoS",
+      ips_24_premium: "https://link.coupang.com/a/gcKgExssLI",
+      ips_27_value: "https://link.coupang.com/a/gcKl4GuQYC",
+      ips_27_premium: "https://link.coupang.com/a/gcKrc8pSTI",
+      tn_24_value: "https://link.coupang.com/a/gcKwyRfLsi",
+      tn_24_premium: "https://link.coupang.com/a/gcKzyAAOfA",
+      tn_27_value: "https://link.coupang.com/a/gcKCTbOIMu",
+      tn_27_premium: "https://link.coupang.com/a/gcKCTbOIMu",
+      oled_24_value: "https://link.coupang.com/a/gcKKlFkZmm",
+      oled_24_premium: "https://link.coupang.com/a/gcKQn6n9d6",
+      oled_27_value: "https://link.coupang.com/a/gcKKlFkZmm",
+      oled_27_premium: "https://link.coupang.com/a/gcKQn6n9d6"
     };
 
     const HINTS = {
       panel: {
         ips: "‘IPS 패널’은 가격이 저렴하고 화질이 좋은 패널이지만, 고스팅 현상이 발생할 수 있습니다.",
-        tn: "‘TN 패널’은 고스팅 현상이 거의 없는 패널이지만, 화질과 시야각이 떨어질 수 있습니다.",
-        oled: "‘OLED 패널’은 고스팅 현상이 거의 없으며, 화질이 훌륭하지만 가격이 비쌉니다."
+        tn: "‘TN 패널’은 고스팅 현상이 거의 없는 패널이지만, 가격이 비싸며 화질이 떨어집니다.",
+        oled: "‘OLED 패널’은 고스팅 현상이 전혀 없으며, 화질이 훌륭하지만, 가격이 비쌉니다."
       },
       pick: {
         value: "‘가성비 픽’은 가격에 중점을 둔 선택지로, 일부 성능이 떨어질 수 있습니다.",
@@ -271,23 +306,25 @@
     const panelHintEl = document.getElementById('hint-panel');
     const pickHintEl = document.getElementById('hint-pick');
 
-    function getValue(name){
+    function getValue(name) {
       const el = form.querySelector(`input[name="${name}"]:checked`);
       return el ? el.value : null;
     }
 
-    function resolveLink(){
+    function resolveLink() {
       const panel = getValue('panel');
+      const size = getValue('size');
       const pick = getValue('pick');
 
-      if(!panel) return { error: '패널을 선택해 주세요.' };
-      if(!pick) return { error: '픽 유형을 선택해 주세요.' };
+      if (!panel) return { error: '패널을 선택해 주세요.' };
+      if (!size) return { error: '사이즈를 선택해 주세요.' };
+      if (!pick) return { error: '픽 유형을 선택해 주세요.' };
 
-      const key = `${panel}_${pick}`;
+      const key = `${panel}_${size}_${pick}`;
       return LINKS[key] || { error: '선택값을 다시 확인해 주세요.' };
     }
 
-    function updateHints(){
+    function updateHints() {
       const panel = getValue('panel');
       const pick = getValue('pick');
 
@@ -298,9 +335,9 @@
       pickHintEl.classList.toggle('show', !!pick);
     }
 
-    function updateButtonState(){
+    function updateButtonState() {
       updateHints();
-      const ready = !!(getValue('panel') && getValue('pick'));
+      const ready = !!(getValue('panel') && getValue('size') && getValue('pick'));
       goBtn.disabled = !ready;
       msgEl.textContent = ready ? '' : '필수 항목을 선택해 주세요.';
     }
@@ -308,9 +345,9 @@
     form.addEventListener('change', updateButtonState);
     updateButtonState();
 
-    goBtn.addEventListener('click', function(){
+    goBtn.addEventListener('click', function() {
       const result = resolveLink();
-      if(typeof result === 'string'){
+      if (typeof result === 'string') {
         const a = document.createElement('a');
         a.href = result;
         a.target = '_blank';
@@ -319,7 +356,7 @@
         a.click();
         a.remove();
         msgEl.textContent = '';
-      } else if(result && result.error){
+      } else if (result && result.error) {
         msgEl.textContent = result.error;
         goBtn.disabled = false;
       }
