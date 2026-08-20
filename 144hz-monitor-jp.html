@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>144Hzモニターおすすめガイド</title>
+  <meta name="description" content="サイズと重視するポイントを選ぶだけで、自分に合った144Hzモニターを確認できます。">
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body { min-height: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: clamp(22px, 5vw, 32px) 16px 14px;
+      text-align: center;
+      color: #fff;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(24px, 5.5vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .container {
+      width: min(860px, 92vw);
+      margin: 0 auto 24px;
+      padding: clamp(18px, 3vw, 28px);
+      align-self: start;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    fieldset {
+      margin: 0 0 20px;
+      padding: 0;
+      border: 0;
+    }
+
+    fieldset:last-of-type { margin-bottom: 12px; }
+
+    legend {
+      margin-bottom: 11px;
+      font-size: clamp(15px, 2.8vw, 16px);
+      font-weight: 700;
+      line-height: 1.45;
+      letter-spacing: -0.01em;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .options.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .radio { position: relative; }
+
+    .radio input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .radio label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 48px;
+      padding: 11px 12px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      font-weight: 700;
+      line-height: 1.3;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.02s ease;
+    }
+
+    .radio label:hover { border-color: #d6d6db; }
+
+    .radio input:focus-visible + label {
+      outline: 0;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+
+    .radio input:checked + label {
+      border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(74, 42, 116, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .hint {
+      min-height: 18px;
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    button.primary {
+      appearance: none;
+      padding: 14px 18px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74, 42, 116, 0.25);
+      transition: transform 0.06s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74, 42, 116, 0.32); }
+    button.primary:active { transform: translateY(1px); }
+
+    button[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .msg {
+      color: #a40000;
+      font-size: 13px;
+    }
+
+    footer {
+      padding: 8px 16px 22px;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .wrap { min-height: 100svh; }
+
+      header { padding: 20px 12px 10px; }
+
+      header h1 {
+        font-size: clamp(21px, 6vw, 25px);
+        white-space: nowrap;
+      }
+
+      .container {
+        width: min(440px, 94vw);
+        margin-bottom: 12px;
+        padding: 15px;
+        border-radius: 14px;
+      }
+
+      fieldset { margin-bottom: 15px; }
+      fieldset:last-of-type { margin-bottom: 8px; }
+
+      legend {
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+
+      .options { gap: 6px; }
+      .options.two { gap: 7px; }
+
+      .radio label {
+        min-height: 43px;
+        padding: 8px 5px;
+        font-size: 14px;
+      }
+
+      .options.two .radio label {
+        min-height: 48px;
+        padding-inline: 7px;
+        font-size: 13px;
+      }
+
+      .hint {
+        margin-top: 6px;
+        font-size: 11.5px;
+        line-height: 1.4;
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 6px;
+        margin-top: 8px;
+      }
+
+      .msg {
+        order: 2;
+        min-height: 17px;
+        font-size: 12px;
+        text-align: center;
+      }
+
+      button.primary {
+        width: 100%;
+        padding: 12px 16px;
+      }
+
+      footer { padding: 5px 12px 14px; }
+    }
+
+    @media (max-width: 350px) {
+      header h1 { font-size: 20px; }
+      .container { padding: 13px; }
+      .radio label { font-size: 13px; }
+      .options.two .radio label { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>144Hzモニターおすすめガイド</h1>
+    </header>
+
+    <main class="container">
+      <form id="guide-form" novalidate>
+        <fieldset>
+          <legend>1. どのサイズのモニターをお探しですか？</legend>
+          <div class="options" role="radiogroup" aria-label="モニターサイズを選択">
+            <div class="radio">
+              <input type="radio" id="size-24" name="size" value="24">
+              <label for="size-24">24インチ</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-27" name="size" value="27">
+              <label for="size-27">27インチ</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-32" name="size" value="32">
+              <label for="size-32">32インチ</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. 「コスパ重視セレクト」と「プレミアセレクト」のどちらを選びますか？</legend>
+          <div class="options two" role="radiogroup" aria-label="セレクトタイプを選択">
+            <div class="radio">
+              <input type="radio" id="pick-value" name="pick" value="value">
+              <label for="pick-value">コスパ重視セレクト</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="pick-premium" name="pick" value="premium">
+              <label for="pick-premium">プレミアセレクト</label>
+            </div>
+          </div>
+          <p id="pick-hint" class="hint" aria-live="polite"></p>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button">おすすめを見る</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>サイズとセレクトタイプを選ぶと、おすすめの商品ページへ移動します。</footer>
+  </div>
+
+  <noscript>このガイドを利用するには、ブラウザの設定でJavaScriptを有効にしてください。</noscript>
+
+  <script>
+    const LINKS = {
+      "24_value": "https://amzn.to/3SJthmX",
+      "24_premium": "https://amzn.to/4g9xLMO",
+      "27_value": "https://amzn.to/3U7I0Zj",
+      "27_premium": "https://amzn.to/4ioDek2",
+      "32_value": "https://amzn.to/45EdlVZ",
+      "32_premium": "https://amzn.to/4ijCug4"
+    };
+
+    const form = document.getElementById("guide-form");
+    const msgEl = document.getElementById("msg");
+    const goBtn = document.getElementById("go");
+    const pickHint = document.getElementById("pick-hint");
+
+    function getValue(name) {
+      const selected = form.querySelector(`input[name="${name}"]:checked`);
+      return selected ? selected.value : null;
+    }
+
+    function resolveLink() {
+      const size = getValue("size");
+      const pick = getValue("pick");
+
+      if (!size) return { error: "モニターサイズを選択してください。" };
+      if (!pick) return { error: "セレクトタイプを選択してください。" };
+
+      const link = LINKS[`${size}_${pick}`];
+      return link || { error: "選択内容をもう一度ご確認ください。" };
+    }
+
+    function updateHint() {
+      const pick = getValue("pick");
+
+      if (pick === "value") {
+        pickHint.textContent = "「コスパ重視セレクト」は価格を重視した選択肢のため、品質や安定性がやや劣る場合があります。";
+      } else if (pick === "premium") {
+        pickHint.textContent = "「プレミアセレクト」は品質と安定性を重視した選択肢のため、価格が高くなる場合があります。";
+      } else {
+        pickHint.textContent = "";
+      }
+    }
+
+    function updateButtonState() {
+      const ready = Boolean(getValue("size") && getValue("pick"));
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? "" : "必須項目を選択してください。";
+      updateHint();
+    }
+
+    form.addEventListener("change", updateButtonState);
+    updateButtonState();
+
+    goBtn.addEventListener("click", () => {
+      const result = resolveLink();
+
+      if (typeof result === "string") {
+        const link = document.createElement("a");
+        link.href = result;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer nofollow sponsored";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        msgEl.textContent = "";
+      } else if (result?.error) {
+        msgEl.textContent = result.error;
+      }
+    });
+  </script>
+</body>
+</html>
