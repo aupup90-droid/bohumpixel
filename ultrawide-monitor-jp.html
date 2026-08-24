@@ -234,7 +234,7 @@
           </div>
         </fieldset>
 
-        <fieldset id="purpose-fieldset" hidden>
+        <fieldset id="purpose-fieldset">
           <legend>2. モニターの主な使用用途は何ですか？</legend>
           <div class="options purpose-options" role="radiogroup" aria-label="モニターの使用用途を選択">
             <div class="radio">
@@ -252,7 +252,7 @@
           </div>
         </fieldset>
 
-        <fieldset id="tier-fieldset" hidden>
+        <fieldset id="tier-fieldset">
           <legend>3. 「コスパ重視セレクト」と「プレミアセレクト」のどちらを選びますか？</legend>
           <div class="options" role="radiogroup" aria-label="おすすめのタイプを選択">
             <div class="radio">
@@ -333,8 +333,8 @@
       const purpose = getValue('purpose');
       const tier = getValue('tier');
 
-      purposeFieldset.hidden = size !== '34';
-      tierFieldset.hidden = size !== '34' || (purpose !== 'gaming' && purpose !== 'all');
+      purposeFieldset.hidden = false;
+      tierFieldset.hidden = false;
 
       let ready = false;
       if (size === '49') {
