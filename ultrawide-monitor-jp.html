@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ウルトラワイドモニターおすすめガイド</title>
+  <meta name="description" content="質問に答えると、用途に合ったウルトラワイドモニターのおすすめ商品を確認できます。" />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans JP", "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
+      padding: clamp(18px, 3.2vw, 28px);
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    fieldset {
+      border: 0;
+      padding: 0;
+      margin: 0 0 22px;
+    }
+
+    fieldset[hidden] { display: none; }
+
+    legend {
+      margin-bottom: 12px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .purpose-options {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .radio { position: relative; }
+
+    .radio input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .radio label {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 14px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+
+    .radio label:hover { border-color: #d6d6db; }
+
+    .radio input:focus-visible + label {
+      outline: 0;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+
+    .radio input:checked + label {
+      border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(74,42,116,0.18);
+      transform: translateY(-1px);
+    }
+
+    .hint {
+      min-height: 18px;
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .hint:empty { min-height: 0; margin-top: 0; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    button.primary {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg {
+      color: #a40000;
+      font-size: 13px;
+    }
+
+    footer {
+      padding: 12px 16px 28px;
+      color: rgba(255,255,255,0.85);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @media (max-width: 640px) {
+      header { padding: 18px 14px 9px; }
+
+      header h1 {
+        font-size: 22px;
+        line-height: 1.2;
+      }
+
+      .container {
+        width: min(94vw, 900px);
+        margin-bottom: 16px;
+        padding: 15px 13px;
+        border-radius: 14px;
+      }
+
+      fieldset { margin-bottom: 14px; }
+      legend { margin-bottom: 8px; font-size: 14px; }
+      .options { gap: 7px; }
+
+      .radio label {
+        min-height: 40px;
+        padding: 7px 6px;
+        font-size: 13px;
+        line-height: 1.25;
+      }
+
+      .purpose-options .radio label { font-size: 12px; }
+      .hint { font-size: 11px; }
+      .actions { margin-top: 10px; }
+
+      button.primary {
+        width: 100%;
+        padding: 12px 15px;
+      }
+
+      footer { padding: 7px 12px 16px; }
+    }
+
+    @media (max-width: 360px) {
+      .purpose-options { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>ウルトラワイドモニターおすすめガイド</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <fieldset>
+          <legend>1. どのサイズのウルトラワイドモニターをお探しですか？</legend>
+          <div class="options" role="radiogroup" aria-label="モニターサイズを選択">
+            <div class="radio">
+              <input type="radio" id="size-34" name="size" value="34" />
+              <label for="size-34">34インチモニター</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-49" name="size" value="49" />
+              <label for="size-49">49インチモニター</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset id="purpose-fieldset" hidden>
+          <legend>2. モニターの主な使用用途は何ですか？</legend>
+          <div class="options purpose-options" role="radiogroup" aria-label="モニターの使用用途を選択">
+            <div class="radio">
+              <input type="radio" id="purpose-gaming" name="purpose" value="gaming" />
+              <label for="purpose-gaming">ゲーミング</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="purpose-work" name="purpose" value="work" />
+              <label for="purpose-work">仕事・Webブラウジング</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="purpose-all" name="purpose" value="all" />
+              <label for="purpose-all">すべて</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset id="tier-fieldset" hidden>
+          <legend>3. 「コスパ重視セレクト」と「プレミアセレクト」のどちらを選びますか？</legend>
+          <div class="options" role="radiogroup" aria-label="おすすめのタイプを選択">
+            <div class="radio">
+              <input type="radio" id="tier-value" name="tier" value="value" />
+              <label for="tier-value">コスパ重視セレクト</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="tier-premium" name="tier" value="premium" />
+              <label for="tier-premium">プレミアセレクト</label>
+            </div>
+          </div>
+          <p id="tier-hint" class="hint" aria-live="polite"></p>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button" aria-label="おすすめを見る">おすすめを見る</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      <span>必要な項目を選択すると、おすすめ商品を確認できます。</span>
+    </footer>
+  </div>
+
+  <noscript>このガイドを利用するにはJavaScriptを有効にしてください。</noscript>
+
+  <script>
+    const LINKS = {
+      VALUE_34: "https://amzn.to/4gfUKpn",
+      PREMIUM_34: "https://amzn.to/45KQLep",
+      WORK_34: "https://amzn.to/4zwvdjr",
+      SIZE_49: "https://amzn.to/4gOWhmw"
+    };
+
+    const form = document.getElementById('guide-form');
+    const purposeFieldset = document.getElementById('purpose-fieldset');
+    const tierFieldset = document.getElementById('tier-fieldset');
+    const tierHint = document.getElementById('tier-hint');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+
+    function getValue(name) {
+      const selected = form.querySelector(`input[name="${name}"]:checked`);
+      return selected ? selected.value : null;
+    }
+
+    function resolveLink() {
+      const size = getValue('size');
+      const purpose = getValue('purpose');
+      const tier = getValue('tier');
+
+      if (!size) return { error: 'モニターサイズを選択してください。' };
+      if (size === '49') return LINKS.SIZE_49;
+
+      if (!purpose) return { error: 'モニターの主な使用用途を選択してください。' };
+      if (purpose === 'work') return LINKS.WORK_34;
+
+      if (!tier) return { error: 'コスパ重視セレクトまたはプレミアセレクトを選択してください。' };
+      return tier === 'value' ? LINKS.VALUE_34 : LINKS.PREMIUM_34;
+    }
+
+    function updateTierHint() {
+      const tier = getValue('tier');
+
+      if (tier === 'value') {
+        tierHint.textContent = '「コスパ重視セレクト」は価格を重視した選択肢のため、品質や安定性が一部劣る場合があります。';
+      } else if (tier === 'premium') {
+        tierHint.textContent = '「プレミアセレクト」は品質と安定性を重視した選択肢のため、価格帯が高くなる場合があります。';
+      } else {
+        tierHint.textContent = '';
+      }
+    }
+
+    function updateInterface() {
+      const size = getValue('size');
+      const purpose = getValue('purpose');
+      const tier = getValue('tier');
+
+      purposeFieldset.hidden = size !== '34';
+      tierFieldset.hidden = size !== '34' || (purpose !== 'gaming' && purpose !== 'all');
+
+      let ready = false;
+      if (size === '49') {
+        ready = true;
+      } else if (size === '34' && purpose === 'work') {
+        ready = true;
+      } else if (size === '34' && (purpose === 'gaming' || purpose === 'all')) {
+        ready = Boolean(tier);
+      }
+
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? '' : '必要な項目を選択してください。';
+      updateTierHint();
+    }
+
+    form.addEventListener('change', updateInterface);
+    updateInterface();
+
+    goBtn.addEventListener('click', function () {
+      const result = resolveLink();
+
+      if (typeof result === 'string') {
+        const link = document.createElement('a');
+        link.href = result;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer nofollow sponsored';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        msgEl.textContent = '';
+      } else if (result && result.error) {
+        msgEl.textContent = result.error;
+      }
+    });
+  </script>
+</body>
+</html>
