@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>넷플릭스 VPN 추천가이드</title>
+  <meta name="description" content="질문에 답하면 이용 환경에 맞는 넷플릭스 VPN 추천 링크로 이동합니다.">
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { min-height: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 30px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 32px;
+      padding: clamp(18px, 3.2vw, 28px);
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    fieldset {
+      margin: 0 0 22px;
+      padding: 0;
+      border: 0;
+    }
+
+    fieldset[hidden] { display: none; }
+
+    legend {
+      margin-bottom: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .options.long-options {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .options.four-options {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .radio { position: relative; }
+
+    .radio input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .radio label {
+      display: flex;
+      width: 100%;
+      min-height: 46px;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 13px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 600;
+      line-height: 1.35;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+
+    .radio label:hover { border-color: #d6d6db; }
+
+    .radio input:focus-visible + label {
+      outline: 0;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+
+    .radio input:checked + label {
+      border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(74, 42, 116, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .msg {
+      flex: 1 1 180px;
+      font-size: 13px;
+      color: #a40000;
+    }
+
+    button.primary {
+      appearance: none;
+      padding: 14px 18px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74, 42, 116, 0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74, 42, 116, 0.32); }
+    button.primary:active { transform: translateY(1px); }
+
+    button[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    footer {
+      padding: 10px 16px 26px;
+      color: rgba(255, 255, 255, 0.85);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @media (max-width: 640px) {
+      header { padding: 20px 14px 12px; }
+
+      .container {
+        width: min(94vw, 900px);
+        margin-bottom: 22px;
+        padding: 16px;
+        border-radius: 14px;
+      }
+
+      fieldset { margin-bottom: 17px; }
+      legend { margin-bottom: 9px; font-size: 15px; }
+
+      .options.long-options { grid-template-columns: 1fr; }
+      .options.four-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .options { gap: 8px; }
+
+      .radio label {
+        min-height: 42px;
+        padding: 9px 8px;
+        font-size: 14px;
+      }
+
+      .actions { margin-top: 8px; }
+
+      button.primary {
+        width: 100%;
+        padding: 13px 16px;
+      }
+
+      .msg {
+        flex-basis: 100%;
+        text-align: center;
+      }
+
+      footer { padding-bottom: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>넷플릭스 VPN 추천가이드</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <fieldset>
+          <legend>1. 넷플릭스를 이용하는 목적은 무엇인가요?</legend>
+          <div class="options long-options" role="radiogroup" aria-label="넷플릭스 이용 목적 선택">
+            <div class="radio">
+              <input type="radio" id="mode-overseas" name="mode" value="overseas">
+              <label for="mode-overseas">나는 한국에서 해외 넷플릭스를 이용할 예정입니다.</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="mode-korea" name="mode" value="korea">
+              <label for="mode-korea">나는 해외에서 한국 넷플릭스를 이용할 예정입니다.</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. 이용하시려는 기간은 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="이용 기간 선택">
+            <div class="radio">
+              <input type="radio" id="period-1m" name="period" value="1m">
+              <label for="period-1m">1개월</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="period-1y" name="period" value="1y">
+              <label for="period-1y">1년</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="period-2y" name="period" value="2y">
+              <label for="period-2y">2년</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset id="country-question" hidden>
+          <legend>3. 이용하시려는 넷플릭스 국가는 어떻게 되나요?</legend>
+          <div class="options" role="radiogroup" aria-label="넷플릭스 국가 선택">
+            <div class="radio">
+              <input type="radio" id="country-japan" name="country" value="japan" disabled>
+              <label for="country-japan">일본</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="country-us" name="country" value="us" disabled>
+              <label for="country-us">미국</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="country-other" name="country" value="other" disabled>
+              <label for="country-other">그 외</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset id="extra-question" hidden>
+          <legend>3. 이외에 VPN을 사용하려는 목적이 있으신가요?</legend>
+          <div class="options four-options" role="radiogroup" aria-label="추가 VPN 이용 목적 선택">
+            <div class="radio">
+              <input type="radio" id="extra-none" name="extra" value="none" disabled>
+              <label for="extra-none">없음</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="extra-shopping" name="extra" value="shopping" disabled>
+              <label for="extra-shopping">우회구매</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="extra-blocked" name="extra" value="blocked" disabled>
+              <label for="extra-blocked">차단된 사이트 접속</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="extra-privacy" name="extra" value="privacy" disabled>
+              <label for="extra-privacy">IP 보호</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button">추천 VPN 보러가기</button>
+        </div>
+      </form>
+    </main>
+
+    <footer>모든 항목을 선택하면 추천 링크로 이동합니다.</footer>
+  </div>
+
+  <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    const LINKS = {
+      MULLVAD: "https://mullvad.net/ko",
+      NORDVPN: "https://go.nordvpn.net/aff_c?offer_id=266&aff_id=89429",
+      PROTONVPN: "https://go.getproton.me/aff_c?offer_id=26&aff_id=14422"
+    };
+
+    const form = document.getElementById("guide-form");
+    const countryQuestion = document.getElementById("country-question");
+    const extraQuestion = document.getElementById("extra-question");
+    const msgEl = document.getElementById("msg");
+    const goBtn = document.getElementById("go");
+
+    function getValue(name) {
+      const input = form.querySelector(`input[name="${name}"]:checked`);
+      return input ? input.value : null;
+    }
+
+    function setQuestionState(fieldset, visible) {
+      fieldset.hidden = !visible;
+      fieldset.querySelectorAll("input").forEach((input) => {
+        input.disabled = !visible;
+        if (!visible) input.checked = false;
+      });
+    }
+
+    function updateConditionalQuestion() {
+      const mode = getValue("mode");
+      setQuestionState(countryQuestion, mode === "overseas");
+      setQuestionState(extraQuestion, mode === "korea");
+    }
+
+    function isReady() {
+      const mode = getValue("mode");
+      const period = getValue("period");
+
+      if (!mode || !period) return false;
+      if (mode === "overseas") return Boolean(getValue("country"));
+      if (mode === "korea") return Boolean(getValue("extra"));
+      return false;
+    }
+
+    function resolveLink() {
+      const mode = getValue("mode");
+      const period = getValue("period");
+
+      if (!isReady()) return null;
+
+      if (period === "1y" || period === "2y") {
+        return LINKS.NORDVPN;
+      }
+
+      if (mode === "overseas") {
+        return getValue("country") === "japan" ? LINKS.MULLVAD : LINKS.PROTONVPN;
+      }
+
+      return getValue("extra") === "none" ? LINKS.PROTONVPN : LINKS.NORDVPN;
+    }
+
+    function updateButtonState() {
+      const ready = isReady();
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? "" : "필수 항목을 선택해 주세요.";
+    }
+
+    form.addEventListener("change", (event) => {
+      if (event.target.name === "mode") updateConditionalQuestion();
+      updateButtonState();
+    });
+
+    goBtn.addEventListener("click", () => {
+      const link = resolveLink();
+
+      if (!link) {
+        msgEl.textContent = "필수 항목을 선택해 주세요.";
+        return;
+      }
+
+      const anchor = document.createElement("a");
+      anchor.href = link;
+      anchor.target = "_blank";
+      anchor.rel = "noopener noreferrer nofollow sponsored";
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      msgEl.textContent = "";
+    });
+
+    updateConditionalQuestion();
+    updateButtonState();
+  </script>
+</body>
+</html>
