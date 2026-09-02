@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>넷플릭스 최저가 가이드</title>
+  <meta name="description" content="요금제와 이용 목적에 맞는 넷플릭스 이용 경로를 안내합니다." />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body { min-height: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 36px;
+      align-self: start;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    fieldset {
+      border: 0;
+      padding: 0;
+      margin: 0 0 22px;
+    }
+
+    fieldset[hidden] { display: none; }
+
+    legend {
+      margin-bottom: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .plan-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .purpose-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .radio { position: relative; }
+
+    .radio input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .radio label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      min-height: 46px;
+      padding: 12px 14px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 600;
+      line-height: 1.3;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.02s ease;
+    }
+
+    .radio label:hover { border-color: #d6d6db; }
+
+    .radio input:focus-visible + label {
+      outline: 0;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+
+    .radio input:checked + label {
+      border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(74, 42, 116, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    button.primary {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74, 42, 116, 0.25);
+      transition: transform 0.06s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74, 42, 116, 0.32); }
+    button.primary:active { transform: translateY(1px); }
+
+    button[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .msg {
+      flex: 1;
+      color: #a40000;
+      font-size: 13px;
+    }
+
+    @media (max-width: 640px) {
+      header { padding: 22px 14px 12px; }
+
+      .container {
+        width: min(94vw, 900px);
+        margin-bottom: 20px;
+        padding: 16px;
+        border-radius: 14px;
+      }
+
+      fieldset { margin-bottom: 17px; }
+      legend { margin-bottom: 9px; font-size: 15px; }
+      .options { gap: 7px; }
+
+      .radio label {
+        min-height: 44px;
+        padding: 10px 7px;
+        font-size: 14px;
+      }
+
+      button.primary { padding: 13px 16px; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>넷플릭스 최저가 가이드</h1>
+    </header>
+
+    <main class="container" role="main">
+      <form id="guide-form" novalidate>
+        <fieldset>
+          <legend>1. 이용하시려는 요금제는 무엇인가요?</legend>
+          <div class="options plan-options" role="radiogroup" aria-label="넷플릭스 요금제 선택">
+            <div class="radio">
+              <input type="radio" id="plan-ads" name="plan" value="ads" />
+              <label for="plan-ads">광고형 스탠다드</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="plan-standard" name="plan" value="standard" />
+              <label for="plan-standard">스탠다드</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="plan-premium" name="plan" value="premium" />
+              <label for="plan-premium">프리미엄</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset id="purpose-fieldset">
+          <legend>2. 넷플릭스를 주로 어떤 용도로 이용하시나요?</legend>
+          <div class="options purpose-options" role="radiogroup" aria-label="넷플릭스 이용 목적 선택">
+            <div class="radio">
+              <input type="radio" id="purpose-watch" name="purpose" value="watch" />
+              <label for="purpose-watch">영상 시청</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="purpose-game" name="purpose" value="game" />
+              <label for="purpose-game">넷플릭스 모바일 게임</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button">최저가 확인하기</button>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <noscript>이 가이드는 자바스크립트를 필요로 합니다. 브라우저 설정에서 자바스크립트를 활성화해 주세요.</noscript>
+
+  <script>
+    const LINKS = {
+      NAVER: "https://nid.naver.com/membership/join",
+      NETFLIX: "https://www.netflix.com/",
+      GAMSGO: "https://www.gamsgo.com/ko/accounts/netflix/partner/RqZaS"
+    };
+
+    const form = document.getElementById("guide-form");
+    const purposeFieldset = document.getElementById("purpose-fieldset");
+    const msgEl = document.getElementById("msg");
+    const goBtn = document.getElementById("go");
+
+    function getValue(name) {
+      const selected = form.querySelector(`input[name="${name}"]:checked`);
+      return selected ? selected.value : null;
+    }
+
+    function setPurposeVisibility(plan) {
+      const purposeInputs = form.querySelectorAll('input[name="purpose"]');
+      const isAds = plan === "ads";
+
+      purposeFieldset.hidden = isAds;
+      purposeFieldset.setAttribute("aria-hidden", String(isAds));
+
+      purposeInputs.forEach((input) => {
+        input.disabled = isAds;
+        if (isAds) input.checked = false;
+      });
+    }
+
+    function resolveLink() {
+      const plan = getValue("plan");
+      const purpose = getValue("purpose");
+
+      if (!plan) return { error: "요금제를 선택해 주세요." };
+      if (plan === "ads") return LINKS.NAVER;
+      if (!purpose) return { error: "이용 목적을 선택해 주세요." };
+      if (purpose === "game") return LINKS.NETFLIX;
+      if (purpose === "watch") return LINKS.GAMSGO;
+
+      return { error: "선택값을 다시 확인해 주세요." };
+    }
+
+    function updateInterface() {
+      const plan = getValue("plan");
+      const purpose = getValue("purpose");
+
+      setPurposeVisibility(plan);
+
+      const ready = plan === "ads" || Boolean(plan && purpose);
+      goBtn.disabled = !ready;
+      msgEl.textContent = "";
+    }
+
+    form.addEventListener("change", updateInterface);
+    updateInterface();
+
+    goBtn.addEventListener("click", () => {
+      const result = resolveLink();
+
+      if (typeof result === "string") {
+        const link = document.createElement("a");
+        link.href = result;
+        link.target = "_blank";
+        link.rel = result === LINKS.GAMSGO
+          ? "noopener noreferrer nofollow sponsored"
+          : "noopener noreferrer";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        msgEl.textContent = "";
+        return;
+      }
+
+      msgEl.textContent = result.error;
+    });
+  </script>
+</body>
+</html>
