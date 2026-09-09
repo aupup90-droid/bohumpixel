@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ゲーミングモニターおすすめガイド</title>
+  <meta name="description" content="ゲームのジャンルと選択基準に合った、おすすめのゲーミングモニターをご案内します。" />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .wrap { min-height: 100vh; min-height: 100svh; display: grid; grid-template-rows: auto 1fr auto; }
+    header { padding: 32px 20px 16px; text-align: center; color: #fff; }
+    header h1 {
+      margin: 0;
+      font-size: clamp(24px, 4vw, 36px);
+      line-height: 1.3;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .keep { display: inline-block; }
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 32px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+    fieldset { min-width: 0; border: 0; padding: 0; margin: 0 0 20px; }
+    legend { max-width: 100%; padding: 0; font-weight: 700; margin-bottom: 12px; font-size: 16px; line-height: 1.6; }
+    .options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .options.pick { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .choice { position: relative; min-width: 0; }
+    .choice input { position: absolute; opacity: 0; pointer-events: none; }
+    .choice label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      height: 100%;
+      width: 100%;
+      padding: 11px 10px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1.35;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+    .choice label:hover { border-color: #d6d6db; }
+    .choice input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .choice input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+    .hint { min-height: 18px; color: var(--muted); font-size: 12px; line-height: 1.5; margin-top: 8px; }
+    .actions { margin-top: 8px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    button.primary {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font: inherit;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:focus-visible { outline: 3px solid var(--primary); outline-offset: 4px; }
+    button.primary:active { transform: translateY(1px); }
+    button.primary:disabled { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+    .msg { font-size: 13px; color: #a40000; line-height: 1.5; }
+    .msg:empty { display: none; }
+    footer { text-align: center; padding: 10px 16px 24px; font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.85); }
+    @media (max-width: 640px) {
+      .wrap { min-height: auto; }
+      header { padding: 20px 12px 12px; }
+      header h1 { font-size: clamp(20px, 5.5vw, 28px); line-height: 1.35; }
+      .container { width: min(560px, 94vw); margin-bottom: 14px; padding: 16px; }
+      fieldset { margin-bottom: 16px; }
+      legend { font-size: 14px; line-height: 1.55; margin-bottom: 10px; }
+      .options { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .choice label { min-height: 46px; padding: 8px 5px; font-size: 13px; border-radius: 11px; }
+      .pick label { font-size: clamp(11px, 3.1vw, 14px); letter-spacing: -0.03em; }
+      .hint { font-size: 11px; margin-top: 6px; }
+      .actions { justify-content: stretch; gap: 8px; }
+      .actions .msg { width: 100%; font-size: 11px; }
+      button.primary { width: 100%; min-height: 46px; padding: 12px 16px; font-size: 14px; }
+      footer { padding: 6px 16px 16px; font-size: 11px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .choice label, button.primary { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1><span class="keep">ゲーミングモニター</span><wbr><span class="keep">おすすめガイド</span></h1>
+    </header>
+    <main class="container">
+      <form id="guide-form" novalidate>
+        <fieldset>
+          <legend>1. 普段プレイするゲームのジャンルをすべて選んでください。</legend>
+          <div class="options" role="group" aria-label="ゲームのジャンル">
+            <div class="choice">
+              <input type="checkbox" id="genre-fps" name="genre" value="fps">
+              <label for="genre-fps">FPS</label>
+            </div>
+            <div class="choice">
+              <input type="checkbox" id="genre-moba" name="genre" value="moba">
+              <label for="genre-moba">MOBA</label>
+            </div>
+            <div class="choice">
+              <input type="checkbox" id="genre-console" name="genre" value="console">
+              <label for="genre-console">PS5・Switch</label>
+            </div>
+            <div class="choice">
+              <input type="checkbox" id="genre-mmorpg" name="genre" value="mmorpg">
+              <label for="genre-mmorpg">MMORPG</label>
+            </div>
+            <div class="choice">
+              <input type="checkbox" id="genre-strategy" name="genre" value="strategy">
+              <label for="genre-strategy"><span><span class="keep">ストラテジー</span>・<wbr><span class="keep">シミュレーション</span></span></label>
+            </div>
+            <div class="choice">
+              <input type="checkbox" id="genre-racing" name="genre" value="racing">
+              <label for="genre-racing">スポーツ・レース</label>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>2. コスパ重視セレクトとプレミアセレクトのどちらを選びますか？</legend>
+          <div class="options pick" role="radiogroup" aria-label="セレクト" aria-describedby="pick-hint">
+            <div class="choice">
+              <input type="radio" id="pick-value" name="pick" value="value">
+              <label for="pick-value">コスパ重視セレクト</label>
+            </div>
+            <div class="choice">
+              <input type="radio" id="pick-premium" name="pick" value="premium">
+              <label for="pick-premium">プレミアセレクト</label>
+            </div>
+          </div>
+          <div id="pick-hint" class="hint" aria-live="polite"></div>
+        </fieldset>
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="submit" disabled>おすすめを見る</button>
+        </div>
+      </form>
+    </main>
+    <footer>ジャンルとセレクトを選ぶと、おすすめリンクへ移動します。</footer>
+  </div>
+  <noscript>このガイドを利用するには、ブラウザーの設定でJavaScriptを有効にしてください。</noscript>
+  <script>
+    const LINKS = {
+      value: {
+        multi: 'https://amzn.to/4xKqgC1',
+        fps: 'https://amzn.to/4h4F3ke',
+        moba: 'https://amzn.to/4gXk2rt',
+        console: 'https://amzn.to/3Tnv814',
+        mmorpg: 'https://amzn.to/4gJIgGN',
+        strategy: 'https://amzn.to/4gJIgGN',
+        racing: 'https://amzn.to/4cE7HHs'
+      },
+      premium: {
+        multi: 'https://amzn.to/4r4A3Aw',
+        fps: 'https://amzn.to/4r2gQiJ',
+        moba: 'https://amzn.to/4r2gQiJ',
+        console: 'https://amzn.to/4rbPveb',
+        mmorpg: 'https://amzn.to/4d5E8P2',
+        strategy: 'https://amzn.to/4d5E8P2',
+        racing: 'https://amzn.to/4xPkfUS'
+      }
+    };
+    const PRIORITY = ['fps', 'mmorpg', 'strategy', 'console', 'moba', 'racing'];
+    const HINTS = {
+      value: '「コスパ重視セレクト」は価格を重視した選択肢で、品質や安定性が一部劣る場合があります。',
+      premium: '「プレミアセレクト」は品質や安定性を重視した選択肢で、価格帯が高くなる場合があります。'
+    };
+    const form = document.getElementById('guide-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+    const hintEl = document.getElementById('pick-hint');
+
+    function getSelectedGenres() {
+      return Array.from(form.querySelectorAll('input[name="genre"]:checked')).map(el => el.value);
+    }
+    function getPick() {
+      const el = form.querySelector('input[name="pick"]:checked');
+      return el ? el.value : null;
+    }
+    function resolveGenre(genres) {
+      if (genres.length >= 3) return 'multi';
+      return PRIORITY.find(genre => genres.includes(genre)) || null;
+    }
+    function resolveLink() {
+      const genres = getSelectedGenres();
+      const pick = getPick();
+      if (genres.length === 0) return { error: 'ゲームのジャンルを選んでください。' };
+      if (!pick) return { error: 'コスパ重視セレクトまたはプレミアセレクトを選んでください。' };
+      const genre = resolveGenre(genres);
+      return LINKS[pick][genre] || { error: '選択内容をもう一度確認してください。' };
+    }
+    function updateState() {
+      const genres = getSelectedGenres();
+      const pick = getPick();
+      hintEl.textContent = pick ? HINTS[pick] : '';
+      goBtn.disabled = !(genres.length > 0 && pick);
+      msgEl.textContent = goBtn.disabled ? 'ゲームのジャンルとセレクトを選んでください。' : '';
+    }
+    form.addEventListener('change', updateState);
+    window.addEventListener('pageshow', updateState);
+    updateState();
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const result = resolveLink();
+      if (typeof result === 'string') {
+        const a = document.createElement('a');
+        a.href = result;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer nofollow sponsored';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        msgEl.textContent = '';
+      } else if (result && result.error) {
+        msgEl.textContent = result.error;
+      }
+    });
+  </script>
+</body>
+</html>
