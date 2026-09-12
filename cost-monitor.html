@@ -116,15 +116,6 @@
     .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
     .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
 
-    .tier-hint {
-      min-height: 18px;
-      margin-top: 7px;
-      color: var(--muted);
-      font-size: 12.5px;
-      line-height: 1.35;
-      letter-spacing: -0.01em;
-    }
-
     .actions {
       margin-top: 12px;
       display: flex;
@@ -168,13 +159,7 @@
       .options { gap: 7px; }
       .options.purpose { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .radio label { min-height: 40px; padding: 9px 8px; font-size: 14px; border-radius: 11px; }
-      .tier-hint { font-size: 12px; margin-top: 6px; }
-      .actions { margin-top: 8px; }
-      .msg { width: 100%; order: 2; text-align: center; margin-right: 0; }
-      button.primary { width: 100%; padding: 13px 16px; }
-    }
-
-    @media (max-width: 360px) {
+      @media (max-width: 360px) {
       .container { padding: 14px; }
       .radio label { font-size: 13px; padding: 8px 6px; }
     }
@@ -189,25 +174,6 @@
     <main class="container" role="main">
       <form id="guide-form" novalidate>
         <fieldset>
-          <legend>어떤 티어의 모니터를 원하시나요?</legend>
-          <div class="options" role="radiogroup" aria-label="모니터 티어 선택">
-            <div class="radio">
-              <input type="radio" id="tier-3" name="tier" value="3">
-              <label for="tier-3">3 티어</label>
-            </div>
-            <div class="radio">
-              <input type="radio" id="tier-4" name="tier" value="4">
-              <label for="tier-4">4 티어</label>
-            </div>
-            <div class="radio">
-              <input type="radio" id="tier-5" name="tier" value="5">
-              <label for="tier-5">5 티어</label>
-            </div>
-          </div>
-          <div id="tier-hint" class="tier-hint" aria-live="polite"></div>
-        </fieldset>
-
-        <fieldset>
           <legend>어떤 사이즈의 모니터를 원하시나요?</legend>
           <div class="options" role="radiogroup" aria-label="모니터 사이즈 선택">
             <div class="radio">
@@ -221,6 +187,24 @@
             <div class="radio">
               <input type="radio" id="size-32" name="size" value="32">
               <label for="size-32">32인치</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>어떤 해상도의 모니터를 원하시나요?</legend>
+          <div class="options" role="radiogroup" aria-label="모니터 해상도 선택">
+            <div class="radio">
+              <input type="radio" id="resolution-fhd" name="resolution" value="fhd">
+              <label for="resolution-fhd">FHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="resolution-qhd" name="resolution" value="qhd">
+              <label for="resolution-qhd">QHD</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="resolution-4k" name="resolution" value="4k">
+              <label for="resolution-4k">4K</label>
             </div>
           </div>
         </fieldset>
@@ -249,7 +233,7 @@
 
         <div class="actions">
           <span id="msg" class="msg" role="status" aria-live="polite"></span>
-          <button id="go" class="primary" type="button" aria-label="추천 보러가기">추천 보러가기</button>
+          <button id="go" class="primary" type="button" disabled aria-label="추천 보러가기">추천 보러가기</button>
         </div>
       </form>
     </main>
@@ -259,72 +243,78 @@
 
   <script>
     const LINKS = {
-      t3_24_game: "https://link.coupang.com/a/eGrSy8",
-      t3_27_game: "https://link.coupang.com/a/eGrXxh",
-      t3_32_game: "https://link.coupang.com/a/eGsyY8",
-      t3_24_general: "https://link.coupang.com/a/eGsMpj",
-      t3_27_general: "https://link.coupang.com/a/eGsRmu",
-      t3_32_general: "https://link.coupang.com/a/eGsUF2",
-      t4_24_game: "https://link.coupang.com/a/eGsZq1",
-      t4_27_game: "https://link.coupang.com/a/eGtvXp",
-      t4_24_general: "https://link.coupang.com/a/eGtK4e",
-      t4_27_general: "https://link.coupang.com/a/eGtQar",
-      t5_24: "https://link.coupang.com/a/eGt3ch",
-      t5_27: "https://link.coupang.com/a/eGugvm",
-      budget_32: "https://link.coupang.com/a/eGtBH3"
-    };
-
-    const TIER_HINTS = {
-      "3": "‘3 티어’는 가격 보다 품질과 안정성에 좀 더 비중을 둔 선택지입니다.",
-      "4": "‘4 티어’는 가격과 품질의 밸런스에 비중을 둔 선택지입니다.",
-      "5": "‘5 티어’는 품질 보다 가격에 좀 더 비중을 둔 선택지 입니다."
+      "24": "https://link.coupang.com/a/gZjH16JLdk",
+      "27": {
+        fhd: {
+          game: "https://link.coupang.com/a/gYMTUvYfBI",
+          general: "https://link.coupang.com/a/gZjKfHVRym"
+        },
+        qhd: {
+          game: "https://link.coupang.com/a/gZi1KbngVE",
+          general: "https://link.coupang.com/a/gZi1KbngVE"
+        },
+        "4k": {
+          game: "https://link.coupang.com/a/gZjxIxDIyG",
+          general: "https://link.coupang.com/a/gZjNJxlkXc"
+        }
+      },
+      "32": {
+        fhd: {
+          game: "https://link.coupang.com/a/gZjALwk24O",
+          general: "https://link.coupang.com/a/gZjWr7lpiC"
+        },
+        qhd: {
+          game: "https://link.coupang.com/a/gZjALwk24O",
+          general: "https://link.coupang.com/a/gZjWr7lpiC"
+        },
+        "4k": {
+          game: "https://link.coupang.com/a/gZjEoAaLkG",
+          general: "https://link.coupang.com/a/gZj0BqTJpA"
+        }
+      }
     };
 
     const form = document.getElementById('guide-form');
     const msgEl = document.getElementById('msg');
     const goBtn = document.getElementById('go');
-    const tierHintEl = document.getElementById('tier-hint');
 
     function getValue(name) {
       const el = form.querySelector(`input[name="${name}"]:checked`);
       return el ? el.value : null;
     }
 
-    function purposeGroup(purpose) {
-      return purpose === 'game' || purpose === 'multi' ? 'game' : 'general';
+    function getSelection() {
+      return {
+        size: getValue('size'),
+        resolution: getValue('resolution'),
+        purpose: getValue('purpose')
+      };
+    }
+
+    function isComplete(selection) {
+      return ['24', '27', '32'].includes(selection.size)
+        && ['fhd', 'qhd', '4k'].includes(selection.resolution)
+        && ['game', 'office', 'video', 'multi'].includes(selection.purpose);
     }
 
     function resolveLink() {
-      const tier = getValue('tier');
-      const size = getValue('size');
-      const purpose = getValue('purpose');
-
-      if (!tier || !size || !purpose) return { error: '모든 항목을 선택해 주세요.' };
-
-      if (tier === '5') {
-        if (size === '24') return LINKS.t5_24;
-        if (size === '27') return LINKS.t5_27;
-        return LINKS.budget_32;
-      }
-
-      if (tier === '4' && size === '32') return LINKS.budget_32;
-
-      const group = purposeGroup(purpose);
-      return LINKS[`t${tier}_${size}_${group}`] || { error: '선택값을 다시 확인해 주세요.' };
+      const selection = getSelection();
+      if (!isComplete(selection)) return { error: '모든 항목을 선택해 주세요.' };
+      const { size, resolution, purpose } = selection;
+      if (size === '24') return LINKS['24'];
+      const group = purpose === 'game' || purpose === 'multi' ? 'game' : 'general';
+      return LINKS[size][resolution][group];
     }
 
     function updateState() {
-      const tier = getValue('tier');
-      const size = getValue('size');
-      const purpose = getValue('purpose');
-      const ready = Boolean(tier && size && purpose);
-
-      tierHintEl.textContent = tier ? TIER_HINTS[tier] : '';
+      const ready = isComplete(getSelection());
       goBtn.disabled = !ready;
       msgEl.textContent = ready ? '' : '모든 항목을 선택해 주세요.';
     }
 
     form.addEventListener('change', updateState);
+    window.addEventListener('pageshow', updateState);
+    form.addEventListener('submit', function(event) { event.preventDefault(); });
     updateState();
 
     goBtn.addEventListener('click', function() {
