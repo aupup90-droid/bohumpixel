@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>縦置きモニターおすすめガイド</title>
-  <meta name="description" content="質問に答えると、条件に合ったおすすめリンクへ遷移します。" />
+  <meta name="description" content="ご希望の設置方式とモニターを選んで、おすすめのモニターを確認できます。">
   <style>
     :root {
-      /* 元ファイル（dual-monitor.html）のトーン/コンポーネントを踏襲 */
+      
       --bg: #cfa6e7;
       --card: #ffffff;
       --text: #1b1b1b;
@@ -22,7 +22,7 @@
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", "Yu Gothic", Meiryo, Arial, sans-serif;
+      font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", Meiryo, "Noto Sans JP", sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -30,7 +30,8 @@
     .wrap {
       min-height: 100vh;
       display: grid;
-      grid-template-rows: auto 1fr auto;
+      grid-template-rows: auto auto auto;
+      align-content: start;
     }
 
     header {
@@ -65,7 +66,7 @@
       gap: 10px;
     }
 
-    /* pill radios（元デザインと同等の挙動/フォーカス） */
+    
     .radio { position: relative; }
     .radio input { position: absolute; opacity: 0; pointer-events: none; }
     .radio label {
@@ -79,8 +80,7 @@
 
     .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
 
-    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
-    .actions .left { display: flex; align-items: center; gap: 10px; }
+    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
     button.primary {
       appearance: none; border: 0; border-radius: 999px; padding: 14px 18px; font-weight: 800; letter-spacing: 0.02em;
       background: var(--primary); color: var(--primary-contrast); cursor: pointer; box-shadow: 0 10px 24px rgba(74,42,116,0.25);
@@ -91,176 +91,114 @@
     button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
 
     .msg { font-size: 13px; color: #a40000; }
-    .trace { font-size: 12px; color: var(--muted); }
 
     footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.85); }
 
     @media (max-width: 640px) { .options { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  </style>
+  
+    .options--method { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .radio label { height: 100%; display: flex; align-items: center; justify-content: center; line-height: 1.5; overflow-wrap: anywhere; }
+    legend { line-height: 1.6; }
+    .msg:empty { display: none; }
+    @media (max-width: 640px) {
+      header { padding: 22px 16px 16px; }
+      header h1 { font-size: clamp(21px, 5.6vw, 28px); line-height: 1.4; }
+      .container { width: calc(100% - 24px); padding: 18px 14px; margin-bottom: 0; }
+      fieldset { margin-bottom: 18px; }
+      legend { font-size: 14px; margin-bottom: 10px; }
+      .options { gap: 8px; }
+      .radio label { min-height: 48px; padding: 10px 8px; font-size: 13px; }
+      .options--size .radio:last-child { grid-column: 1 / -1; }
+      .actions { margin-top: 4px; gap: 8px; }
+      .msg { width: 100%; font-size: 12px; }
+      button.primary { width: 100%; min-height: 48px; padding: 12px 16px; font-size: 14px; }
+      footer { padding: 14px 16px 20px; line-height: 1.6; }
+    }
+</style>
 </head>
 <body>
   <div class="wrap">
-    <header>
-      <h1>縦置きモニターおすすめガイド</h1>
-    </header>
-
-    <main class="container" role="main">
+    <header><h1>縦置きモニターおすすめガイド</h1></header>
+    <main class="container">
       <form id="guide-form" novalidate>
-        <!-- Q1: メインモニターのサイズ -->
         <fieldset>
-          <legend>1. メインモニターのサイズは？</legend>
-          <div class="options" role="radiogroup" aria-label="メインモニターのサイズ選択">
+          <legend>1. モニターアーム方式と縦置きモニター方式のどちらを選びますか？</legend>
+          <div class="options options--method">
             <div class="radio">
-              <input type="radio" id="size-24" name="size" value="24">
-              <label for="size-24">24インチ</label>
+              <input type="radio" id="method-arm" name="method" value="arm">
+              <label for="method-arm">モニターアーム方式</label>
             </div>
+            <div class="radio">
+              <input type="radio" id="method-vertical" name="method" value="vertical">
+              <label for="method-vertical">縦置きモニター方式</label>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>2. ご希望のモニターを選んでください。</legend>
+          <div class="options options--size">
             <div class="radio">
               <input type="radio" id="size-27" name="size" value="27">
-              <label for="size-27">27インチ</label>
+              <label for="size-27">27インチモニター</label>
             </div>
             <div class="radio">
-              <input type="radio" id="size-32" name="size" value="32">
-              <label for="size-32">32インチ</label>
+              <input type="radio" id="size-24" name="size" value="24">
+              <label for="size-24">24インチモニター</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="size-portable" name="size" value="portable">
+              <label for="size-portable">ポータブルモニター</label>
             </div>
           </div>
         </fieldset>
-
-        <!-- Q2: 主な目的 -->
-        <fieldset>
-          <legend>2. 縦型モニターを購入する主な目的は？</legend>
-          <div class="options" role="radiogroup" aria-label="主な目的の選択">
-            <div class="radio">
-              <input type="radio" id="purpose-web" name="purpose" value="web">
-              <label for="purpose-web">Webページやチャットの閲覧</label>
-            </div>
-            <div class="radio">
-              <input type="radio" id="purpose-video" name="purpose" value="video">
-              <label for="purpose-video">動画視聴</label>
-            </div>
-            <div class="radio">
-              <input type="radio" id="purpose-prod" name="purpose" value="productivity">
-              <label for="purpose-prod">生産性向上</label>
-            </div>
-          </div>
-        </fieldset>
-
-        <!-- Q3: 予算 -->
-        <fieldset>
-          <legend>3. 予算はどのくらいをお考えですか？</legend>
-          <div class="options" role="radiogroup" aria-label="予算の選択">
-            <div class="radio">
-              <input type="radio" id="budget-1" name="budget" value="1">
-              <label for="budget-1">1万円</label>
-            </div>
-            <div class="radio">
-              <input type="radio" id="budget-2" name="budget" value="2">
-              <label for="budget-2">2万円</label>
-            </div>
-            <div class="radio">
-              <input type="radio" id="budget-no" name="budget" value="no">
-              <label for="budget-no">特に制限なし</label>
-            </div>
-          </div>
-        </fieldset>
-
         <div class="actions">
-          <div class="left">
-            <span id="msg" class="msg" role="status" aria-live="polite"></span>
-            <span id="trace" class="trace" aria-live="polite" aria-atomic="true"></span>
-          </div>
-          <button id="go" class="primary" type="button" aria-label="おすすめを見る">おすすめを見る</button>
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="submit" disabled>おすすめを見る</button>
         </div>
       </form>
     </main>
-
-    <footer>
-      <span>すべての項目を選択するとおすすめリンクへ移動します。</span>
-    </footer>
+    <footer>ボタンを押すと、おすすめのリンクが開きます。</footer>
   </div>
-
-  <noscript>このガイドはJavaScriptを利用します。ブラウザ設定でJavaScriptを有効にしてください。</noscript>
-
+  <noscript>このガイドにはJavaScriptが必要です。ブラウザの設定でJavaScriptを有効にしてください。</noscript>
   <script>
-    // --- リンクマップ（指定ルール） ---
     const LINKS = {
-      BUDGET_1: "https://amzn.to/42SwDGj",                  // 1万円（他条件に関係なく）
-      SIZE24_HIGH: "https://amzn.to/3WjwWpS",               // 24インチ & (2万円 or 制限なし)
-      SIZE27_32_NO: "https://amzn.to/4qlWYqc",              // (27 or 32) & 制限なし
-      SIZE27_32_2: "https://amzn.to/47DvIvV"                // (27 or 32) & 2万円
+      arm: { '27': 'https://amzn.to/4hg1FxU', '24': 'https://amzn.to/4yOLFKF' },
+      vertical: { '27': 'https://amzn.to/4h7svZ2', '24': 'https://amzn.to/4xF8HTl' },
+      portable: 'https://amzn.to/4xBbb4W'
     };
-
     const form = document.getElementById('guide-form');
     const msgEl = document.getElementById('msg');
     const goBtn = document.getElementById('go');
-    const traceEl = document.getElementById('trace');
-
-    function getValue(name){
-      const el = form.querySelector(`input[name="${name}"]:checked`);
-      return el ? el.value : null;
+    function getValue(name) {
+      const input = form.querySelector(`input[name="${name}"]:checked`);
+      return input ? input.value : null;
     }
-
-    // ルール解決（優先順位の明示）
-    function resolveLink(){
+    function resolveLink() {
       const size = getValue('size');
-      const purpose = getValue('purpose'); // 現状ロジックには未使用（保持）
-      const budget = getValue('budget');
-
-      if(!size) return { error: 'メインモニターのサイズを選択してください。' };
-      if(!purpose) return { error: '主な目的を選択してください。' };
-      if(!budget) return { error: '予算を選択してください。' };
-
-      // 1) 予算が1万円 → 他の選択肢に関係なく固定リンク
-      if(budget === '1') {
-        traceEl.textContent = '適用ルール: 予算=1万円（最優先）';
-        return LINKS.BUDGET_1;
-      }
-
-      // 2) 24インチ & (2万円 or 制限なし)
-      if(size === '24' && (budget === '2' || budget === 'no')){
-        traceEl.textContent = '';
-        return LINKS.SIZE24_HIGH;
-      }
-
-      // 3) (27 or 32) & 制限なし
-      if((size === '27' && budget === 'no') || (size === '32' && budget === 'no')){
-        traceEl.textContent = '適用ルール: (27/32) & 制限なし';
-        return LINKS.SIZE27_32_NO;
-      }
-
-      // 4) (27 or 32) & 2万円
-      if((size === '27' && budget === '2') || (size === '32' && budget === '2')){
-        traceEl.textContent = '適用ルール: (27/32) & 2万円';
-        return LINKS.SIZE27_32_2;
-      }
-
-      traceEl.textContent = '';
-      return { error: '条件に一致するリンクが見つかりません。選択を確認してください。' };
+      if (size === 'portable') return LINKS.portable;
+      const method = getValue('method');
+      return LINKS[method]?.[size] || null;
     }
-
-    function updateButtonState(){
-      const size = getValue('size');
-      const purpose = getValue('purpose');
-      const budget = getValue('budget');
-      const ready = !!(size && purpose && budget);
+    function updateButtonState() {
+      const ready = Boolean(resolveLink());
       goBtn.disabled = !ready;
-      msgEl.textContent = ready ? '' : '必須の項目をすべて選択してください。';
+      msgEl.textContent = ready ? '' : '必要な項目を選んでください。';
     }
-
     form.addEventListener('change', updateButtonState);
+    window.addEventListener('pageshow', updateButtonState);
     updateButtonState();
-
-    goBtn.addEventListener('click', function(){
-      const result = resolveLink();
-      if(typeof result === 'string'){
-        // 新しいタブで安全にオープン（sponsored/nofollow付与）
-        const a = document.createElement('a');
-        a.href = result; a.target = '_blank';
-        a.rel = 'noopener noreferrer nofollow sponsored';
-        document.body.appendChild(a); a.click(); a.remove();
-        msgEl.textContent = '';
-      } else if(result && result.error){
-        msgEl.textContent = result.error; goBtn.disabled = false;
-      }
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const url = resolveLink();
+      if (!url) { updateButtonState(); return; }
+      const link = document.createElement('a');
+      link.href = url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer nofollow sponsored';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      msgEl.textContent = '';
     });
   </script>
 </body>
