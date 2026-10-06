@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MacBook向けモニターおすすめガイド</title>
+  <meta name="description" content="サイズと選び方から、MacBookにおすすめのモニターをご案内します。">
+  <style>
+    :root {
+      
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+      color: #fff;
+    }
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      width: min(900px, 92vw);
+      margin: 0 auto 16px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 22px; }
+    legend { font-weight: 700; margin-bottom: 12px; font-size: 16px; }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio label {
+      display: block; width: 100%; padding: 12px 14px; border: 1.5px solid #e5e5e8; border-radius: 12px;
+      background: #fff; color: var(--text); text-align: center; font-weight: 600; cursor: pointer; user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+    }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+
+    .hint { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+    button.primary {
+      appearance: none; border: 0; border-radius: 999px; padding: 14px 18px; font-weight: 800; letter-spacing: 0.02em;
+      background: var(--primary); color: var(--primary-contrast); cursor: pointer; box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: #a40000; }
+
+    footer { text-align: center; padding: 12px 16px 28px; font-size: 12px; color: rgba(255,255,255,0.85); }
+
+    .options.types { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .hint[hidden] { display: none; }
+    .hint { line-height: 1.6; margin-bottom: 0; }
+    .radio label { line-height: 1.45; }
+    fieldset:last-of-type { margin-bottom: 0; }
+    footer { padding: 8px 16px 20px; }
+    @media (max-width: 640px) {
+      header { padding: 20px 12px 12px; }
+      header h1 { font-size: clamp(20px, 5.7vw, 26px); line-height: 1.3; }
+      .container { width: calc(100% - 24px); padding: 18px 14px; border-radius: 14px; margin-bottom: 10px; }
+      fieldset { margin-bottom: 18px; }
+      legend { font-size: 14px; line-height: 1.5; margin-bottom: 9px; }
+      .options { gap: 8px; }
+      .radio label { padding: 10px 5px; font-size: 13px; }
+      .hint { font-size: 12px; margin-top: 8px; }
+      .actions { gap: 8px; margin-top: 16px; }
+      .msg { width: 100%; font-size: 12px; }
+      .msg:empty { display: none; }
+      button.primary { width: 100%; padding: 12px 16px; font-size: 14px; }
+      footer { font-size: 11px; line-height: 1.5; padding: 4px 16px 16px; }
+    }
+    </style>
+</head>
+<body>
+  <div class="wrap">
+    <header><h1>MacBook向けモニターおすすめガイド</h1></header>
+    <main class="container">
+      <form id="guide-form" novalidate>
+        <fieldset>
+          <legend>1. どのサイズのモニターをお探しですか？</legend>
+          <div class="options">
+            <div class="radio"><input type="radio" id="size-24" name="size" value="24"><label for="size-24">24インチ</label></div>
+            <div class="radio"><input type="radio" id="size-27" name="size" value="27"><label for="size-27">27インチ</label></div>
+            <div class="radio"><input type="radio" id="size-32" name="size" value="32"><label for="size-32">32インチ</label></div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>2. どちらのセレクトを選びますか？</legend>
+          <div class="options types">
+            <div class="radio"><input type="radio" id="pick-value" name="pick" value="value" aria-describedby="pick-hint"><label for="pick-value">コスパ重視<wbr>セレクト</label></div>
+            <div class="radio"><input type="radio" id="pick-premium" name="pick" value="premium" aria-describedby="pick-hint"><label for="pick-premium">プレミア<wbr>セレクト</label></div>
+          </div>
+          <p id="pick-hint" class="hint" aria-live="polite" hidden></p>
+        </fieldset>
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="submit" disabled>おすすめを見る</button>
+        </div>
+      </form>
+    </main>
+    <footer>必要な項目を選択して、おすすめをご覧ください。</footer>
+  </div>
+  <noscript>このガイドを利用するには、ブラウザーの設定でJavaScriptを有効にしてください。</noscript>
+  <script>
+    const LINKS = {
+      '24': 'https://link.amazon/B0ft4BkAk',
+      '27': { value: 'https://link.amazon/B01xIIbVJ', premium: 'https://link.amazon/B00ayN9vA' },
+      '32': { value: 'https://link.amazon/B09WDNpiM', premium: 'https://link.amazon/B0jl1PXkV' }
+    };
+    const HINTS = {
+      value: '「コスパ重視セレクト」は価格を重視した選択肢です。品質や安定性が一部劣る場合があります。',
+      premium: '「プレミアセレクト」は品質と安定性を重視した選択肢です。価格帯が高くなる場合があります。'
+    };
+    const form = document.getElementById('guide-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+    const hintEl = document.getElementById('pick-hint');
+
+    function getValue(name) {
+      const input = form.querySelector(`input[name="${name}"]:checked`);
+      return input ? input.value : null;
+    }
+
+    function resolveLink() {
+      const size = getValue('size');
+      if (!size) return null;
+      if (size === '24') return LINKS['24'];
+      const pick = getValue('pick');
+      return pick && LINKS[size] ? LINKS[size][pick] || null : null;
+    }
+
+    function updateState() {
+      const size = getValue('size');
+      const pick = getValue('pick');
+      hintEl.textContent = HINTS[pick] || '';
+      hintEl.hidden = !pick;
+      const ready = Boolean(resolveLink());
+      goBtn.disabled = !ready;
+      msgEl.textContent = ready ? '' : !size
+        ? 'モニターのサイズを選択してください。'
+        : 'セレクトを選択してください。';
+    }
+
+    form.addEventListener('change', updateState);
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const link = resolveLink();
+      if (!link) { updateState(); return; }
+      const anchor = document.createElement('a');
+      anchor.href = link;
+      anchor.target = '_blank';
+      anchor.rel = 'noopener noreferrer nofollow sponsored';
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      msgEl.textContent = '';
+    });
+    updateState();
+  </script>
+</body>
+</html>
