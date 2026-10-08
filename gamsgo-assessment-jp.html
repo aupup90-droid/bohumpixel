@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GamsGoとの相性チェック</title>
+  <meta name="description" content="5つの質問でサブスクの利用スタイルを確認し、回答に応じてGamsGoまたはYouTube Premiumの公式プランをご案内します。" />
+  <style>
+    :root { --bg: #cfa6e7; --card: #fff; --text: #1b1b1b; --muted: #5b5b5b; --primary: #4a2a74; --ring: rgba(74,42,116,.25); }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    .wrap { min-height: 100vh; display: flex; flex-direction: column; }
+    header { padding: 24px 20px 14px; text-align: center; color: #fff; }
+    h1 { margin: 0; font-size: clamp(22px,4vw,36px); line-height: 1.2; font-weight: 800; letter-spacing: -.02em; text-shadow: 0 1px 0 rgba(0,0,0,.1), 0 2px 8px rgba(0,0,0,.15); }
+    .container { width: min(900px,92vw); margin: 0 auto 18px; background: var(--card); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.15); padding: clamp(16px,2.8vw,24px); }
+    .intro { margin: 0 0 12px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .selection-progress { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+    progress { flex: 1; min-width: 0; height: 6px; border: 0; border-radius: 999px; overflow: hidden; accent-color: var(--primary); background: #eee7f4; }
+    progress::-webkit-progress-bar { background: #eee7f4; }
+    progress::-webkit-progress-value { background: var(--primary); border-radius: 999px; }
+    progress::-moz-progress-bar { background: var(--primary); border-radius: 999px; }
+    .progress-label { color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .question { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #f0edf3; }
+    .question:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: 0; }
+    .question-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+    .question-heading label { min-width: 0; overflow-wrap: break-word; font-size: 15px; font-weight: 700; line-height: 1.55; cursor: pointer; }
+    .value-badge { flex-shrink: 0; min-width: 50px; margin-top: 1px; padding: 3px 8px; border-radius: 999px; background: #f0edf3; color: #777; font-size: 12px; font-weight: 700; text-align: center; white-space: nowrap; }
+    .value-badge[data-answered="true"] { background: #f1e6fa; color: var(--primary); }
+    .rating-slider { --fill: 0%; appearance: none; -webkit-appearance: none; display: block; width: 100%; height: 40px; margin: 0; background: transparent; cursor: pointer; touch-action: pan-y; }
+    .rating-slider::-webkit-slider-runnable-track { height: 6px; border-radius: 999px; background: #e7e1ed; }
+    .rating-slider[data-answered="true"]::-webkit-slider-runnable-track { background: linear-gradient(to right,var(--primary) 0%,var(--primary) var(--fill),#e7e1ed var(--fill),#e7e1ed 100%); }
+    .rating-slider::-webkit-slider-thumb { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; margin-top: -7px; border: 3px solid #fff; border-radius: 50%; background: #b6a8c1; box-shadow: 0 0 0 1px #cbbfd4,0 2px 5px rgba(0,0,0,.12); }
+    .rating-slider[data-answered="true"]::-webkit-slider-thumb { background: var(--primary); box-shadow: 0 0 0 1px var(--primary),0 2px 5px rgba(74,42,116,.2); }
+    .rating-slider::-moz-range-track { height: 6px; border-radius: 999px; background: #e7e1ed; }
+    .rating-slider::-moz-range-progress { height: 6px; border-radius: 999px; background: #e7e1ed; }
+    .rating-slider[data-answered="true"]::-moz-range-progress { background: var(--primary); }
+    .rating-slider::-moz-range-thumb { width: 14px; height: 14px; border: 3px solid #fff; border-radius: 50%; background: #b6a8c1; box-shadow: 0 0 0 1px #cbbfd4; }
+    .rating-slider[data-answered="true"]::-moz-range-thumb { background: var(--primary); box-shadow: 0 0 0 1px var(--primary); }
+    .rating-slider:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; border-radius: 8px; }
+    .scale { margin-top: -3px; display: flex; justify-content: space-between; padding: 0 7px; color: #82758d; font-size: 11px; line-height: 1; pointer-events: none; }
+    .range-ends { display: flex; justify-content: space-between; margin-top: 5px; color: var(--muted); font-size: 11px; line-height: 1.2; }
+    [hidden] { display: none !important; }
+    .actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 16px; }
+    .msg { font-size: 12px; color: #a40000; }
+    button.primary { appearance: none; border: 0; border-radius: 999px; padding: 12px 18px; background: var(--primary); color: #fff; font: inherit; font-size: 14px; font-weight: 800; white-space: nowrap; cursor: pointer; box-shadow: 0 6px 18px rgba(74,42,116,.2); }
+    button.primary:hover { box-shadow: 0 10px 24px rgba(74,42,116,.28); }
+    button.primary:focus-visible { outline: 3px solid var(--primary); outline-offset: 4px; }
+    button[disabled] { opacity: .6; cursor: not-allowed; box-shadow: none; }
+    footer { padding: 0 16px 20px; text-align: center; color: var(--primary); font-size: 11px; line-height: 1.6; }
+    noscript { display: block; margin: 16px; padding: 16px; background: #fff; border-radius: 12px; color: #a40000; }
+    @media (max-width: 440px) {
+      header { padding-top: 20px; }
+      .question-heading label { min-width: 0; overflow-wrap: break-word; font-size: 14px; }
+      .question { margin-bottom: 12px; padding-bottom: 12px; }
+      .actions { flex-wrap: wrap; }
+      .msg { width: 100%; }
+      .msg:empty { display: none; }
+      button.primary { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>GamsGoとの相性チェック</h1>
+    </header>
+    <main class="container">
+      <p class="intro">各項目のスライダーをクリックするか、動かして1〜5点を選んでください。</p>
+      <div class="selection-progress">
+        <progress id="progress" value="0" max="5" aria-label="回答済みの項目数"></progress>
+        <span id="progress-label" class="progress-label" aria-live="polite">0 / 5 項目に回答済み</span>
+      </div>
+      <form id="guide-form" novalidate>
+        <div class="questions">
+          <div class="question">
+            <div class="question-heading">
+              <label for="q1" id="q1-label">1. サブスク料金を節約することが大切だ。</label>
+              <output id="q1-value" class="value-badge" for="q1" data-answered="false">未選択</output>
+            </div>
+            <input class="rating-slider" type="range" id="q1" name="q1" min="1" max="5" step="1" value="3" data-answered="false" aria-describedby="q1-scale" aria-valuetext="未選択。点数を選んでください。">
+            <div class="scale" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            <div id="q1-scale" class="range-ends"><span>全くそう思わない（1点）</span><span>とてもそう思う（5点）</span></div>
+          </div>
+          <div class="question">
+            <div class="question-heading">
+              <label for="q2" id="q2-label">2. 他の人とアカウントを共有することに抵抗がない。</label>
+              <output id="q2-value" class="value-badge" for="q2" data-answered="false">未選択</output>
+            </div>
+            <input class="rating-slider" type="range" id="q2" name="q2" min="1" max="5" step="1" value="3" data-answered="false" aria-describedby="q2-scale" aria-valuetext="未選択。点数を選んでください。">
+            <div class="scale" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            <div id="q2-scale" class="range-ends"><span>全くそう思わない（1点）</span><span>とてもそう思う（5点）</span></div>
+          </div>
+          <div class="question">
+            <div class="question-heading">
+              <label for="q3" id="q3-label">3. サブスクは3か月以上、長く利用することが多い。</label>
+              <output id="q3-value" class="value-badge" for="q3" data-answered="false">未選択</output>
+            </div>
+            <input class="rating-slider" type="range" id="q3" name="q3" min="1" max="5" step="1" value="3" data-answered="false" aria-describedby="q3-scale" aria-valuetext="未選択。点数を選んでください。">
+            <div class="scale" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            <div id="q3-scale" class="range-ends"><span>全くそう思わない（1点）</span><span>とてもそう思う（5点）</span></div>
+          </div>
+          <div class="question">
+            <div class="question-heading">
+              <label for="q4" id="q4-label">4. 自分のプロフィールや利用履歴が残らなくても構わない。</label>
+              <output id="q4-value" class="value-badge" for="q4" data-answered="false">未選択</output>
+            </div>
+            <input class="rating-slider" type="range" id="q4" name="q4" min="1" max="5" step="1" value="3" data-answered="false" aria-describedby="q4-scale" aria-valuetext="未選択。点数を選んでください。">
+            <div class="scale" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            <div id="q4-scale" class="range-ends"><span>全くそう思わない（1点）</span><span>とてもそう思う（5点）</span></div>
+          </div>
+          <div class="question">
+            <div class="question-heading">
+              <label for="q5" id="q5-label">5. 利用に多少の不便があっても、料金の安さを優先したい。</label>
+              <output id="q5-value" class="value-badge" for="q5" data-answered="false">未選択</output>
+            </div>
+            <input class="rating-slider" type="range" id="q5" name="q5" min="1" max="5" step="1" value="3" data-answered="false" aria-describedby="q5-scale" aria-valuetext="未選択。点数を選んでください。">
+            <div class="scale" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            <div id="q5-scale" class="range-ends"><span>全くそう思わない（1点）</span><span>とてもそう思う（5点）</span></div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite">すべての項目に回答してください。</span>
+          <button id="go" class="primary" type="submit" disabled>おすすめを見る</button>
+        </div>
+      </form>
+    </main>
+    <footer>5つの項目に回答して「おすすめを見る」を押すと、新しいタブで開きます。</footer>
+  </div>
+  <noscript>このチェックにはJavaScriptが必要です。ブラウザの設定でJavaScriptを有効にしてください。</noscript>
+  <script>
+    const LINKS = Object.freeze({
+      gamsgo: 'https://www.gamsgo.com/partner/RqZaS',
+      official: 'https://www.youtube.com/premium?ybp=Sg0IBhIJdW5saW1pdGVk4AEBoAIB'
+    });
+    const GAMSGO_MIN_SCORE = 15;
+    const QUESTION_NAMES = ['q1', 'q2', 'q3', 'q4', 'q5'];
+    const RATING_LABELS = ['全くそう思わない', 'あまりそう思わない', 'どちらともいえない', 'そう思う', 'とてもそう思う'];
+    const form = document.getElementById('guide-form');
+    const sliders = QUESTION_NAMES.map(name => document.getElementById(name));
+    const goBtn = document.getElementById('go');
+    const msgEl = document.getElementById('msg');
+    const progressEl = document.getElementById('progress');
+    const progressLabel = document.getElementById('progress-label');
+
+    function getAssessment() {
+      const values = sliders.map(slider => slider.dataset.answered === 'true' ? Number(slider.value) : null);
+      const completed = values.filter(value => Number.isInteger(value) && value >= 1 && value <= 5).length;
+      if (completed !== QUESTION_NAMES.length) return { completed, ready: false };
+      const score = values.reduce((sum, value) => sum + value, 0);
+      const isGamsgo = score >= GAMSGO_MIN_SCORE;
+      return { completed, ready: true, score, isGamsgo, url: isGamsgo ? LINKS.gamsgo : LINKS.official };
+    }
+
+    function renderSlider(slider) {
+      const answered = slider.dataset.answered === 'true';
+      const value = Number(slider.value);
+      const badge = document.getElementById(slider.id + '-value');
+      badge.dataset.answered = String(answered);
+      badge.textContent = answered ? value + '点' : '未選択';
+      badge.title = answered ? RATING_LABELS[value - 1] : '点数を選んでください。';
+      slider.style.setProperty('--fill', answered ? (value - 1) * 25 + '%' : '0%');
+      slider.setAttribute('aria-valuetext', answered ? value + '点、' + RATING_LABELS[value - 1] : '未選択。点数を選んでください。');
+    }
+
+    function updateButtonState() {
+      sliders.forEach(renderSlider);
+      const assessment = getAssessment();
+      progressEl.value = assessment.completed;
+      progressLabel.textContent = assessment.completed + ' / 5 項目に回答済み';
+      goBtn.disabled = !assessment.ready;
+      msgEl.textContent = assessment.ready ? '' : 'すべての項目の点数を選んでください。';
+    }
+
+    function markAnswered(slider) {
+      slider.dataset.answered = 'true';
+      updateButtonState();
+    }
+
+    sliders.forEach(slider => {
+      slider.addEventListener('input', () => markAnswered(slider));
+      slider.addEventListener('change', () => markAnswered(slider));
+      // 初期位置の3点をそのままクリックした場合も、回答として記録します。
+      slider.addEventListener('pointerup', () => markAnswered(slider));
+      slider.addEventListener('keydown', event => {
+        if (event.key === ' ' || event.key === 'Enter') {
+          event.preventDefault();
+          markAnswered(slider);
+        }
+      });
+      slider.addEventListener('keyup', event => {
+        if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End', 'PageUp', 'PageDown'].includes(event.key)) markAnswered(slider);
+      });
+    });
+
+    window.addEventListener('pageshow', updateButtonState);
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const assessment = getAssessment();
+      if (!assessment.ready) {
+        updateButtonState();
+        const firstMissing = sliders.find(slider => slider.dataset.answered !== 'true');
+        if (firstMissing) firstMissing.focus();
+        return;
+      }
+      const link = document.createElement('a');
+      link.href = assessment.url;
+      link.target = '_blank';
+      link.rel = assessment.isGamsgo ? 'noopener noreferrer nofollow sponsored' : 'noopener noreferrer';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    });
+    updateButtonState();
+  </script>
+</body>
+</html>
