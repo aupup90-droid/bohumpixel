@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ポケコイン課金代行 お得度計算機</title>
+  <meta name="description" content="ポケコインの商品を選ぶと、課金代行と公式価格の差を確認できます。" />
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --muted: #5b5b5b;
+      --primary: #4a2a74;
+      --primary-contrast: #ffffff;
+      --ring: rgba(74, 42, 116, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans JP", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      padding: 30px 18px 14px;
+      text-align: center;
+      color: #fff;
+    }
+    header h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 36px);
+      line-height: 1.35;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.15);
+    }
+    header p {
+      max-width: 720px;
+      margin: 10px auto 0;
+      font-size: clamp(13px, 2.4vw, 16px);
+      line-height: 1.55;
+      color: rgba(255,255,255,0.95);
+      word-break: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .container {
+      width: min(860px, 92vw);
+      margin: 0 auto 32px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: clamp(18px, 3vw, 28px);
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0; }
+    legend { font-weight: 800; margin-bottom: 12px; font-size: 17px; letter-spacing: -0.01em; }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .radio { position: relative; }
+    .radio input { position: absolute; opacity: 0; pointer-events: none; }
+    .radio label {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      width: 100%;
+      padding: 11px 12px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      text-align: center;
+      font-weight: 700;
+      line-height: 1.25;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .02s ease;
+      word-break: normal;
+      overflow-wrap: anywhere;
+    }
+    .radio label:hover { border-color: #d6d6db; }
+    .radio input:focus-visible + label { outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+    .radio input:checked + label { border-color: var(--primary); box-shadow: 0 6px 18px rgba(74,42,116,0.18); transform: translateY(-1px); }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 12px;
+    }
+    .hint p { margin: 2px 0; }
+
+    .actions {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    button.primary {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 20px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      background: var(--primary);
+      color: var(--primary-contrast);
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74,42,116,0.25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:hover { box-shadow: 0 16px 32px rgba(74,42,116,0.32); }
+    button.primary:active { transform: translateY(1px); }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+
+    .msg { font-size: 13px; color: #a40000; }
+
+    .result-panel {
+      display: none;
+      text-align: center;
+      padding: clamp(8px, 2vw, 16px) 0;
+    }
+    .result-panel.is-active { display: block; }
+    .result-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: rgba(74,42,116,0.10);
+      color: var(--primary);
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .result-panel h2 {
+      margin: 0;
+      color: var(--primary);
+      font-size: clamp(23px, 5vw, 38px);
+      line-height: 1.25;
+      letter-spacing: -0.03em;
+      word-break: normal;
+      overflow-wrap: anywhere;
+    }
+    .redirect-text {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    footer { text-align: center; padding: 10px 16px 26px; font-size: 12px; color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 640px) {
+      header { padding-top: 24px; }
+      .container { width: min(94vw, 520px); margin-bottom: 24px; }
+      .options { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .radio label { min-height: 46px; padding: 10px 8px; font-size: 14px; }
+      .actions { justify-content: stretch; }
+      button.primary { width: 100%; }
+      .msg { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>ポケコイン課金代行 お得度計算機</h1>
+      <p>商品を選ぶと、課金代行が公式価格に比べてどれくらいお得か、または割高かを確認できます。</p>
+    </header>
+
+    <main class="container" role="main">
+      <form id="coin-form" novalidate>
+        <fieldset>
+          <legend>ポケコインの商品を選んでください</legend>
+          <div class="options" role="radiogroup" aria-label="ポケコインの商品選択">
+            <div class="radio">
+              <input type="radio" id="coin-550" name="coin" value="550">
+              <label for="coin-550"><span>550 ポケコイン</span><span>（約644円）</span></label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="coin-1200" name="coin" value="1200">
+              <label for="coin-1200"><span>1,200 ポケコイン</span><span>（約1,288円）</span></label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="coin-2500" name="coin" value="2500">
+              <label for="coin-2500"><span>2,500 ポケコイン</span><span>（約2,575円）</span></label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="coin-5200" name="coin" value="5200">
+              <label for="coin-5200"><span>5,200 ポケコイン</span><span>（約5,268円）</span></label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="coin-14500" name="coin" value="14500">
+              <label for="coin-14500"><span>14,500 ポケコイン</span><span>（約13,930円）</span></label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="coin-43500" name="coin" value="43500">
+              <label for="coin-43500"><span>43,500 ポケコイン</span><span>（約41,791円）</span></label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="hint" aria-label="ご案内">
+          <p>※課金代行の価格は、為替レートなどによって変動する場合があります。</p>
+          <p>※比較には、課金代行で付与されるボーナスコインも含めています。</p>
+          <p>※表示価格は元の韓国ウォン価格を円換算した目安です。日本国内の公式販売価格ではありません。</p>
+          <p>換算レート：1,000ウォン＝約117.06円（2026年10月15日13:30・日本時間、<a href="https://www.xe.com/en-us/currencyconverter/convert/?Amount=1&amp;From=KRW&amp;To=JPY" target="_blank" rel="noopener noreferrer">Xe</a>）。1円単位で四捨五入しています。</p>
+        </div>
+
+        <div class="actions">
+          <span id="msg" class="msg" role="status" aria-live="polite"></span>
+          <button id="go" class="primary" type="button" aria-label="結果を見る">結果を見る</button>
+        </div>
+      </form>
+
+      <section id="result-panel" class="result-panel" aria-live="polite" aria-hidden="true">
+        <div class="result-badge" aria-hidden="true">🪙</div>
+        <h2 id="result-text"></h2>
+        <p class="redirect-text">まもなく、価格一覧を別タブで開きます。</p>
+      </section>
+    </main>
+
+    <footer>
+      <span>商品を選ぶと、課金代行と公式価格の差を確認できます。</span>
+    </footer>
+  </div>
+
+  <noscript>この計算機をご利用いただくには、ブラウザの設定でJavaScriptを有効にしてください。</noscript>
+
+  <script>
+    const TARGET_URL = 'https://www.gamsgo.com/ja/top-up/pokemon-go/partner/RqZaS';
+
+    // 元データの比較倍率を維持。割引率は (1 - 1 / 倍率) × 100 で表示。
+    const RESULTS = {
+      '550': '課金代行は公式価格の約2.25倍です。',
+      '1200': '課金代行は公式価格の約2.40倍です。',
+      '2500': '課金代行は公式価格の約1.58倍です。',
+      '5200': '課金代行なら約3.8％お得です。',
+      '14500': '課金代行なら約42.2％お得です。',
+      '43500': '課金代行なら約50.7％お得です。'
+    };
+
+    const form = document.getElementById('coin-form');
+    const msgEl = document.getElementById('msg');
+    const goBtn = document.getElementById('go');
+    const resultPanel = document.getElementById('result-panel');
+    const resultText = document.getElementById('result-text');
+
+    function getSelectedCoin(){
+      const el = form.querySelector('input[name="coin"]:checked');
+      return el ? el.value : null;
+    }
+
+    function updateButtonState(){
+      const selected = getSelectedCoin();
+      goBtn.disabled = !selected;
+      msgEl.textContent = selected ? '' : 'ポケコインの商品を選んでください。';
+    }
+
+    form.addEventListener('change', updateButtonState);
+    updateButtonState();
+
+    goBtn.addEventListener('click', function(){
+      const selected = getSelectedCoin();
+
+      if(!selected || !RESULTS[selected]){
+        msgEl.textContent = 'ポケコインの商品を選んでください。';
+        goBtn.disabled = false;
+        return;
+      }
+
+      resultText.textContent = RESULTS[selected];
+      form.style.display = 'none';
+      resultPanel.classList.add('is-active');
+      resultPanel.setAttribute('aria-hidden', 'false');
+
+      window.setTimeout(function(){
+        const link = document.createElement('a');
+        link.href = TARGET_URL;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
