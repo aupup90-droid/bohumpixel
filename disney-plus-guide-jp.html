@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>GamsGoのディズニープラス適性ガイド</title>
+  <meta name="description" content="利用する相手と期間を選んで、ディズニープラスの申込先を確認できます。">
+  <style>
+    :root {
+      --bg: #cfa6e7;
+      --card: #ffffff;
+      --text: #1b1b1b;
+      --primary: #4a2a74;
+      --ring: rgba(74, 42, 116, .35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap {
+      width: min(940px, 100%);
+      margin: 0 auto;
+      padding: 28px 20px 24px;
+    }
+    header {
+      padding: 0 4px 20px;
+      text-align: center;
+      color: #ffffff;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(21px, 3.8vw, 32px);
+      line-height: 1.4;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, .1), 0 2px 8px rgba(0, 0, 0, .15);
+      overflow-wrap: anywhere;
+    }
+    .title-tail { display: inline-block; }
+    .container {
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+      padding: clamp(18px, 3.2vw, 28px);
+    }
+    fieldset {
+      min-width: 0;
+      border: 0;
+      margin: 0 0 22px;
+      padding: 0;
+    }
+    legend {
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 0;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.65;
+    }
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .options.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .radio { position: relative; min-width: 0; }
+    .radio input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+    .radio label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      min-height: 48px;
+      padding: 11px 10px;
+      border: 1.5px solid #e5e5e8;
+      border-radius: 12px;
+      background: #ffffff;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.5;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: box-shadow .2s ease, border-color .2s ease, background-color .2s ease, transform .02s ease;
+    }
+    .radio input:checked + label {
+      border-color: var(--primary);
+      background: #f8f4fc;
+      box-shadow: 0 6px 18px rgba(74, 42, 116, .18);
+      transform: translateY(-1px);
+    }
+    .radio input:focus-visible + label {
+      outline: 2px solid var(--primary);
+      outline-offset: 3px;
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 2px;
+    }
+    button.primary {
+      appearance: none;
+      min-height: 48px;
+      min-width: 180px;
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 24px;
+      background: var(--primary);
+      color: #ffffff;
+      font: inherit;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: .02em;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74, 42, 116, .25);
+      transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    button.primary:active:not(:disabled) { transform: translateY(1px); }
+    button.primary:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 4px;
+    }
+    button.primary:disabled { opacity: .55; cursor: not-allowed; box-shadow: none; }
+    .msg { margin: 12px 0 0; color: #a40000; font-size: 13px; }
+    .msg:empty { display: none; }
+    @media (hover: hover) {
+      .radio label:hover { border-color: #b6a4ce; }
+      button.primary:hover:not(:disabled) { box-shadow: 0 16px 32px rgba(74, 42, 116, .32); }
+    }
+    @media (max-width: 640px) {
+      .wrap { padding: 18px 14px 18px; }
+      header { padding-bottom: 14px; }
+      .title-tail { display: block; }
+      .container { padding: 18px 16px; }
+      fieldset { margin-bottom: 20px; }
+      legend { margin-bottom: 10px; font-size: 15px; line-height: 1.6; }
+      .options { gap: 8px; }
+      .radio label { min-height: 46px; padding: 10px 6px; font-size: 14px; }
+      button.primary { width: 100%; }
+    }
+    @media (max-width: 360px) {
+      .wrap { padding-inline: 12px; }
+      .container { padding-inline: 14px; }
+      .radio label { font-size: 13px; }
+      .options.two .radio label { padding-inline: 4px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .radio label, button.primary { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>GamsGoのディズニープラス<span class="title-tail">適性ガイド</span></h1>
+    </header>
+    <main class="container">
+      <form id="guide-form" novalidate>
+        <fieldset>
+          <legend>1. ディズニープラスはどなたと利用する予定ですか？</legend>
+          <div class="options two">
+            <div class="radio">
+              <input type="radio" id="audience-solo" name="audience" value="solo" required>
+              <label for="audience-solo">自分ひとり</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="audience-shared" name="audience" value="shared" required>
+              <label for="audience-shared">家族や友人と一緒に</label>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>2. ディズニープラスをどのくらいの期間利用する予定ですか？</legend>
+          <div class="options">
+            <div class="radio">
+              <input type="radio" id="duration-short" name="duration" value="short" required>
+              <label for="duration-short">1〜3か月</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="duration-year" name="duration" value="year" required>
+              <label for="duration-year">12か月</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="duration-long" name="duration" value="long" required>
+              <label for="duration-long">24か月以上</label>
+            </div>
+          </div>
+        </fieldset>
+        <div class="actions">
+          <button id="go" class="primary" type="submit" disabled>結果を見る</button>
+        </div>
+        <p id="msg" class="msg" role="status" aria-live="polite"></p>
+      </form>
+    </main>
+    <noscript><p>このガイドを利用するには、ブラウザーのJavaScriptを有効にしてください。</p></noscript>
+  </div>
+  <script>
+    (() => {
+      'use strict';
+
+      const LINKS = Object.freeze({
+        official: 'https://www.disneyplus.com/',
+        gamsgo: 'https://www.gamsgo.com/ja/details/disneyplus/partner/RqZaS'
+      });
+      const form = document.getElementById('guide-form');
+      const goButton = document.getElementById('go');
+      const message = document.getElementById('msg');
+
+      function getSelection() {
+        const data = new FormData(form);
+        return { audience: data.get('audience'), duration: data.get('duration') };
+      }
+
+      function resolveDestination() {
+        const { audience, duration } = getSelection();
+        if (!audience || !duration) return null;
+        return audience === 'shared' || duration === 'long' ? LINKS.official : LINKS.gamsgo;
+      }
+
+      function updateButtonState() {
+        goButton.disabled = resolveDestination() === null;
+        message.textContent = '';
+      }
+
+      form.addEventListener('change', updateButtonState);
+      window.addEventListener('pageshow', updateButtonState);
+      updateButtonState();
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const destination = resolveDestination();
+        if (!destination) {
+          goButton.disabled = true;
+          message.textContent = '2つの質問にお答えください。';
+          return;
+        }
+        const link = document.createElement('a');
+        link.href = destination;
+        link.target = '_blank';
+        link.rel = destination === LINKS.gamsgo
+          ? 'noopener noreferrer nofollow sponsored'
+          : 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      });
+    })();
+  </script>
+</body>
+</html>
